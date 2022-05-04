@@ -1,9 +1,10 @@
 import React from 'react';
+import SignNavBar from "../../components/SignNavBar";
 
 export default function SignUp() {
   return (
     <div>
-      <h1>Sign up</h1>
+      <SignNavBar />
     </div>
   );
 }
