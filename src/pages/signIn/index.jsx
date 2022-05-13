@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,6 +18,7 @@ import { Formik } from 'formik';
 
 export default function SignIn() {
   const [showPasswordText, setShowPasswordText] = useState(false);
+  const navigate = useNavigate();
   const initialValues = {
     email: '',
     password: '',
@@ -216,13 +218,13 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                           <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Link href="#" variant="body2" onClick={()=>navigate("/forgot-password")}>
                               Forgot password?
                             </Link>
                           </Grid>
                           <Grid item>
                             <Link
-                              href="../signup/"
+                              onClick={()=> navigate('/signup')}
                               variant="body2"
                               style={{ marginLeft: '10' }}
                             >
