@@ -176,7 +176,7 @@ export default function SignIn() {
                                   onClick={handleClickShowPassword}
                                   onMouseDown={handleMouseDownPassword}
                                 >
-                                  {values.showPassword ? (
+                                  {showPasswordText ? (
                                     <VisibilityIcon />
                                   ) : (
                                     <VisibilityOffIcon />
