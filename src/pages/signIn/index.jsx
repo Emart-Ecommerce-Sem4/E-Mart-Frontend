@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SIGNIN_IMAGE from '../../assets/signin.png';
+import { styled } from '@mui/system';
+import * as Yup from 'yup';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Stack } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -12,9 +16,57 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Input from '@mui/material/Input';
 import SignNavBar from '../../components/SignNavBar';
 import { Formik } from 'formik';
+import HeightBox from '../../components/HeightBox';
+
+const CustomTextField = styled(TextField)({
+  width: 400,
+  color: '#fff',
+  '& label.Mui-focused': {
+    color: 'white',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'white',
+    color: '#fff',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'white',
+      color: '#fff',
+    },
+    '&:hover fieldset': {
+      borderColor: 'white',
+      color: '#fff',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'white',
+      color: '#fff',
+    },
+  },
+});
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email().required().label('Email'),
+  password: Yup.string()
+    .min(8)
+    .max(15)
+    .required()
+    .label('Password')
+    .matches(/\d+/, 'Password should contain at least one number')
+    .matches(
+      /[a-z]+/,
+      'Password should contain at least one lowercase character'
+    )
+    .matches(
+      /[A-Z]+/,
+      'Passoword should contain at least one uppercase character'
+    )
+    .matches(
+      /[!@#$%^&*()-+]+/,
+      'Password should contain at least one special character'
+    ),
+});
 
 export default function SignIn() {
   const [showPasswordText, setShowPasswordText] = useState(false);
@@ -22,22 +74,6 @@ export default function SignIn() {
   const initialValues = {
     email: '',
     password: '',
-  };
-
-  const validate = (values) => {
-    let errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.email) {
-      errors.email = 'Email is required';
-    } else if (!regex.test(values.email)) {
-      errors.email = 'Invalid Email';
-    }
-    if (!values.password) {
-      errors.password = 'Password is required';
-    } else if (values.password.length < 4) {
-      errors.password = 'Password too short';
-    }
-    return errors;
   };
 
   const submitForm = (values) => {
@@ -61,141 +97,68 @@ export default function SignIn() {
   return (
     <Formik
       initialValues={initialValues}
-      validate={validate}
+      validationSchema={validationSchema}
       onSubmit={submitForm}
     >
-      {(formik) => {
-        const {
-          values,
-          handleChange,
-          handleSubmit,
-          errors,
-          touched,
-          handleBlur,
-          isValid,
-          dirty,
-          isSubmitting,
-        } = formik;
+      {(formikProps) => {
+        const { values, handleChange, handleSubmit, errors, touched } =
+          formikProps;
 
         return (
-          <div
-            class="p-3 mb-2 bg-dark text-white"
-            style={{ height: '100vH', overflowY: 'hidden' }}
-          >
+          <div style={{ backgroundColor: '#2f3542' }}>
             <div>
               <SignNavBar />
             </div>
-            <div class="container">
-              <div class="row">
-                <div class="col">
-                  <Container
-                    color="white"
-                    component="main"
-                    maxWidth="xs"
-                    sx={{
-                      mt: 10,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <CssBaseline />
-                    <Box
-                      sx={{
-                        mt: 10,
-                      }}
-                    >
-                      <h1>Welcome Again</h1>
-                      {Object.keys(errors).length === 0 && isSubmitting && (
-                        <span className="success-msg">
-                          <div
-                            class="alert alert-success"
-                            role="alert"
-                            style={{ marginTop: '20px' }}
-                          >
-                            Signed in Successfully!
-                          </div>
-                        </span>
-                      )}
+            <div>
+              <div>
+                <Stack direction="row" spacing={10} justifyContent="center">
+                  <div>
+                    <Container color="white" component="main" maxWidth="xs">
+                      <HeightBox height={100} />
+                      <h1 style={{ color: '#fff' }}>Welcome Again</h1>
+                      <HeightBox height={20} />
+                      <Box style={{ width: '400px' }}>
+                        <CustomTextField
+                          type="email"
+                          name="email"
+                          value={values.email}
+                          onChange={handleChange('email')}
+                          helperText={
+                            touched.email && errors.email ? errors.email : ''
+                          }
+                          error={errors.email}
+                          required
+                          fullWidth
+                          label="Email"
+                          placeholder="Email"
+                        />
+                        <HeightBox height={20} />
+                        <CustomTextField
+                          type={showPasswordText ? 'text' : 'password'}
+                          value={values.password}
+                          name="Password"
+                          label="Password"
+                          helperText={touched.password ? errors.password : ''}
+                          error={errors.password}
+                          onChange={handleChange('password')}
+                          placeholder="Password"
+                          fullWidth
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {showPasswordText ? (
+                                  <VisibilityIcon />
+                                ) : (
+                                  <VisibilityOffIcon />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
 
-                      <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        style={{ width: '400px' }}
-                      >
-                        <div class="form-row" maxWidth="xs">
-                          <Input
-                            sx={{ mt: 2, color: '#fff' }}
-                            type="email"
-                            name="email"
-                            id="email"
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                              errors.email && touched.email
-                                ? 'input-error'
-                                : null
-                            }
-                            variant="standard"
-                            required
-                            fullWidth
-                            label="Email Address"
-                            placeholder="Email Address"
-                            autoComplete="email"
-                            autoFocus
-                          />
-                          {errors.email && touched.email && (
-                            <span
-                              className="error"
-                              style={{ color: '#ff0000' }}
-                            >
-                              {errors.email}
-                            </span>
-                          )}
-                        </div>
-                        <div className="form-row">
-                          <Input
-                            sx={{ mt: 2, color: '#fff' }}
-                            type={showPasswordText ? 'text' : 'password'}
-                            name="password"
-                            id="password"
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                              errors.password && touched.password
-                                ? 'input-error'
-                                : null
-                            }
-                            placeholder="Password"
-                            fullWidth
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                >
-                                  {showPasswordText ? (
-                                    <VisibilityIcon />
-                                  ) : (
-                                    <VisibilityOffIcon />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                          />
-                          {errors.password && touched.password && (
-                            <span
-                              className="error"
-                              style={{ color: '#ff0000' }}
-                            >
-                              {errors.password}
-                            </span>
-                          )}
-                        </div>
                         <FormControlLabel
                           sx={{ mt: 2 }}
                           control={
@@ -207,9 +170,7 @@ export default function SignIn() {
                           style={{
                             backgroundColor: '#f57c00',
                           }}
-                          type="submit"
-                          className={dirty && isValid ? '' : 'disabled-btn'}
-                          disabled={!(dirty && isValid)}
+                          onClick={handleSubmit}
                           fullWidth
                           variant="contained"
                           sx={{ mt: 2, mb: 2 }}
@@ -218,13 +179,17 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                           <Grid item xs>
-                            <Link href="#" variant="body2" onClick={()=>navigate("/forgot-password")}>
+                            <Link
+                              href="#"
+                              variant="body2"
+                              onClick={() => navigate('/forgot-password')}
+                            >
                               Forgot password?
                             </Link>
                           </Grid>
                           <Grid item>
                             <Link
-                              onClick={()=> navigate('/signup')}
+                              onClick={() => navigate('/signup')}
                               variant="body2"
                               style={{ marginLeft: '10' }}
                             >
@@ -233,19 +198,18 @@ export default function SignIn() {
                           </Grid>
                         </Grid>
                       </Box>
-                    </Box>
-                  </Container>
-                </div>
-                <div class="col">
-                  <img
-                    src="../Mask group.png"
-                    style={{ marginTop: 100, marginLeft: 250 }}
-                    direction="column"
-                    alt=""
-                    width={500}
-                    height={500}
-                  ></img>
-                </div>
+                    </Container>
+                  </div>
+                  <div>
+                    <img
+                      src={SIGNIN_IMAGE}
+                      alt=""
+                      style={{ marginTop: 100 }}
+                      width={500}
+                      height={500}
+                    />
+                  </div>
+                </Stack>
               </div>
             </div>
           </div>
