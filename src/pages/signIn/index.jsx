@@ -22,28 +22,28 @@ import HeightBox from '../../components/HeightBox';
 
 const CustomTextField = styled(TextField)({
   width: 400,
-  color: '#fff',
-  '& label.Mui-focused': {
-    color: 'white',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: 'white',
-    color: '#fff',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: 'white',
-      color: '#fff',
-    },
-    '&:hover fieldset': {
-      borderColor: 'white',
-      color: '#fff',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: 'white',
-      color: '#fff',
-    },
-  },
+  // color: '#fff',
+  // '& label.Mui-focused': {
+  //   color: 'white',
+  // },
+  // '& .MuiInput-underline:after': {
+  //   borderColor: 'white',
+  //   color: '#fff',
+  // },
+  // '& .MuiOutlinedInput-root': {
+  //   '& fieldset': {
+  //     borderColor: 'white',
+  //     color: '#fff',
+  //   },
+  //   '&:hover fieldset': {
+  //     borderColor: 'white',
+  //     color: '#fff',
+  //   },
+  //   '&.Mui-focused fieldset': {
+  //     borderColor: 'white',
+  //     color: '#fff',
+  //   },
+  // },
 });
 
 const validationSchema = Yup.object().shape({
@@ -126,9 +126,9 @@ export default function SignIn() {
                           helperText={
                             touched.email && errors.email ? errors.email : ''
                           }
-                          error={errors.email}
-                          required
+                          error={errors.email !== ''}
                           fullWidth
+                          variant="outlined"
                           label="Email"
                           placeholder="Email"
                         />
@@ -139,11 +139,11 @@ export default function SignIn() {
                           name="Password"
                           label="Password"
                           helperText={touched.password ? errors.password : ''}
-                          error={errors.password}
+                          error={errors.password !== ''}
                           onChange={handleChange('password')}
                           placeholder="Password"
                           fullWidth
-                          endAdornment={
+                          endadornment={
                             <InputAdornment position="end">
                               <IconButton
                                 onClick={handleClickShowPassword}
