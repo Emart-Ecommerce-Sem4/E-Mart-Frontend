@@ -4,6 +4,7 @@ import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
+import EditUser from './pages/EditUser';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
         <Route path="/forgot-password" element={<ForgotPassword/>} exact/>
+        <Route path="/admin/edit-user" element={<EditUser />} exact />
       </Routes>
     </div>
   );
