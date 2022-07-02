@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SIGNIN_IMAGE from '../../assets/signin.png';
-import { styled } from '@mui/system';
 import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,39 +11,10 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import InputAdornment from '@mui/material/InputAdornment';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import api from '../../api';
 import SignNavBar from '../../components/SignNavBar';
 import { Formik } from 'formik';
 import HeightBox from '../../components/HeightBox';
-
-const CustomTextField = styled(TextField)({
-  width: 400,
-  // color: '#fff',
-  // '& label.Mui-focused': {
-  //   color: 'white',
-  // },
-  // '& .MuiInput-underline:after': {
-  //   borderColor: 'white',
-  //   color: '#fff',
-  // },
-  // '& .MuiOutlinedInput-root': {
-  //   '& fieldset': {
-  //     borderColor: 'white',
-  //     color: '#fff',
-  //   },
-  //   '&:hover fieldset': {
-  //     borderColor: 'white',
-  //     color: '#fff',
-  //   },
-  //   '&.Mui-focused fieldset': {
-  //     borderColor: 'white',
-  //     color: '#fff',
-  //   },
-  // },
-});
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -69,43 +39,33 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  const [showPasswordText, setShowPasswordText] = useState(false);
   const navigate = useNavigate();
   const initialValues = {
     email: '',
     password: '',
   };
 
-  const submitForm = (values) => {
-    console.log(values);
-  };
-
-  const [values, setValues] = React.useState({
-    password: '',
-    showPassword: false,
-  });
-
-  const handleClickShowPassword = () => {
-    setShowPasswordText(!showPasswordText);
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  async function loginUser(values) {
+    try {
+      const res = await api.user.signInUser(values);
+      console.log('User log res: ', res);
+    } catch (error) {
+      console.log('Error occured: ', error);
+    }
+  }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={submitForm}
+      onSubmit={loginUser}
     >
       {(formikProps) => {
         const { values, handleChange, handleSubmit, errors, touched } =
           formikProps;
 
         return (
-          <div style={{ backgroundColor: '#2f3542' }}>
+          <div style={{ backgroundColor: '#2f3542', minHeight: '100vh' }}>
             <div>
               <SignNavBar />
             </div>
@@ -118,45 +78,33 @@ export default function SignIn() {
                       <h1 style={{ color: '#fff' }}>Welcome Again</h1>
                       <HeightBox height={20} />
                       <Box style={{ width: '400px' }}>
-                        <CustomTextField
+                        <TextField
                           type="email"
                           name="email"
+                          sx={{ input: { color: '#fff' } }}
                           value={values.email}
                           onChange={handleChange('email')}
                           helperText={
                             touched.email && errors.email ? errors.email : ''
                           }
-                          error={errors.email !== ''}
+                          error={errors.email}
                           fullWidth
                           variant="outlined"
                           label="Email"
                           placeholder="Email"
                         />
                         <HeightBox height={20} />
-                        <CustomTextField
-                          type={showPasswordText ? 'text' : 'password'}
+                        <TextField
+                          type="password"
                           value={values.password}
                           name="Password"
+                          sx={{ input: { color: '#fff' } }}
                           label="Password"
                           helperText={touched.password ? errors.password : ''}
-                          error={errors.password !== ''}
+                          error={errors.password}
                           onChange={handleChange('password')}
                           placeholder="Password"
                           fullWidth
-                          endadornment={
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                              >
-                                {showPasswordText ? (
-                                  <VisibilityIcon />
-                                ) : (
-                                  <VisibilityOffIcon />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          }
                         />
 
                         <FormControlLabel
