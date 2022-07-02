@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SIGNIN_IMAGE from '../../assets/signin.png';
+import CircularProgress from '@mui/material/CircularProgress';
 import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -15,6 +17,8 @@ import api from '../../api';
 import SignNavBar from '../../components/SignNavBar';
 import { Formik } from 'formik';
 import HeightBox from '../../components/HeightBox';
+import SnackBarComponent from '../../components/SnackBarComponent';
+import { loggingRequest } from '../../reducers/modules/user';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -40,129 +44,157 @@ const validationSchema = Yup.object().shape({
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackBarDetails, setSnackBarDetails] = useState({
+    type: '',
+    message: '',
+  });
   const initialValues = {
     email: '',
     password: '',
   };
 
   async function loginUser(values) {
+    setIsLoading(true);
     try {
-      const res = await api.user.signInUser(values);
-      console.log('User log res: ', res);
+      const [code, res] = await api.user.signInUser(values);
+      if (res?.statusCode === 200) {
+        dispatch(loggingRequest(res.data.user));
+        navigate('/dashboard');
+      } else {
+        setSnackBarDetails({ type: 'error', message: res?.message });
+        setOpenSnackBar(true);
+      }
+      setIsLoading(false);
     } catch (error) {
-      console.log('Error occured: ', error);
+      setSnackBarDetails({
+        type: 'Error',
+        message: 'Error in logging the user',
+      });
+      setIsLoading(false);
     }
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={loginUser}
-    >
-      {(formikProps) => {
-        const { values, handleChange, handleSubmit, errors, touched } =
-          formikProps;
+    <div>
+      <SnackBarComponent
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+        type={snackBarDetails.type}
+        message={snackBarDetails.message}
+      />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={loginUser}
+      >
+        {(formikProps) => {
+          const { values, handleChange, handleSubmit, errors, touched } =
+            formikProps;
 
-        return (
-          <div style={{ backgroundColor: '#2f3542', minHeight: '100vh' }}>
-            <div>
-              <SignNavBar />
-            </div>
-            <div>
+          return (
+            <div style={{ backgroundColor: '#2f3542', minHeight: '100vh' }}>
               <div>
-                <Stack direction="row" spacing={10} justifyContent="center">
-                  <div>
-                    <Container color="white" component="main" maxWidth="xs">
-                      <HeightBox height={100} />
-                      <h1 style={{ color: '#fff' }}>Welcome Again</h1>
-                      <HeightBox height={20} />
-                      <Box style={{ width: '400px' }}>
-                        <TextField
-                          type="email"
-                          name="email"
-                          sx={{ input: { color: '#fff' } }}
-                          value={values.email}
-                          onChange={handleChange('email')}
-                          helperText={
-                            touched.email && errors.email ? errors.email : ''
-                          }
-                          error={errors.email}
-                          fullWidth
-                          variant="outlined"
-                          label="Email"
-                          placeholder="Email"
-                        />
+                <SignNavBar />
+              </div>
+              <div>
+                <div>
+                  <Stack direction="row" spacing={10} justifyContent="center">
+                    <div>
+                      <Container color="white" component="main" maxWidth="xs">
+                        <HeightBox height={100} />
+                        <h1 style={{ color: '#fff' }}>Welcome Again ,</h1>
                         <HeightBox height={20} />
-                        <TextField
-                          type="password"
-                          value={values.password}
-                          name="Password"
-                          sx={{ input: { color: '#fff' } }}
-                          label="Password"
-                          helperText={touched.password ? errors.password : ''}
-                          error={errors.password}
-                          onChange={handleChange('password')}
-                          placeholder="Password"
-                          fullWidth
-                        />
+                        <Box style={{ width: '400px' }}>
+                          <TextField
+                            type="email"
+                            name="email"
+                            sx={{ input: { color: '#fff' } }}
+                            value={values.email}
+                            onChange={handleChange('email')}
+                            helperText={
+                              touched.email && errors.email ? errors.email : ''
+                            }
+                            error={errors.email}
+                            fullWidth
+                            variant="outlined"
+                            label="Email"
+                            placeholder="Email"
+                          />
+                          <HeightBox height={20} />
+                          <TextField
+                            type="password"
+                            value={values.password}
+                            name="Password"
+                            sx={{ input: { color: '#fff' } }}
+                            label="Password"
+                            helperText={touched.password ? errors.password : ''}
+                            error={errors.password}
+                            onChange={handleChange('password')}
+                            placeholder="Password"
+                            fullWidth
+                          />
 
-                        <FormControlLabel
-                          sx={{ mt: 2 }}
-                          control={
-                            <Checkbox value="remember" color="primary" />
-                          }
-                          label="Remember me"
-                        />
-                        <Button
-                          style={{
-                            backgroundColor: '#f57c00',
-                          }}
-                          onClick={handleSubmit}
-                          fullWidth
-                          variant="contained"
-                          sx={{ mt: 2, mb: 2 }}
-                        >
-                          LOGIN
-                        </Button>
-                        <Grid container>
-                          <Grid item xs>
-                            <Link
-                              href="#"
-                              variant="body2"
-                              onClick={() => navigate('/forgot-password')}
-                            >
-                              Forgot password?
-                            </Link>
+                          <FormControlLabel
+                            sx={{ mt: 2 }}
+                            control={
+                              <Checkbox value="remember" color="primary" />
+                            }
+                            label="Remember me"
+                          />
+                          <Button
+                            style={{
+                              backgroundColor: '#f57c00',
+                            }}
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 2, mb: 2 }}
+                          >
+                            {isLoading ? <CircularProgress /> : 'LOGIN'}
+                          </Button>
+                          <Grid container>
+                            <Grid item xs>
+                              <Link
+                                href="#"
+                                variant="body2"
+                                onClick={() => navigate('/forgot-password')}
+                              >
+                                Forgot password?
+                              </Link>
+                            </Grid>
+                            <Grid item>
+                              <Link
+                                onClick={() => navigate('/signup')}
+                                variant="body2"
+                                style={{ marginLeft: '10' }}
+                              >
+                                {"Don't have an account? Register"}
+                              </Link>
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <Link
-                              onClick={() => navigate('/signup')}
-                              variant="body2"
-                              style={{ marginLeft: '10' }}
-                            >
-                              {"Don't have an account? Register"}
-                            </Link>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    </Container>
-                  </div>
-                  <div>
-                    <img
-                      src={SIGNIN_IMAGE}
-                      alt=""
-                      style={{ marginTop: 100 }}
-                      width={500}
-                      height={500}
-                    />
-                  </div>
-                </Stack>
+                        </Box>
+                      </Container>
+                    </div>
+                    <div>
+                      <img
+                        src={SIGNIN_IMAGE}
+                        alt=""
+                        style={{ marginTop: 100 }}
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                  </Stack>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      }}
-    </Formik>
+          );
+        }}
+      </Formik>
+    </div>
   );
 }
