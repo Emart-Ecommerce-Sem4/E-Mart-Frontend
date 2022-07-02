@@ -8,8 +8,15 @@ const initialState = {
   auth: userObj ? true : false,
   id: userObj?.id,
   email: userObj?.email,
-  userType: userObj?.user_type,
-  isAdmin: userObj?.user_type === 'ADMIN',
+  firstName: userObj?.firstName,
+  address: userObj?.address,
+  lastName: userObj?.lastName,
+  phoneNumber: userObj?.phoneNumber,
+  state: userObj?.state,
+  userRole: userObj?.user_role,
+  city: userObj?.city,
+  birthday: userObj?.birthday,
+  isAdmin: userObj?.user_role === 'ADMIN',
 };
 
 export const userSlice = createSlice({
@@ -18,6 +25,16 @@ export const userSlice = createSlice({
   reducers: {
     loggingRequest: (state, action) => {
       state.auth = true;
+      state.id = action.payload.user_id;
+      state.email = action.payload.email;
+      state.firstName = action.payload.first_name;
+      state.lastName = action.payload.last_name;
+      state.phoneNumber = action.payload.phone_number;
+      state.state = action.payload.state;
+      state.userRole = action.payload.user_role;
+      state.city = action.payload.city;
+      state.birthday = action.payload.birthday;
+      state.isAdmin = action.payload.user_role === 'ADMIN';
     },
     signUpRequest: (state, action) => {
       state.auth = true;

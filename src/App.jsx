@@ -1,26 +1,30 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import { Provider } from 'react-redux';
 import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
+import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
-import store from './reducers/store';
 
 function App() {
+  const userAuth = useSelector((state) => state.user.auth);
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<HomePage />} exact />
-          <Route path="/signin" element={<SignIn />} exact />
-          <Route path="/signup" element={<SignUp />} exact />
-          <Route path="/forgot-password" element={<ForgotPassword />} exact />
-        </Routes>
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<HomePage />} exact />
+        <Route path="/signin" element={<SignIn />} exact />
+        <Route path="/signup" element={<SignUp />} exact />
+        <Route path="/forgot-password" element={<ForgotPassword />} exact />
+        <Route
+          path="/dashboard"
+          element={userAuth ? <Dashboard /> : <Navigate to="/" />}
+          exact
+        />
+      </Routes>
+    </ThemeProvider>
   );
 }
 
