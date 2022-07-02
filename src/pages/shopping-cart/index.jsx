@@ -2,6 +2,8 @@ import { Grid, ListItem,  FormControl, InputLabel , MenuItem , Box , Select  } f
 import React from 'react';
 import SignNavBar from '../../components/SignNavBar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Divider from '@mui/material/Divider';
 
 const darkTheme = createTheme({
   palette: {
@@ -19,7 +21,7 @@ export default function ShoppingCart() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div class = "bg-dark text-white">
+      <div class = "bg-dark text-white" style={{minHeight : '1080px'}}>
         <div>
           <SignNavBar />
         </div>
@@ -27,6 +29,53 @@ export default function ShoppingCart() {
           <h1>SHOPPING CART</h1>
           <Grid container spacing={2}>
             <Grid item xs={6}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={3}>
+                  <img src= "../ShoppingCart_1.png" />
+                </Grid>
+                <Grid item xs={4}>
+                  <h3> Lovely Teady </h3> 
+                  <p> medium size </p> 
+                </Grid>
+
+                <Grid item xs={2} >
+                  $12.50
+                </Grid>
+
+                <Grid item xs={2} alignItems = "center">
+                  <Box sx={{ minWidth: 20 }}>
+                    <FormControl fullWidth >
+                      <InputLabel id="demo-simple-select-label">Quentity</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={quentity}
+                        label="Quentity"
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={6}>6</MenuItem>
+                        <MenuItem value={7}>7</MenuItem>
+                        <MenuItem value={8}>8</MenuItem>
+                        <MenuItem value={9}>9</MenuItem>
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={11}>11</MenuItem>
+                        <MenuItem value={12}>12</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>                            
+                </Grid>
+                <Grid item xs={1}>
+                  <DeleteIcon></DeleteIcon>
+                </Grid>
+              </Grid>
+              <br />
+              <Divider />
+              <br />
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={3}>
                   <img src= "../ShoppingCart_1.png" />
@@ -67,7 +116,9 @@ export default function ShoppingCart() {
                     </FormControl>
                   </Box>                            
                 </Grid>
-                
+                <Grid item xs={1}>
+                  <DeleteIcon></DeleteIcon>
+                </Grid>
               </Grid>
             </Grid>
             <Grid item xs={6} >
