@@ -1,135 +1,233 @@
-import React from 'react';
-import { Formik } from 'formik';
-import { Stack } from '@mui/material';
-import * as Yup from 'yup';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import SignNavBar from '../../components/SignNavBar';
-import HeightBox from '../../components/HeightBox';
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().min(4).max(20).required().label('Name'),
-  email: Yup.string().email().required().label('Email'),
-  password: Yup.string()
-    .min(8)
-    .max(15)
-    .required()
-    .label('Password')
-    .matches(/\d+/, 'Password should contain at least one number')
-    .matches(
-      /[a-z]+/,
-      'Password should contain at least one lowercase character'
-    )
-    .matches(
-      /[A-Z]+/,
-      'Passoword should contain at least one uppercase character'
-    )
-    .matches(
-      /[!@#$%^&*()-+]+/,
-      'Password should contain at least one special character'
-    ),
-});
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Formik } from 'formik';
 
 export default function SignUp() {
+  const [showPasswordText, setShowPasswordText] = useState(false);
+
+  const [values, setValues] = React.useState({
+    password: '',
+    showPassword: false,
+  });
+
   const initialValues = {
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
   };
-  async function registerUser(values) {}
+
+  const submitForm = (values) => {
+    console.log(values);
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPasswordText(!showPasswordText);
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
-    <Box
-      sx={{ backgroundColor: '#212529', minHeight: '100vh', paddingLeft: 5 }}
-    >
+    <Box sx={{ paddingBottom: 25, backgroundColor: '#212529' }}>
+      <SignNavBar />
+
       <div>
-        <SignNavBar />
-        <HeightBox height={20} />
-        <Stack direction="row" spacing={10}>
-          <div>
+        <Stack direction="row">
+          <div class="col">
             <img src="./images/SignupImage.png" alt="signupImage" width={600} />
           </div>
-          <Formik>
+          <Formik initialValues={initialValues} onSubmit={submitForm}>
             {(formikProps) => {
               const { values, handleChange, handleSubmit, errors, touched } =
                 formikProps;
               return (
-                <div>
-                  <HeightBox height={20} />
-                  <Container component="main" maxWidth="xs">
-                    <Typography component="h1" variant="h4" color="#fff">
-                      Register With Us
+                <div class="col">
+                  <Box
+                    sx={{
+                      marginTop: 8,
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <Typography component="h1" variant="h4">
+                      Register With Us!
                     </Typography>
-                    <HeightBox height={30} />
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          autoComplete="given-name"
-                          name="Name"
-                          required
-                          fullWidth
-                          sx={{ input: { color: '#fff' } }}
-                          color="primary"
-                          id="Name"
-                          label="Name"
-                          autoFocus
-                        />
-                      </Grid>
 
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          id="email"
-                          label="Email Address"
-                          name="email"
-                          autoComplete="email"
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          name="password"
-                          label="Password"
-                          type="password"
-                          id="password"
-                          autoComplete="new-password"
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          name="confimPassword"
-                          label="Confirm Password"
-                          type="password"
-                          id="password"
-                        />
-                      </Grid>
-                    </Grid>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                      color="warning"
+                    <Box
+                      component="form"
+                      noValidate
+                      onSubmit={handleSubmit}
+                      sx={{
+                        mt: 3,
+                      }}
                     >
-                      Register
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                      <Grid item>
-                        <Link href="#" variant="body2">
-                          Already have an account? LOGIN
-                        </Link>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            autoComplete="name"
+                            name="name"
+                            required
+                            fullWidth
+                            id="standard-required"
+                            label="Name"
+                            type="text"
+                            value={values.name}
+                            onChange={handleChange}
+                            className={
+                              errors.name && touched.name ? 'input-error' : null
+                            }
+                            autoFocus
+                            variant="standard"
+                          />
+                          {errors.name && touched.name && (
+                            <span
+                              className="error"
+                              style={{ color: '#ff0000', fontSize: 12 }}
+                            >
+                              {errors.name}
+                            </span>
+                          )}
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="standard-required"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            className={
+                              errors.email && touched.email
+                                ? 'input-error'
+                                : null
+                            }
+                            variant="standard"
+                          />
+                          {errors.email && touched.email && (
+                            <span
+                              className="error"
+                              style={{ color: '#ff0000', fontSize: 12 }}
+                            >
+                              {errors.email}
+                            </span>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type={showPasswordText ? 'text' : 'password'}
+                            id="standard-required"
+                            value={values.password}
+                            onChange={handleChange}
+                            autoComplete="new-password"
+                            variant="standard"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {showPasswordText ? (
+                                      <VisibilityIcon />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                          {errors.password && touched.password && (
+                            <span
+                              className="error"
+                              style={{ color: '#ff0000', fontSize: 12 }}
+                            >
+                              {errors.password}
+                            </span>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            type={showPasswordText ? 'text' : 'password'}
+                            id="standard-required"
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            autoComplete="password"
+                            variant="standard"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {showPasswordText ? (
+                                      <VisibilityIcon />
+                                    ) : (
+                                      <VisibilityOffIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                          {errors.confirmPassword && touched.confirmPassword && (
+                            <span
+                              className="error"
+                              style={{ color: '#ff0000', fontSize: 12 }}
+                            >
+                              {errors.confirmPassword}
+                            </span>
+                          )}
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Container>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2, color: '#fff' }}
+                        color="warning"
+                        style={{
+                          backgroundColor: '#f57c00',
+                        }}
+                      >
+                        Register
+                      </Button>
+                      <Grid container justifyContent="flex-end">
+                        <Grid item>
+                          Already have an account? &nbsp;
+                          <Link href="/signin" variant="body2">
+                            LOGIN
+                          </Link>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Box>
                 </div>
               );
             }}
