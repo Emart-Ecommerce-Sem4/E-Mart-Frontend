@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SIGNIN_IMAGE from '../../assets/signin.png';
+
 import CircularProgress from '@mui/material/CircularProgress';
 import * as Yup from 'yup';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import CssBaseline from '@mui/material/CssBaseline';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -95,7 +98,8 @@ export default function SignIn() {
             formikProps;
 
           return (
-            <div style={{ backgroundColor: '#2f3542', minHeight: '100vh' }}>
+            <div style={{ minHeight: '100vh' }}>
+              <CssBaseline />
               <div>
                 <SignNavBar />
               </div>
@@ -105,13 +109,15 @@ export default function SignIn() {
                     <div>
                       <Container color="white" component="main" maxWidth="xs">
                         <HeightBox height={100} />
-                        <h1 style={{ color: '#fff' }}>Welcome Again ,</h1>
+                        <Typography component="h1" variant="h4">
+                          Welcome Again ,
+                        </Typography>
+
                         <HeightBox height={20} />
                         <Box style={{ width: '400px' }}>
                           <TextField
                             type="email"
                             name="email"
-                            sx={{ input: { color: '#fff' } }}
                             value={values.email}
                             onChange={handleChange('email')}
                             helperText={
@@ -128,7 +134,6 @@ export default function SignIn() {
                             type="password"
                             value={values.password}
                             name="Password"
-                            sx={{ input: { color: '#fff' } }}
                             label="Password"
                             helperText={touched.password ? errors.password : ''}
                             error={errors.password}
@@ -145,9 +150,7 @@ export default function SignIn() {
                             label="Remember me"
                           />
                           <Button
-                            style={{
-                              backgroundColor: '#f57c00',
-                            }}
+                            color="primary"
                             onClick={handleSubmit}
                             disabled={isLoading}
                             fullWidth

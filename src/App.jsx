@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '@mui/material/styles';
 import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
+import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
 
@@ -17,6 +18,8 @@ function App() {
         <Route path="/" element={<HomePage />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
+        <Route path="/forgot-password" element={<ForgotPassword />} exact />
+        <Route path="/admin/edit-user" element={<EditUser />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route
           path="/dashboard"
