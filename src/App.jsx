@@ -22,6 +22,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/admin/edit-user" element={<EditUser />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
+        <Route path="/cart" element={<ShoppingCart />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
