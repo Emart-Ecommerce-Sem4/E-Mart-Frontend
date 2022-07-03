@@ -8,4 +8,7 @@ export default {
   signUpUser(data) {
     return resolver(axiosClient.post('/user/signup', data));
   },
+  resetPassword(email) {
+    return resolver(axiosClient.get(`/user/reset-password/${email}`));
+  },
 };

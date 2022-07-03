@@ -260,11 +260,11 @@ export default function SignUp() {
                   >
                     Next
                   </Button>
-                  <Grid container justifyContent="flex-end">
+                  <Grid container justifyContent="center">
                     <Grid item>
                       Already have an account? &nbsp;
                       <Link href="/signin" variant="body2">
-                        LOGIN
+                        Sign in
                       </Link>
                     </Grid>
                   </Grid>
@@ -373,7 +373,7 @@ export default function SignUp() {
     );
   });
   return (
-    <Box sx={{ paddingBottom: 25 }} ref={containerRef}>
+    <Box ref={containerRef}>
       <CssBaseline />
       <SnackBarComponent
         open={errorOccured}
