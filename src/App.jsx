@@ -6,6 +6,7 @@ import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
+import ShoppingCart from './pages/shopping-cart';
 import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
