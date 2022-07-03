@@ -1,6 +1,6 @@
-import { Grid, ListItem,  FormControl, InputLabel , MenuItem , Box , Select  } from '@mui/material';
+import { Grid, FormControl, InputLabel , MenuItem , Box , Select  } from '@mui/material';
 import React from 'react';
-import SignNavBar from '../../components/SignNavBar';
+import HomeNavBar from '../../components/HomeNavBar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
@@ -33,7 +33,7 @@ export default function ShoppingCart() {
     <ThemeProvider theme={darkTheme}>
       <div class = "bg-dark text-white" style={{minHeight : '1080px'}}>
         <div>
-          <SignNavBar />
+          <HomeNavBar />
         </div>
         <div style={{paddingLeft : '108px'}}>
           <h1>SHOPPING CART</h1>
