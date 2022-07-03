@@ -1,10 +1,410 @@
-import React from 'react';
-import SignNavBar from "../../components/SignNavBar";
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import * as Yup from 'yup';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { CssBaseline, Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import Slide from '@mui/material/Slide';
+import SignNavBar from '../../components/SignNavBar';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Formik } from 'formik';
+import HeightBox from '../../components/HeightBox';
+import api from '../../api';
+import SnackBarComponent from '../../components/SnackBarComponent';
+import {
+  setAuthorizationKey,
+  setUserObjectInLocal,
+} from '../../utils/localStorageHelper';
+import { loggingRequest } from '../../reducers/modules/user';
+
+const validationSchemaOne = Yup.object().shape({
+  firstName: Yup.string().required().label('First Name'),
+  lastName: Yup.string().required().label('Last Name'),
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string()
+    .required()
+    .min(8)
+    .max(15)
+    .label('Password')
+    .matches(/\d+/, 'Password should contain at least one number')
+    .matches(
+      /[a-z]+/,
+      'Password should contain at least one lowercase character'
+    )
+    .matches(
+      /[A-Z]+/,
+      'Password should contain at least one uppercase character'
+    )
+    .matches(
+      /[!@#$%^&*()-+]+/,
+      'Password should contain at least one special character'
+    ),
+  confirmPassword: Yup.string()
+    .required()
+    .label('Confirm Password')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+});
+
+const validationSchemaTwo = Yup.object().shape({
+  birthday: Yup.string().required().label('Birthday'),
+  phoneNumber: Yup.string().required(),
+  address: Yup.string().required().label('Address'),
+  city: Yup.string().required().label('City'),
+});
 
 export default function SignUp() {
+  const [showPasswordText, setShowPasswordText] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errorOccured, setErrorOccured] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({ type: '', message: '' });
+  const containerRef = React.useRef(null);
+  const [currentForm, setCurrentForm] = useState('ONE');
+  const [formValues, setFormValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    address: '',
+    birthday: '',
+    city: '',
+  });
+  const initialValuesFormOne = {
+    firstName: formValues.firstName,
+    lastName: formValues.lastName,
+    email: formValues.email,
+    password: formValues.password,
+    confirmPassword: formValues.confirmPassword,
+  };
+  const initialValuesFormTwo = {
+    phoneNumber: formValues.phoneNumber,
+    address: formValues.address,
+    birthday: formValues.birthday,
+    city: formValues.city,
+  };
+
+  async function registerUser(values) {
+    setLoading(true);
+    try {
+      const [code, res] = await api.user.signUpUser(values);
+      if (res?.statusCode === 201) {
+        // User created succesfully
+        setAuthorizationKey(res.data.token);
+        setUserObjectInLocal(res.data.user);
+        dispatch(loggingRequest(res.data.user));
+        navigate('/dashboard');
+      } else {
+        setErrorMessage({ type: 'error', message: res?.message });
+        setErrorOccured(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage({ type: 'error', message: error?.message });
+      setErrorOccured(true);
+      setLoading(false);
+    }
+  }
+
+  const submitForm = (values) => {
+    setFormValues({
+      ...formValues,
+      ...values,
+    });
+    if (currentForm === 'ONE') {
+      setCurrentForm('TWO');
+    } else {
+      registerUser({ ...formValues, ...values });
+    }
+  };
+
+  const goToFormOne = () => {
+    if (currentForm === 'TWO') {
+      setCurrentForm('ONE');
+    }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPasswordText(!showPasswordText);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const FormOne = React.forwardRef((props, ref) => {
+    return (
+      <div ref={ref} {...props}>
+        <Formik
+          initialValues={initialValuesFormOne}
+          onSubmit={submitForm}
+          validationSchema={validationSchemaOne}
+        >
+          {(formikProps) => {
+            const { values, handleChange, handleSubmit, errors, touched } =
+              formikProps;
+
+            return (
+              <div style={{ width: 500 }}>
+                <Stack direction="column" spacing={2}>
+                  <Typography component="h1" variant="h5">
+                    Register With Us ,
+                  </Typography>
+                  <HeightBox height={10} />
+                  <TextField
+                    fullWidth
+                    label="First Name"
+                    type="text"
+                    value={values.firstName}
+                    error={errors.firstName}
+                    helperText={touched.firstName ? errors.firstName : ''}
+                    onChange={handleChange('firstName')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Last Name"
+                    type="text"
+                    value={values.lastName}
+                    error={errors.lastName}
+                    helperText={touched.lastName ? errors.lastName : ''}
+                    onChange={handleChange('lastName')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    type="email"
+                    value={values.email}
+                    error={errors.email}
+                    helperText={touched.email ? errors.email : ''}
+                    onChange={handleChange('email')}
+                    variant="outlined"
+                  />
+
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type={showPasswordText ? 'text' : 'password'}
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    error={errors.password}
+                    helperText={touched.password ? errors.password : ''}
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPasswordText ? (
+                              <VisibilityIcon />
+                            ) : (
+                              <VisibilityOffIcon />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <TextField
+                    required
+                    fullWidth
+                    error={errors.confirmPassword}
+                    helperText={
+                      touched.confirmPassword ? errors.confirmPassword : ''
+                    }
+                    label="Confirm Password"
+                    type={showPasswordText ? 'text' : 'password'}
+                    value={values.confirmPassword}
+                    onChange={handleChange('confirmPassword')}
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPasswordText ? (
+                              <VisibilityIcon />
+                            ) : (
+                              <VisibilityOffIcon />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Next
+                  </Button>
+                  <Grid container justifyContent="flex-end">
+                    <Grid item>
+                      Already have an account? &nbsp;
+                      <Link href="/signin" variant="body2">
+                        LOGIN
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </div>
+            );
+          }}
+        </Formik>
+      </div>
+    );
+  });
+
+  const FormTwo = React.forwardRef((props, ref) => {
+    return (
+      <div ref={ref} {...props}>
+        <Formik
+          initialValues={initialValuesFormTwo}
+          onSubmit={submitForm}
+          validationSchema={validationSchemaTwo}
+        >
+          {(formikProps) => {
+            const { values, handleChange, handleSubmit, errors, touched } =
+              formikProps;
+            return (
+              <div style={{ width: 500 }}>
+                <Stack direction="column" spacing={2}>
+                  <Typography component="h1" variant="h5">
+                    Add more details,
+                  </Typography>
+                  <HeightBox height={10} />
+                  <TextField
+                    fullWidth
+                    label="Phone Number"
+                    type="text"
+                    value={values.phoneNumber}
+                    error={errors.phoneNumber}
+                    helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+                    onChange={handleChange('phoneNumber')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Address"
+                    type="text"
+                    value={values.address}
+                    error={errors.address}
+                    helperText={touched.address ? errors.address : ''}
+                    onChange={handleChange('address')}
+                    variant="outlined"
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="City"
+                    type="text"
+                    value={values.city}
+                    error={errors.city}
+                    helperText={touched.city ? errors.city : ''}
+                    onChange={handleChange('city')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Birthday"
+                    type="date"
+                    value={values.birthday}
+                    error={errors.birthday}
+                    InputLabelProps={{ shrink: true }}
+                    helperText={touched.birthday ? errors.birthday : ''}
+                    onChange={handleChange('birthday')}
+                    variant="outlined"
+                  />
+
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled={isLoading}
+                    onClick={handleSubmit}
+                  >
+                    {isLoading ? <CircularProgress /> : ' Register'}
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    disabled={isLoading}
+                    onClick={goToFormOne}
+                  >
+                    Back
+                  </Button>
+                  <Grid container justifyContent="flex-end">
+                    <Grid item>
+                      Already have an account? &nbsp;
+                      <Link href="/signin" variant="body2">
+                        LOGIN
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </div>
+            );
+          }}
+        </Formik>
+      </div>
+    );
+  });
   return (
-    <div>
+    <Box sx={{ paddingBottom: 25 }} ref={containerRef}>
+      <CssBaseline />
+      <SnackBarComponent
+        open={errorOccured}
+        setOpen={setErrorOccured}
+        type={errorMessage.type}
+        message={errorMessage.message}
+      />
       <SignNavBar />
-    </div>
+      <HeightBox height={20} />
+      <div>
+        <Stack
+          direction="row"
+          spacing={10}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <div>
+            <img src="./images/SignupImage.png" alt="signupImage" width={600} />
+          </div>
+          {currentForm === 'ONE' && (
+            <Slide in={currentForm === 'ONE'} direction="left">
+              <FormOne />
+            </Slide>
+          )}
+          {currentForm === 'TWO' && (
+            <Slide in={currentForm === 'TWO'} direction="left">
+              <FormTwo />
+            </Slide>
+          )}
+        </Stack>
+      </div>
+    </Box>
   );
 }
