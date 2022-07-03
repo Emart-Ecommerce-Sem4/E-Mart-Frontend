@@ -4,12 +4,22 @@ import SignNavBar from '../../components/SignNavBar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText("#ED6C02"),
+  backgroundColor: "#ED6C02",
+  '&:hover': {
+    backgroundColor: "#ED6C02[900]",
+  },
+}));
 
 export default function ShoppingCart() {
 
@@ -121,8 +131,26 @@ export default function ShoppingCart() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={6} >
-              <ListItem>xs=6 md=4</ListItem>
+            <Grid item xs={1} >
+            </Grid>
+            <Grid item xs = {4}>
+              <Grid item xs = {12}>
+                <Box
+                  sx={{
+                    width: "375px",
+                    height: "140px",
+                    backgroundColor: 'rgba(255,255,255,0.25)',
+                    borderRadius : 10,
+                    border : 3,
+                    borderColor : '#fff',
+                  }} 
+                  textAlign={"center"}
+                >
+                  <h5 align = "center"> SUBTOTAL (3) ITEMS </h5>
+                  <h1 align = "center" style={{color:"#ED6C02"}}> $25.30</h1>
+                  <ColorButton style={{textAlign : "center"}} align = "center" variant="contained" >Custom CSS</ColorButton>
+                </Box>
+              </Grid>
             </Grid>
           </Grid> 
         </div>
