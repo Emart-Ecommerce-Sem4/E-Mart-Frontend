@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '@mui/material/styles';
 import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
