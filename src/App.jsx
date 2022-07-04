@@ -11,6 +11,7 @@ import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
 import AdminDashboard from './pages/admin-dashboard';
+import EditProduct from './pages/edit-product';
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/admin/edit-user" element={<EditUser />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
+        <Route path="/edit-product" element={<EditProduct />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
