@@ -10,6 +10,7 @@ import ShoppingCart from './pages/shopping-cart';
 import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
+import Payment from './pages/payment';
 import AdminDashboard from './pages/admin-dashboard';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/admin/edit-user" element={<EditUser />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
+        <Route path="/payment" element={<Payment />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
