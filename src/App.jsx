@@ -11,6 +11,7 @@ import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import theme from './utils/theme';
 import Payment from './pages/payment';
+import AdminDashboard from './pages/admin-dashboard';
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -30,6 +31,7 @@ function App() {
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
           exact
         />
+        <Route path="/admin/:page" element={<AdminDashboard />} exact />
       </Routes>
     </ThemeProvider>
   );
