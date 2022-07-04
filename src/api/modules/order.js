@@ -14,4 +14,10 @@ export default {
   rejectOrder(data) {
     return resolver(axiosClient.post('/order/reject', data));
   },
+  completeOrder(data) {
+    return resolver(axiosClient.post('/order/complete', data));
+  },
+  giveRefund(data) {
+    return resolver(axiosClient.post('/order/refund', data));
+  },
 };

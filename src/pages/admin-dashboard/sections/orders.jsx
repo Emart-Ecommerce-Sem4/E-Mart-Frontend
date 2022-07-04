@@ -15,18 +15,69 @@ import api from '../../../api';
 import { ORDER_STATUS } from '../../../constants';
 import OrderShipViewDialog from '../../../components/OrderShipDialog';
 import OrderRejectDialog from '../../../components/OrderRejectDialog';
+import OrderMarkDeliveredDialog from '../../../components/OrderMarkDeliveredDialog';
+import OrderRefundDialog from '../../../components/OrderRefundDialog';
 
 export default function AdminOrders(props) {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [shippedOrders, setShippedOrders] = useState([]);
+  const [rejectedOrders, setRejectedOrders] = useState([]);
+  const [deliveredOrders, setDeliveredOrders] = useState([]);
+  const [refundedOrders, setRefundedOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState();
   const [openShipform, setOpenShipForm] = useState(false);
   const [openRejectFrom, setOpenRejectForm] = useState(false);
+  const [openRefundForm, setOpenRefundForm] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [openMarkAsDeliveredDialog, setOpenMarkAsDeliveredDialog] =
+    useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState({
     type: '',
     message: '',
   });
+
+  async function getRefundedOrders() {
+    try {
+      const [code, res] = await api.order.getOrdersToStatus(
+        ORDER_STATUS.REFUNDED
+      );
+      if (res.statusCode === 200) {
+        setRefundedOrders(res?.data?.orders);
+      }
+    } catch (error) {
+      setSnackBarMessage({ type: 'error', message: error?.message });
+      setOpenSnackBar(true);
+    }
+  }
+
+  async function getDeliveredOrders() {
+    try {
+      const [code, res] = await api.order.getOrdersToStatus(
+        ORDER_STATUS.DELIVERED
+      );
+      if (res.statusCode === 200) {
+        setDeliveredOrders(res?.data?.orders);
+      }
+    } catch (error) {
+      setSnackBarMessage({ type: 'error', message: error?.message });
+      setOpenSnackBar(true);
+    }
+  }
+
+  async function getRejectedOrders() {
+    try {
+      const [code, res] = await api.order.getOrdersToStatus(
+        ORDER_STATUS.REJECTED
+      );
+      if (res.statusCode === 200) {
+        setRejectedOrders(res?.data?.orders);
+      }
+    } catch (error) {
+      setSnackBarMessage({ type: 'error', message: error?.message });
+      setOpenSnackBar(true);
+    }
+  }
+
   async function getPendingOrders() {
     try {
       const [code, res] = await api.order.getOrdersToStatus(
@@ -60,11 +111,13 @@ export default function AdminOrders(props) {
   function refreshTables() {
     getPendingOrders();
     getShippedOrders();
+    getRejectedOrders();
+    getDeliveredOrders();
+    getRefundedOrders();
   }
 
   React.useEffect(() => {
-    getPendingOrders();
-    getShippedOrders();
+    refreshTables();
   }, []);
 
   return (
@@ -86,6 +139,18 @@ export default function AdminOrders(props) {
         setOpen={setOpenSnackBar}
         type={snackBarMessage.type}
         messgae={snackBarMessage.message}
+      />
+      <OrderMarkDeliveredDialog
+        open={openMarkAsDeliveredDialog}
+        setOpen={setOpenMarkAsDeliveredDialog}
+        item={selectedOrder}
+        refreshTables={refreshTables}
+      />
+      <OrderRefundDialog
+        open={openRefundForm}
+        setOpen={setOpenRefundForm}
+        item={selectedOrder}
+        refreshTables={refreshTables}
       />
       <CssBaseline />
       <Typography variant="h5">Peding Orders</Typography>
@@ -174,13 +239,134 @@ export default function AdminOrders(props) {
                 <TableCell align="center">{row.payment_method}</TableCell>
                 <TableCell align="center">{'$ ' + row.total_price}</TableCell>
                 <TableCell align="center">
-                  <Button color="error">Mark as Delivered</Button>
+                  <Button
+                    color="success"
+                    onClick={() => {
+                      setSelectedOrder(row);
+                      setOpenMarkAsDeliveredDialog(true);
+                    }}
+                  >
+                    Mark as Delivered
+                  </Button>
                 </TableCell>
                 <TableCell align="center">
-                  <Button color="success" variant="contained">
+                  <Button
+                    color="success"
+                    variant="contained"
+                    onClick={() => {
+                      setSelectedOrder(row);
+                      setOpenRefundForm(true);
+                    }}
+                  >
                     Refund
                   </Button>
                 </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <HeightBox height={30} />
+      <Typography variant="h5">Rejected Orders</Typography>
+      <HeightBox height={20} />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Order Date</TableCell>
+
+              <TableCell align="center">Payment Method</TableCell>
+              <TableCell align="center">Total</TableCell>
+
+              <TableCell align="center">Refund</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rejectedOrders.map((row) => (
+              <TableRow
+                key={row.order_id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {moment(row.order_date).format('YYYY-MM-DD')}
+                </TableCell>
+                <TableCell align="center">{row.payment_method}</TableCell>
+                <TableCell align="center">{'$ ' + row.total_price}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="success"
+                    variant="contained"
+                    onClick={() => {
+                      setSelectedOrder(row);
+                      setOpenRefundForm(true);
+                    }}
+                  >
+                    Refund
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <HeightBox height={30} />
+      <Typography variant="h5">Delivered Orders</Typography>
+      <HeightBox height={20} />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Order Date</TableCell>
+              <TableCell align="center">Items</TableCell>
+              <TableCell align="center">Total</TableCell>
+              <TableCell align="center">Rating</TableCell>
+              <TableCell align="center">Rating Comment</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {deliveredOrders.map((row) => (
+              <TableRow
+                key={row.order_id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {moment(row.order_date).format('YYYY-MM-DD')}
+                </TableCell>
+                <TableCell align="center">{row.item_count}</TableCell>
+                <TableCell align="center">{'$ ' + row.total_price}</TableCell>
+                <TableCell align="center">{row.rating}</TableCell>
+                <TableCell align="center">{row.rating_comment}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <HeightBox height={30} />
+      <Typography variant="h5">Refunded Orders</Typography>
+      <HeightBox height={20} />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Order Date</TableCell>
+              <TableCell align="center">Items</TableCell>
+              <TableCell align="center">Total</TableCell>
+              <TableCell align="center">Refunded Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {refundedOrders.map((row) => (
+              <TableRow
+                key={row.order_id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {moment(row.order_date).format('YYYY-MM-DD')}
+                </TableCell>
+                <TableCell align="center">{row.item_count}</TableCell>
+                <TableCell align="center">{'$ ' + row.total_price}</TableCell>
+                {/* This line needs to changed when the backend and db changed */}
+                <TableCell align="center">{'$ ' + row?.total_price}</TableCell>
               </TableRow>
             ))}
           </TableBody>
