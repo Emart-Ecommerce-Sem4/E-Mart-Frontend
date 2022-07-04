@@ -136,7 +136,7 @@ export default function AdminDashboard() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Admin Workspace
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
