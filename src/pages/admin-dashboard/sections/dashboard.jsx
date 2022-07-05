@@ -16,6 +16,8 @@ import AnalyticEcommerce from './../../../components/cards/statistics/AnalyticEc
 import HeightBox from '../../../components/HeightBox';
 import MainCard from './../../../components/cards/MainCaard';
 import ProductInterest from '../../../components/DashboardCharts/ProductInterest';
+import { TrafficByDevice } from './../../../components/DashboardCharts/ChartForCategory/index';
+
 
 // avatar style
 const avatarSX = {
@@ -51,8 +53,10 @@ export default function Dashboard(props) {
 
 
 
-  const [year, setYear] = useState('');
+  const [year, setYear] = useState('2022');
+  const [yearTotal, setYearTotal] = useState('2022');
   const [yearForProduct, setYearForProduct] = useState('2022');
+  const [categoryYear, setCategoryYear] = useState('2022');
   const [category, setCategory] = useState('Electronic');
 
   const [product, setProduct] = useState('Phone');
@@ -64,10 +68,17 @@ export default function Dashboard(props) {
     setYear(event.target.value);
     
   };
-  const handleChangeYear = (event) => {
-  
-    setYearForProduct(event.target.value);
+  const handleChangeTotal = (event) => {
     
+    setYearTotal(event.target.value);
+    
+  };
+  const handleChangeCategoryYear = (event) => {
+    
+    setCategoryYear(event.target.value);
+  };
+  const handleChangeYear = (event) => {
+    setYearForProduct(event.target.value);
   };
   const handleChangeCategory = (event) => {
    
@@ -81,15 +92,66 @@ export default function Dashboard(props) {
   };
   return (
     <div style={{ padding: 20 }}>
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-<Grid item xs={12} sx={{ mb: -2.25 }}>
-<CssBaseline />
-<Grid container alignItems="center"  columnSpacing={2.75}>
+      <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+      <Grid item xs={12} sx={{ mb: -2.25 }}>
+            <CssBaseline />
+              <Grid container alignItems="center"  columnSpacing={2.75}>
+                <Grid item>
+                <Typography variant="h5">Total Sales And Order Overview</Typography>
+                </Grid>
+               
+                  <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={yearTotal}
+                        label="Year"
+                        onChange={handleChangeTotal}
+                      >
+                        <MenuItem value={2022}>2022</MenuItem>
+                        <MenuItem value={2021}>2021</MenuItem>
+                        <MenuItem value={2020}>2020</MenuItem>
+                      </Select>
+                    </FormControl>
+                    </Box>
+                  </Grid>
+               
+                </Grid>
+      
+                <HeightBox height={1} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title=" Sales " count="$4,42,226"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title="Confirm Oders " count="78,250"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title=" Rejected Oders " count="18,800"  isLoss color="warning"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title=" Shop Pickup Oders" count="$35,078"  isLoss color="warning"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title=" Delivered Oders" count="$35,078"  isLoss color="warning"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={2}>
+                <AnalyticEcommerce title=" Delivered Oders" count="$35,078"  isLoss color="warning"  />
+            </Grid>
+            <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+            
+
+            <Grid marginTop={6} item xs={12} sx={{ mb: -2.25 }}>
+            <CssBaseline />
+              <Grid container alignItems="center"  columnSpacing={2.75}>
                 <Grid item>
                 <Typography variant="h5">Quaterly Sales Report for </Typography>
                 </Grid>
                
-                    <Grid item>
+                  <Grid item>
                     <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">Year</InputLabel>
@@ -106,11 +168,11 @@ export default function Dashboard(props) {
                       </Select>
                     </FormControl>
                     </Box>
-                    </Grid>
+                  </Grid>
                
-            </Grid>
+                </Grid>
       
-      <HeightBox height={10} />
+                <HeightBox height={1} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <AnalyticEcommerce title="Total Sales of January - March " count="4,42,236" percentage={59.3}  />
@@ -128,8 +190,8 @@ export default function Dashboard(props) {
             <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
          
 
-            <Grid item xs={12} md={7} lg={8}>
-                <Grid container alignItems="center" justifyContent="space-between">
+            <Grid marginTop={6} item xs={12} md={7} lg={8}>
+                <Grid container  rowSpacing={4.5} columnSpacing={2.75}>
                     <Grid item>
                         <Typography variant="h5">Intereset Analysiis for  Specific Product </Typography>
                     </Grid>
@@ -197,9 +259,46 @@ export default function Dashboard(props) {
                         <ProductInterest  />
                     </Box>
                 </MainCard>
+                
+            </Grid>
+            <Grid marginTop={6} item xs={12} md={5} lg={4}>
+                <Grid container alignItems="center" justifyContent="space-between">
+                    <Grid item>
+                        <Typography variant="h5">Oder Overview with Category</Typography>
+                    </Grid>
+                    
+               
+                    <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={categoryYear}
+                        label="Year"
+                        onChange={handleChangeCategoryYear}
+                      >
+                        <MenuItem value={2022}>2022</MenuItem>
+                        <MenuItem value={2021}>2021</MenuItem>
+                        <MenuItem value={2020}>2020</MenuItem>
+                      </Select>
+                    </FormControl>
+                    </Box>
+                    
+               
+            </Grid>
+                    <Grid item />
+                </Grid>
+                <MainCard sx={{ mt: 2 }} content={false}>
+                <TrafficByDevice />
+                   
+                </MainCard>
             </Grid>
 
+            
     </Grid>
+    
     </div>
   );
 }
