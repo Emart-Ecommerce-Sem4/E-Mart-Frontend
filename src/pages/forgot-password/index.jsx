@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignNavBar from '../../components/SignNavBar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
 import { Formik } from 'formik';
+import { Typography } from '@mui/material';
+import api from '../../api';
+import SnackBarComponent from '../../components/SnackBarComponent';
 
 export default function ForgotPassword() {
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState({
+    type: '',
+    messsage: '',
+  });
+
   const initialValues = {
     email: '',
   };
@@ -22,8 +33,27 @@ export default function ForgotPassword() {
 
     return errors;
   };
+
+  async function resetUserPassword(email) {
+    setIsLoading(true);
+    try {
+      const [code, res] = await api.user.resetPassword(email);
+      if (res?.statusCode === 200) {
+        setSnackBarMessage({ type: 'success', messsage: res?.message });
+        setOpenSnackBar(true);
+      } else {
+        setSnackBarMessage({ type: 'error', messsage: res?.message });
+        setOpenSnackBar(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setSnackBarMessage({ type: 'error', messsage: error?.message });
+      setIsLoading(false);
+    }
+  }
+
   const submitForm = (values) => {
-    console.log(values);
+    resetUserPassword(values.email);
   };
 
   return (
@@ -33,29 +63,19 @@ export default function ForgotPassword() {
       onSubmit={submitForm}
     >
       {(formik) => {
-        const {
-          values,
-          handleChange,
-          handleSubmit,
-          errors,
-          touched,
-          handleBlur,
-          isValid,
-          dirty,
-          isSubmitting,
-        } = formik;
+        const { values, handleChange, handleSubmit, errors, touched } = formik;
 
         return (
-          <div
-            class="p-3 mb-2 bg-dark text-white"
-            style={{ height: '100vH', overflowY: 'hidden' }}
-          >
-            <div>
-              <SignNavBar />
-            </div>
+          <div>
+            <SignNavBar />
+            <SnackBarComponent
+              open={openSnackBar}
+              setOpen={setOpenSnackBar}
+              type={snackBarMessage.type}
+              message={snackBarMessage.messsage}
+            />
             <div>
               <Container
-                color="white"
                 component="main"
                 maxWidth="xs"
                 sx={{
@@ -72,30 +92,18 @@ export default function ForgotPassword() {
                     mt: 10,
                   }}
                 >
-                  <h2>Forgot Password</h2>
+                  <Typography variant="h4">Forgot Password?</Typography>
                   <div
                     style={{
                       marginTop: '10px',
                       marginBottom: '10px',
-                      color: 'gray',
                     }}
                   >
-                    <h7>
+                    <Typography variant="p" color="text.secondary">
                       Enter your e-mail address and we'll send you a link to
                       reset your password
-                    </h7>
+                    </Typography>
                   </div>
-                  {Object.keys(errors).length === 0 && isSubmitting && (
-                    <span className="success-msg">
-                      <div
-                        class="alert alert-success"
-                        role="alert"
-                        style={{ marginTop: '20px' }}
-                      >
-                        Verification email sent!
-                      </div>
-                    </span>
-                  )}
 
                   <Box
                     component="form"
@@ -103,44 +111,29 @@ export default function ForgotPassword() {
                     noValidate
                     style={{ width: '400px' }}
                   >
-                    <div class="form-row" maxWidth="xs">
-                      <Input
-                        sx={{ mt: 2, color: '#fff', mb: 3 }}
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className={
-                          errors.email && touched.email ? 'input-error' : null
-                        }
-                        variant="standard"
-                        required
-                        fullWidth
-                        label="Email Address"
-                        placeholder="Email Address"
-                        autoComplete="email"
-                        autoFocus
-                      />
-                      {errors.email && touched.email && (
-                        <span className="error" style={{ color: '#ff0000' }}>
-                          {errors.email}
-                        </span>
-                      )}
-                    </div>
+                    <TextField
+                      type="email"
+                      name="email"
+                      id="email"
+                      fullWidth
+                      value={values.email}
+                      onChange={handleChange}
+                      error={Boolean(touched.email && errors.email)}
+                      helperText={touched.email ? errors.email : ''}
+                      variant="standard"
+                      label="Email"
+                      placeholder="Email"
+                    />
 
                     <Button
-                      style={{
-                        backgroundColor: '#f57c00',
-                      }}
+                      color="primary"
                       type="submit"
-                      className={dirty && isValid ? '' : 'disabled-btn'}
+                      disabled={isLoading}
                       fullWidth
                       variant="contained"
                       sx={{ mt: 2, mb: 2 }}
                     >
-                      LOGIN
+                      {isLoading ? <CircularProgress /> : 'Reset Password'}
                     </Button>
                   </Box>
                 </Box>

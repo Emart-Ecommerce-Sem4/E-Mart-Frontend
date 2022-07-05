@@ -11,9 +11,11 @@ const theme = createTheme({
     },
     background: {
       default: '#2f3542',
+      paper: '#000000',
     },
     text: {
       primary: '#ffffff',
+      secondary: 'gray',
     },
   },
 });

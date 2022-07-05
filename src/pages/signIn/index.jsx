@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SIGNIN_IMAGE from '../../assets/signin.png';
-
 import CircularProgress from '@mui/material/CircularProgress';
 import * as Yup from 'yup';
 import Typography from '@mui/material/Typography';
@@ -175,7 +174,7 @@ export default function SignIn() {
                                 variant="body2"
                                 style={{ marginLeft: '10' }}
                               >
-                                {"Don't have an account? Register"}
+                                Don't have an account? Sign up
                               </Link>
                             </Grid>
                           </Grid>

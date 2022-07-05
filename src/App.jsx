@@ -6,12 +6,15 @@ import ForgotPassword from './pages/forgot-password';
 import HomePage from './pages/homepage';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
+import ShoppingCart from './pages/shopping-cart';
 import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProductDetail from './pages/ProductDetail';
 import Order from './pages/Order';
 import theme from './utils/theme';
+import Payment from './pages/payment';
+import AdminDashboard from './pages/admin-dashboard';
 
 
 function App() {
@@ -28,11 +31,14 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/place-order" element={<PlaceOrderPage />} exact />
         <Route path="/product-detail" element={<ProductDetail />} exact />
+        <Route path="/cart" element={<ShoppingCart />} exact />
+        <Route path="/payment" element={<Payment />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
           exact
         />
+        <Route path="/admin/:page" element={<AdminDashboard />} exact />
       </Routes>
     </ThemeProvider>
   );
