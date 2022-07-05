@@ -44,6 +44,12 @@ export default function MainListItems() {
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItemButton>
+      <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.INVENTORY)}>
+        <ListItemIcon>
+          <BarChartIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary="Inventory" />
+      </ListItemButton>
       <Divider sx={{ my: 1 }} />
       <ListSubheader component="div" inset>
         Operations

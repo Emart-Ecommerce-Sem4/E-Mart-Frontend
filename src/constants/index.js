@@ -9,6 +9,7 @@ export const ADMIN_SECTIONS = {
   REPORTS: 'reports',
   PRODUCTS: 'products',
   CATEGORIES: 'categories',
+  INVENTORY: 'inventory',
 };
 
 export const ORDER_STATUS = {
