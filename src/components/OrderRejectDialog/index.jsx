@@ -94,8 +94,10 @@ export default function OrderRejectDialog(props) {
   }
 
   React.useEffect(() => {
-    getUserDetails();
-    getOrderItems();
+    if (item) {
+      getUserDetails();
+      getOrderItems();
+    }
   }, [item]);
 
   async function rejectOrder() {
