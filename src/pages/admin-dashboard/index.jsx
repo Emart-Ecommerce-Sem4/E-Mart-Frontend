@@ -16,7 +16,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './mainListItems';
 import { ADMIN_SECTIONS } from '../../constants';
-import Dashboard from '../dashboard';
+import Dashboard from './sections/dashboard';
 import AdminOrders from './sections/orders';
 import AdminCustomers from './sections/customers';
 import AdminReports from './sections/reports';
