@@ -1,18 +1,26 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Input from '@mui/material/Input';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import NavBar from '../../components/NavBar';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function EditUser() {
 
   return (
-    <div>
-        
+    <ThemeProvider theme={darkTheme}>
+        <NavBar/>
         <Box 
             sx={{
                 height: "100vh",
@@ -46,7 +54,6 @@ export default function EditUser() {
 
                   <Box
                     component="form"
-                    // onSubmit={handleSubmit}
                     noValidate
                     style={{ width: '400px' }}
                   >
@@ -56,16 +63,10 @@ export default function EditUser() {
                         type="text"
                         name="name"
                         id="name"
-                        // value={values.email}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        
                         variant="standard"
-                        // required
                         fullWidth
                         label="Name"
                         placeholder="Name"
-                        // autoComplete="email"
                         autoFocus
                     />
                   
@@ -76,16 +77,11 @@ export default function EditUser() {
                         type="email"
                         name="email"
                         id="email"
-                        // value={values.email}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        
                         variant="standard"
-                        // required
                         fullWidth
                         label="Email"
                         placeholder="Email"
-                        // autoComplete="email"
+                        autoComplete="email"
                         autoFocus
                       />
                       
@@ -96,6 +92,7 @@ export default function EditUser() {
                     <Button
                       style={{
                         backgroundColor: '#f57c00',
+                        color: '#fff'
                       }}
                       type="submit"
                       
@@ -110,6 +107,6 @@ export default function EditUser() {
                 </Container>
         </Box>
 
-    </div>
+    </ThemeProvider>
   );
 }
