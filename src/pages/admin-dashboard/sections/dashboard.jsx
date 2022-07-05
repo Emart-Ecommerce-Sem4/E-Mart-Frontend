@@ -17,7 +17,7 @@ import HeightBox from '../../../components/HeightBox';
 import MainCard from './../../../components/cards/MainCaard';
 import ProductInterest from '../../../components/DashboardCharts/ProductInterest';
 import { TrafficByDevice } from './../../../components/DashboardCharts/ChartForCategory/index';
-
+import OrdersTable from '../../../components/DashboardCharts/MostSalesTable';
 
 // avatar style
 const avatarSX = {
@@ -55,17 +55,35 @@ export default function Dashboard(props) {
 
   const [year, setYear] = useState('2022');
   const [yearTotal, setYearTotal] = useState('2022');
+  const [yearTopTen, setYearTopTen] = useState('2022');
   const [yearForProduct, setYearForProduct] = useState('2022');
   const [categoryYear, setCategoryYear] = useState('2022');
   const [category, setCategory] = useState('Electronic');
 
   const [product, setProduct] = useState('Phone');
+  const [fromMonth, setFromMonth] = useState('January');
+  const [toMonth, setToMonth] = useState('February');
 
 
 
   const handleChange = (event) => {
-    console.log(event.target.value)
+    
     setYear(event.target.value);
+    
+  };
+  const handleChangeFromMonth = (event) => {
+    
+    setFromMonth(event.target.value);
+    
+  };
+  const handleChangeToMonth = (event) => {
+    
+    setToMonth(event.target.value);
+    
+  };
+  const handleTopTenYear = (event) => {
+    
+    setYearTopTen(event.target.value);
     
   };
   const handleChangeTotal = (event) => {
@@ -195,9 +213,9 @@ export default function Dashboard(props) {
                     <Grid item>
                         <Typography variant="h5">Intereset Analysiis for  Specific Product </Typography>
                     </Grid>
-                    <Grid item>
+                <Grid item>
                         <Stack direction="row" alignItems="center" spacing={0}>
-                        <Grid item>
+                  <Grid item>
                     <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">Year</InputLabel>
@@ -295,7 +313,93 @@ export default function Dashboard(props) {
                    
                 </MainCard>
             </Grid>
-
+            <Grid item xs={12} md={7} lg={8}>
+                <Grid container alignItems="center" justifyContent="space-between">
+                    <Grid item>
+                        <Typography variant="h5">Recent Orders</Typography>
+                    </Grid>
+                    
+                    <Grid item />
+                    <Grid item>
+                        <Stack direction="row" alignItems="center" spacing={0}>
+                  <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={yearTopTen}
+                        label="Year"
+                        onChange={handleTopTenYear}
+                      >
+                        <MenuItem value={2022}>2022</MenuItem>
+                        <MenuItem value={2021}>2021</MenuItem>
+                        <MenuItem value={2020}>2020</MenuItem>
+                      </Select>
+                    </FormControl>
+                    </Box>
+                    </Grid>
+                    <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">From Month</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={fromMonth}
+                        label="From Month"
+                        onChange={handleChangeFromMonth}
+                      >
+                        <MenuItem value={'January'}>January</MenuItem>
+                        <MenuItem value={'February'}>February</MenuItem>
+                        <MenuItem value={'March'}>March</MenuItem>
+                        <MenuItem value={'April'}>April</MenuItem>
+                        <MenuItem value={'May'}>May</MenuItem>
+                        <MenuItem value={'June'}>June</MenuItem>
+                        <MenuItem value={'September'}>September</MenuItem>
+                        <MenuItem value={'October'}>February</MenuItem>
+                        <MenuItem value={'November'}>November</MenuItem>
+                        <MenuItem value={'December'}>December</MenuItem>
+                       
+                      </Select>
+                    </FormControl>
+                    </Box>
+                    </Grid>
+                    <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">To Month</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={toMonth}
+                        label="To Month"
+                        onChange={handleChangeToMonth}
+                      >
+                        <MenuItem value={'January'}>January</MenuItem>
+                        <MenuItem value={'February'}>February</MenuItem>
+                        <MenuItem value={'March'}>March</MenuItem>
+                        <MenuItem value={'April'}>April</MenuItem>
+                        <MenuItem value={'May'}>May</MenuItem>
+                        <MenuItem value={'June'}>June</MenuItem>
+                        <MenuItem value={'September'}>September</MenuItem>
+                        <MenuItem value={'October'}>February</MenuItem>
+                        <MenuItem value={'November'}>November</MenuItem>
+                        <MenuItem value={'December'}>December</MenuItem>
+                      </Select>
+                    </FormControl>
+                    </Box>
+                    </Grid>
+                        </Stack>
+                    </Grid>
+                
+                </Grid>
+                
+                <MainCard sx={{ mt: 2 }} content={false}>
+                    <OrdersTable />
+                </MainCard>
+            </Grid>
             
     </Grid>
     
