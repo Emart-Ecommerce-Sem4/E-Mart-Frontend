@@ -8,7 +8,11 @@ import SignIn from './pages/signIn';
 import SignUp from './pages/signup';
 import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
+import PlaceOrderPage from './pages/PlaceOrderPage';
+import ProductDetail from './pages/ProductDetail';
+import Order from './pages/Order';
 import theme from './utils/theme';
+
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -20,7 +24,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/admin/edit-user" element={<EditUser />} exact />
+        <Route path="/admin/order" element={<Order />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
+        <Route path="/place-order" element={<PlaceOrderPage />} exact />
+        <Route path="/product-detail" element={<ProductDetail />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
