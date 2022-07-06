@@ -5,4 +5,10 @@ export default {
   getAllProducts() {
     return resolver(axiosClient.get('/product/all'));
   },
+  updateProduct(product) {
+    return resolver(axiosClient.put(`/update/${product.product_id}`, product));
+  },
+  addProduct(product) {
+    return resolver(axiosClient.post('/product/add', product));
+  },
 };

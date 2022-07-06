@@ -5,4 +5,7 @@ export default {
   getSubCategoriesForCategory(categoryId) {
     return resolver(axiosClient.get(`/subcategory/parent/${categoryId}`));
   },
+  addSubCategory(data) {
+    return resolver(axiosClient.post('/subcategory/add', data));
+  },
 };

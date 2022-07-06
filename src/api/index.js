@@ -4,6 +4,7 @@ import order from './modules/order';
 import product from './modules/product';
 import category from './modules/category';
 import subCategory from './modules/subCategory';
+import variant from './modules/variant';
 
 export default {
   user,
@@ -11,4 +12,5 @@ export default {
   product,
   category,
   subCategory,
+  variant,
 };

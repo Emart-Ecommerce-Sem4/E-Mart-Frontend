@@ -8,4 +8,7 @@ export default {
   getCategoryDetails(id) {
     return resolver(axiosClient.get(`/category/get/${id}`));
   },
+  addCategory(data) {
+    return resolver(axiosClient.post('/category/add', data));
+  },
 };
