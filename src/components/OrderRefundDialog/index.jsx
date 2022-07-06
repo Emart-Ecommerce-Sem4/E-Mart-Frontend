@@ -93,8 +93,10 @@ export default function OrderRefundDialog(props) {
   }
 
   React.useEffect(() => {
-    getUserDetails();
-    getOrderItems();
+    if (item) {
+      getUserDetails();
+      getOrderItems();
+    }
   }, [item]);
 
   async function refundOrder() {
