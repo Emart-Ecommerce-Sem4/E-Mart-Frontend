@@ -2,7 +2,7 @@
 import { axiosClient, resolver } from '../client';
 
 export default {
-  getAllProducts() {
-    return resolver(axiosClient.get('/product/all'));
+  getSubCategoriesForCategory(categoryId) {
+    return resolver(axiosClient.get(`/subcategory/parent/${categoryId}`));
   },
 };
