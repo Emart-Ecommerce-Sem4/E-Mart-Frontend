@@ -19,7 +19,7 @@ import * as yup from 'yup';
 import * as uuid from 'uuid';
 import uploadFileToBlob, {
   isStorageConfigured,
-} from '../../utils/uploadFiles.ts';
+} from '../../utils/uploadFiles.js';
 import { Formik } from 'formik';
 import SnackBarComponent from '../../components/SnackBarComponent';
 

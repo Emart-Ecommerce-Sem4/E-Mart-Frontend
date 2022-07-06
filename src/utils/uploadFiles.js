@@ -18,11 +18,8 @@ export const isStorageConfigured = () => {
 
 // <snippet_getBlobsInContainer>
 // return list of blobs in container to display
-const getBlobsInContainer = async (
-  containerClient: ContainerClient,
-  containerName: string
-) => {
-  const returnedBlobUrls: string[] = [];
+const getBlobsInContainer = async (containerClient, containerName) => {
+  const returnedBlobUrls = [];
 
   // get list of blobs in container
   // eslint-disable-next-line
@@ -38,10 +35,7 @@ const getBlobsInContainer = async (
 // </snippet_getBlobsInContainer>
 
 // <snippet_createBlobInContainer>
-const createBlobInContainer = async (
-  containerClient: ContainerClient,
-  file: File
-) => {
+const createBlobInContainer = async (containerClient, file) => {
   // create blobClient for container
   const blobClient = containerClient.getBlockBlobClient(file.name);
 
@@ -54,10 +48,7 @@ const createBlobInContainer = async (
 // </snippet_createBlobInContainer>
 
 // <snippet_uploadFileToBlob>
-const uploadFileToBlob = async (
-  file: File | null,
-  containerName: string
-): Promise<string[]> => {
+const uploadFileToBlob = async (file, containerName) => {
   if (!file) return [];
 
   // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
@@ -66,8 +57,7 @@ const uploadFileToBlob = async (
   );
 
   // get Container - full public read access
-  const containerClient: ContainerClient =
-    blobService.getContainerClient(containerName);
+  const containerClient = blobService.getContainerClient(containerName);
   try {
     await containerClient.createIfNotExists({
       access: 'container',
