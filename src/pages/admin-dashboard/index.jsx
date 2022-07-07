@@ -22,6 +22,7 @@ import AdminCustomers from './sections/customers';
 import AdminReports from './sections/reports';
 import AdminProducts from './sections/products';
 import AdminCategories from './sections/categories';
+import Inventory from './sections/inventory';
 
 const drawerWidth = 240;
 
@@ -97,6 +98,9 @@ export default function AdminDashboard() {
           break;
         case ADMIN_SECTIONS.CATEGORIES:
           setOpenPane(<AdminCategories />);
+          break;
+        case ADMIN_SECTIONS.INVENTORY:
+          setOpenPane(<Inventory />);
           break;
         default:
           break;
