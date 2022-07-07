@@ -58,14 +58,20 @@ export default function Dashboard(props) {
   const [yearTopTen, setYearTopTen] = useState('2022');
   const [yearForProduct, setYearForProduct] = useState('2022');
   const [categoryYear, setCategoryYear] = useState('2022');
-  const [category, setCategory] = useState('Electronic');
+  const [category, setCategory] = useState('Phone');
+  const [sub_category, setSubCategory] = useState('Huawei');
 
-  const [product, setProduct] = useState('Phone');
+  const [product, setProduct] = useState('Huawei Y9');
   const [fromMonth, setFromMonth] = useState('January');
   const [toMonth, setToMonth] = useState('February');
 
 
 
+  const handleChangeSubCategory = (event) => {
+    
+    setSubCategory(event.target.value);
+    
+  };
   const handleChange = (event) => {
     
     setYear(event.target.value);
@@ -244,13 +250,33 @@ export default function Dashboard(props) {
                         label="Category"
                         onChange={handleChangeCategory}
                       >
-                        <MenuItem value={'Electronic'}>Electronic</MenuItem>
-                        <MenuItem value={'Toys'}>Toys</MenuItem>
+                        <MenuItem value={'Phone'}>Phone</MenuItem>
+                        <MenuItem value={'Computers'}>Computers</MenuItem>
                        
                       </Select>
                     </FormControl>
                     </Box>
                     </Grid>
+
+                    <Grid item>
+                    <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Sub Category</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={sub_category}
+                        label="Sub Category"
+                        onChange={handleChangeSubCategory}
+                      >
+                        <MenuItem value={'Samsung'}>Samsung</MenuItem>
+                        <MenuItem value={'Huawei'}>Samsung</MenuItem>
+                       
+                      </Select>
+                    </FormControl>
+                    </Box>
+                    </Grid>
+
                     <Grid item>
                     <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
@@ -262,9 +288,9 @@ export default function Dashboard(props) {
                         label="Product"
                         onChange={handleChangeProduct}
                       >
-                        <MenuItem value={'Phone'}>Phone</MenuItem>
-                        <MenuItem value={'Lap'}>Lap</MenuItem>
-                        <MenuItem value={'Rice cooker'}>Rice cooker</MenuItem>
+                        <MenuItem value={'Samsung S6'}>Samsung S6</MenuItem>
+                        <MenuItem value={'Huawei Y9'}>Huawei Y9</MenuItem>
+                        <MenuItem value={'Poco X3'}>Poco X3</MenuItem>
                       </Select>
                     </FormControl>
                     </Box>
@@ -313,14 +339,18 @@ export default function Dashboard(props) {
                    
                 </MainCard>
             </Grid>
-            <Grid item xs={12} md={7} lg={8}>
-                <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                        <Typography variant="h5">Recent Orders</Typography>
-                    </Grid>
-                    
-                    <Grid item />
-                    <Grid item>
+            
+          
+
+            
+            <Grid marginTop={8} item xs={12} sx={{ mb: -2.25 }}>
+            <CssBaseline />
+              <Grid marginBottom={5} container alignItems="center"  columnSpacing={3}>
+                <Grid item>
+                <Typography variant="h5">Overview of Most Sales </Typography>
+                </Grid>
+               
+                <Grid item>
                         <Stack direction="row" alignItems="center" spacing={0}>
                   <Grid item>
                     <Box sx={{ minWidth: 120 }}>
@@ -392,14 +422,27 @@ export default function Dashboard(props) {
                     </Box>
                     </Grid>
                         </Stack>
+                        
                     </Grid>
                 
                 </Grid>
-                
-                <MainCard sx={{ mt: 2 }} content={false}>
-                    <OrdersTable />
-                </MainCard>
+      
+                <HeightBox height={1} />
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Category with most sales" count="$4,42,236" percentage={59.3}  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Sub category with most sales" count="$78,250" percentage={70.5}  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Product with most sales" count="$18,800" percentage={27.4} isLoss color="warning"  />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Product varient with most sales" count="$35,078" percentage={27.4} isLoss color="warning"  />
+            </Grid>
+
+            <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
             
     </Grid>
     
