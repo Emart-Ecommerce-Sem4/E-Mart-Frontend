@@ -11,4 +11,7 @@ export default {
   addProduct(product) {
     return resolver(axiosClient.post('/product/add', product));
   },
+  getProduct(productId) {
+    return resolver(axiosClient.get(`/product/get/${productId}`));
+  },
 };

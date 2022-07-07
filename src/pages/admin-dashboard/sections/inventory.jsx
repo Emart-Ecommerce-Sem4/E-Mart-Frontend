@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import api from '../../../api';
 import HeightBox from '../../../components/HeightBox';
+import moment from 'moment';
 
 export default function Inventory(props) {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export default function Inventory(props) {
       {openProductVariants && (
         <React.Fragment>
           <Typography variant="h6">
-            Variants for product {selectedProduct?.name}
+            Variants for product {selectedProduct?.title}
           </Typography>
           <HeightBox height={10} />
           <TableContainer component={Paper}>
@@ -66,9 +67,10 @@ export default function Inventory(props) {
                 <TableRow>
                   <TableCell>Description</TableCell>
                   <TableCell align="center">In Stock</TableCell>
-                  <TableCell align="center">Change Stock</TableCell>
+
                   <TableCell align="center">Variant Type</TableCell>
                   <TableCell align="center">Unit Price</TableCell>
+                  <TableCell align="center">Edit</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -83,12 +85,19 @@ export default function Inventory(props) {
                     <TableCell align="center">
                       {row.quantity_in_stock}
                     </TableCell>
-                    <TableCell align="center">
-                      <Button>Change</Button>
-                    </TableCell>
+
                     <TableCell align="center">{row.variant_type}</TableCell>
                     <TableCell align="center">
                       {'$ ' + row.unit_price}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() =>
+                          navigate('/variant/edit/' + row.variant_id)
+                        }
+                      >
+                        Edit
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -103,7 +112,11 @@ export default function Inventory(props) {
           <TableHead>
             <TableRow>
               <TableCell>Product Name</TableCell>
-              <TableCell align="center">Edit</TableCell>
+              <TableCell align="center">SKU</TableCell>
+              <TableCell align="center">Weight(g)</TableCell>
+              <TableCell align="center">Added at</TableCell>
+              <TableCell align="center">View</TableCell>
+              <TableCell align="center">Add Variant</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -113,7 +126,12 @@ export default function Inventory(props) {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.title}
+                </TableCell>
+                <TableCell align="center">{row.sku}</TableCell>
+                <TableCell align="center">{row.weight}</TableCell>
+                <TableCell align="center">
+                  {moment(row.created_at).format('YYYY-MM-DD HH:SS')}
                 </TableCell>
                 <TableCell align="center">
                   <Button
@@ -126,6 +144,16 @@ export default function Inventory(props) {
                     }}
                   >
                     View
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      navigate('/product/add?product=' + row.product_id)
+                    }
+                  >
+                    Add
                   </Button>
                 </TableCell>
               </TableRow>

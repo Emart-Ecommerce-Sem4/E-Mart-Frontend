@@ -8,4 +8,10 @@ export default {
   getVariantsForProduct(productId) {
     return resolver(axiosClient.get(`/variant/product/${productId}`));
   },
+  getVariant(id) {
+    return resolver(axiosClient.get(`/variant/${id}`));
+  },
+  updateVariant(data) {
+    return resolver(axiosClient.put('/variant/update', data));
+  },
 };
