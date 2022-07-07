@@ -22,6 +22,7 @@ import AdminCustomers from './sections/customers';
 import AdminReports from './sections/reports';
 import AdminProducts from './sections/products';
 import AdminCategories from './sections/categories';
+import Inventory from './sections/inventory';
 
 const drawerWidth = 240;
 
@@ -98,6 +99,9 @@ export default function AdminDashboard() {
         case ADMIN_SECTIONS.CATEGORIES:
           setOpenPane(<AdminCategories />);
           break;
+        case ADMIN_SECTIONS.INVENTORY:
+          setOpenPane(<Inventory />);
+          break;
         default:
           break;
       }
@@ -136,7 +140,7 @@ export default function AdminDashboard() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Admin Workspace
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">

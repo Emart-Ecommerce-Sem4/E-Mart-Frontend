@@ -11,4 +11,7 @@ export default {
   resetPassword(email) {
     return resolver(axiosClient.get(`/user/reset-password/${email}`));
   },
+  getUser(userId) {
+    return resolver(axiosClient.get(`/user/${userId}`));
+  },
 };

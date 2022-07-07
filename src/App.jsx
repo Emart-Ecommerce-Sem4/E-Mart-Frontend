@@ -9,9 +9,17 @@ import SignUp from './pages/signup';
 import ShoppingCart from './pages/shopping-cart';
 import EditUser from './pages/EditUser';
 import Dashboard from './pages/dashboard';
+import PlaceOrderPage from './pages/PlaceOrderPage';
+import ProductDetail from './pages/ProductDetail';
+import Order from './pages/Order';
 import theme from './utils/theme';
+import Payment from './pages/payment';
 import AdminDashboard from './pages/admin-dashboard';
+<<<<<<< HEAD
 import EditProduct from './pages/edit-product';
+=======
+import ProductAddPage from './pages/product-add-page';
+>>>>>>> c6df7c961129ba462d64e6fe3df7c0cfdb630601
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -23,15 +31,23 @@ function App() {
         <Route path="/signup" element={<SignUp />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/admin/edit-user" element={<EditUser />} exact />
+        <Route path="/admin/order" element={<Order />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
+        <Route path="/place-order" element={<PlaceOrderPage />} exact />
+        <Route path="/product-detail" element={<ProductDetail />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
+<<<<<<< HEAD
         <Route path="/edit-product" element={<EditProduct />} exact />
+=======
+        <Route path="/payment" element={<Payment />} exact />
+>>>>>>> c6df7c961129ba462d64e6fe3df7c0cfdb630601
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
           exact
         />
         <Route path="/admin/:page" element={<AdminDashboard />} exact />
+        <Route path="/product/add" element={<ProductAddPage />} exact />
       </Routes>
     </ThemeProvider>
   );
