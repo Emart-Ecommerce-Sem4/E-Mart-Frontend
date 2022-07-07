@@ -1,11 +1,8 @@
-import { CssBaseline, Stack, Typography, Button, RadioGroup } from '@mui/material';
+import { CssBaseline, Stack, Typography, Button} from '@mui/material';
 import React from 'react';
 import HomeNavBar from '../../components/HomeNavBar';
 import EDITPRODUCT_IMAGE from '../../assets/edit-product.png';
 import HeightBox from '../../components/HeightBox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Input from '@mui/material/Input';
