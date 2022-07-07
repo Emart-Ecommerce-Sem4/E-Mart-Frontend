@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import { useSearchParams } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import Table from '@mui/material/Table';
@@ -50,6 +51,13 @@ export default function ProductAddPage(props) {
   const [loadingVariantAdd, setLoadingVariantAdd] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
   const [allSubCategories, setAllSubCategories] = useState([]);
+  const [initialValues, setInitialValues] = useState({
+    title: '',
+    weight: '',
+    sku: '',
+    categoryId: '',
+    subCategoryId: '',
+  });
   const [productAdded, setProductAdded] = useState(null);
   const [productAddSuccesfully, setProductAddedSuccesfully] = useState(false);
   const [addedVariants, setAddedVariants] = useState([]);
@@ -60,6 +68,46 @@ export default function ProductAddPage(props) {
     type: '',
     message: '',
   });
+  const [searchParams] = useSearchParams();
+  const productId = searchParams.get('product');
+
+  React.useEffect(() => {
+    if (productId && allSubCategories.length > 0) {
+      const category = allSubCategories.find(
+        (item) => item?.sub_category_id === productAdded?.sub_category_id
+      );
+      setSelectedSubCategory(category);
+    }
+  }, [allSubCategories, productAdded]);
+
+  React.useEffect(() => {
+    if (productId && allCategories.length > 0) {
+      const category = allCategories.find(
+        (item) => item?.category_id === productAdded?.category_id
+      );
+      setSelectedCategory(category);
+    }
+  }, [allCategories, productAdded]);
+
+  async function getProduct(productId) {
+    setLoadingProductAdd(true);
+    try {
+      const [code, res] = await api.product.getProduct(productId);
+      if (res?.statusCode === 200) {
+        getSubCategoriesForCategory(res?.data?.product?.category_id);
+        setProductAdded(res?.data?.product);
+        setInitialValues(res?.data?.product);
+        setProductAddedSuccesfully(true);
+      }
+    } catch (error) {}
+    setLoadingProductAdd(false);
+  }
+
+  React.useEffect(() => {
+    if (productId) {
+      getProduct(productId);
+    }
+  }, [productId]);
 
   function resetProductAddForm() {
     setImageFiles([]);
@@ -105,6 +153,11 @@ export default function ProductAddPage(props) {
         const temp = addedVariants;
         temp.push(res?.data?.variant);
         setAddedVariants(temp);
+        setSnackBarMessage({
+          type: 'success',
+          message: 'Variant added succesfully',
+        });
+        setOpenSnackBar(true);
       }
     } catch (error) {
       setSnackBarMessage({
@@ -168,7 +221,7 @@ export default function ProductAddPage(props) {
       );
 
       const rows = [];
-      console.log(res?.data?.subCategories);
+
       if (res?.statusCode === 200) {
         res?.data?.subCategories.forEach((element) => {
           const temp = {
@@ -204,16 +257,8 @@ export default function ProductAddPage(props) {
     getAllCategories();
   }, []);
 
-  const initialValues = {
-    title: '',
-    weight: '',
-    sku: '',
-    categoryId: '',
-    subCategoryId: '',
-  };
-
   const variantInitialValues = {
-    productId: productAdded?.id,
+    productId: productAdded?.product_id,
     description: '',
     variantType: '',
     qunatityInStock: 0,
@@ -244,6 +289,7 @@ export default function ProductAddPage(props) {
 
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           createProduct(values);
@@ -297,6 +343,7 @@ export default function ProductAddPage(props) {
                   id="combo-box-demo"
                   options={allCategories}
                   value={selectedCategory}
+                  disabled={productAddSuccesfully}
                   sx={{ width: 500 }}
                   onChange={(event, value) => {
                     setSelectedCategory(value);
@@ -320,6 +367,7 @@ export default function ProductAddPage(props) {
                   disablePortal
                   id="combo-box-demo"
                   value={selectedSubCategory}
+                  disabled={productAddSuccesfully}
                   options={allSubCategories}
                   sx={{ width: 500 }}
                   onChange={(event, value) => {
@@ -384,6 +432,7 @@ export default function ProductAddPage(props) {
 
           <Formik
             validationSchema={variantValidationSchema}
+            enableReinitialize={true}
             initialValues={variantInitialValues}
             onSubmit={(values, { resetForm }) => {
               createVariant(values, resetForm);
@@ -414,6 +463,8 @@ export default function ProductAddPage(props) {
                     <TextField
                       value={values.description}
                       label="Description"
+                      multiline
+                      rows={10}
                       onChange={handleChange('description')}
                       style={{ width: 500 }}
                       helperText={errors.description}
