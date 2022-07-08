@@ -16,6 +16,7 @@ import theme from './utils/theme';
 import Payment from './pages/payment';
 import AdminDashboard from './pages/admin-dashboard';
 import ProductAddPage from './pages/product-add-page';
+import VariantEditPage from './pages/variant-edit-page';
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -39,7 +40,8 @@ function App() {
           exact
         />
         <Route path="/admin/:page" element={<AdminDashboard />} exact />
-        <Route path="/product/add" element={<ProductAddPage />} exact />
+        <Route path="/product/add/" element={<ProductAddPage />} />
+        <Route path="/variant/edit/:id" element={<VariantEditPage />} exact />
       </Routes>
     </ThemeProvider>
   );
