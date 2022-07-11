@@ -14,4 +14,7 @@ export default {
   getProduct(productId) {
     return resolver(axiosClient.get(`/product/get/${productId}`));
   },
+  getImages(productId) {
+    return resolver(axiosClient.get(`/product/images/${productId}`));
+  },
 };
