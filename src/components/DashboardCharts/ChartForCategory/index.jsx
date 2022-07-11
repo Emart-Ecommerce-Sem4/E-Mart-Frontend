@@ -10,19 +10,23 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const TrafficByDevice = (props) => {
+  const {charttemp}=props;
+console.log(charttemp)
+  var tempCategory=charttemp.map(d=>d.category_name)
+  var tempValues= charttemp.map(d=>d.orders);
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15],
+        data: [...tempValues],
         backgroundColor: ['#3F51B5', '#e53935'],
         borderWidth: 8,
         borderColor: '#FFFFFF',
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Electronic', 'Toys']
+    labels: [...tempCategory]
   };
 
   const options = {
@@ -46,22 +50,28 @@ export const TrafficByDevice = (props) => {
       titleFontColor: theme.palette.text.primary
     }
   };
+const devices= charttemp.map(d=>{return{title: d.category_name,
+value: d.orders,
+percentage:d.percentage,
+icon: LaptopMacIcon,
+color: '#3F51B5'}})
+  // const devices = [
 
-  const devices = [
-    {
-      title: 'Electronic',
-      value: 63,
-      icon: LaptopMacIcon,
-      color: '#3F51B5'
-    },
-    {
-      title: 'Toys',
-      value: 15,
-      icon: TabletIcon,
-      color: '#E53935'
-    },
     
-  ];
+  //   {
+  //     title: 'Electronic',
+  //     value: 63,
+  //     icon: LaptopMacIcon,
+  //     color: '#3F51B5'
+  //   },
+  //   {
+  //     title: 'Toys',
+  //     value: 15,
+  //     icon: TabletIcon,
+  //     color: '#E53935'
+  //   },
+    
+  // ];
 
   return (
     <Card {...props}>
@@ -90,7 +100,8 @@ export const TrafficByDevice = (props) => {
             color,
             icon: Icon,
             title,
-            value
+            value,
+            percentage
           }) => (
             <Box
               key={title}
@@ -110,7 +121,7 @@ export const TrafficByDevice = (props) => {
                 style={{ color }}
                 variant="h4"
               >
-                {value}
+                {percentage}
                 %
               </Typography>
             </Box>

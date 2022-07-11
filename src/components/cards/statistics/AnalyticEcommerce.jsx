@@ -18,6 +18,24 @@ const AnalyticEcommerce = ({ color, title, count, percentage, isLoss, extra }) =
                 {title}
             </Typography>
             <Grid container alignItems="center">
+                
+                {extra && (
+                    <Grid alignItems="center" marginBottom={3} marginTop={2}  item>
+                        <Chip
+                            variant="combined"
+                            color={color}
+                            
+                            label={`${extra}`}
+                            sx={{ ml: 1.25, pl: 1 }}
+                            size="large"
+                        />
+                    </Grid>
+                )}
+            </Grid>
+
+
+
+            <Grid container alignItems="center">
                 <Grid item>
                     <Typography variant="h4" color="inherit">
                         {count}

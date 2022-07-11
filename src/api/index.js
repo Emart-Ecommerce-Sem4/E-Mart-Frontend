@@ -5,7 +5,7 @@ import product from './modules/product';
 import category from './modules/category';
 import subCategory from './modules/subCategory';
 import variant from './modules/variant';
-
+import report from './modules/report'
 export default {
   user,
   order,
@@ -13,4 +13,5 @@ export default {
   category,
   subCategory,
   variant,
+  report
 };
