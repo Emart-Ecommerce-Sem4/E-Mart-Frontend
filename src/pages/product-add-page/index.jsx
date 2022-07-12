@@ -214,7 +214,7 @@ export default function ProductAddPage(props) {
     setLoadingProductAdd(false);
   }
 
-  async function getSubCategoriesForCategory(categoryId) {
+  async function getSubCategoriesForCategory(categoryId){
     try {
       const [code, res] = await api.subCategory.getSubCategoriesForCategory(
         categoryId
@@ -231,6 +231,7 @@ export default function ProductAddPage(props) {
           rows.push(temp);
         });
       }
+      console.log(rows)
       setAllSubCategories(rows);
     } catch (error) {}
   }
