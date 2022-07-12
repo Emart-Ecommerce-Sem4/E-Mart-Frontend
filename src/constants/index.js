@@ -1,6 +1,7 @@
 // export const HOST_URL = 'https://dbmsbackend.azurewebsites.net/api';
 export const HOST_URL = 'http://localhost:9000/api';
 export const TOKEN_KEY = 'ECOMMERCE_TOKEN';
+export const CART_KEY = 'ECOMMERCE_CART';
 
 export const USER_DETAILS = 'USER_DETAILS';
 
