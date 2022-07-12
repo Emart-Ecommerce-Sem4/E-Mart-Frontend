@@ -62,31 +62,31 @@ export default function Dashboard(props) {
 var [totalSalesAccordingToTime,settotalSalesAccordingToTime]=useState([
   
     {
-        "category_name": "Phone",
+        "category_name": "",
         "max": "0"
     },
     {
-        "title": "Iphone 11",
+        "title": "",
         "max": "0"
     },
     {
-        "name": "Iphone",
+        "name": "",
         "max": "0"
     },
     {
-        "variant_type": "128GB",
+        "variant_type": "",
         "max": "0"
     }
 
 ]);
 
 var [categoryWithMostOrders,setcategoryWithMostOrders]=useState([{
-  "category_name": "Phone",
+  "category_name": "",
   "orders": "0",
   "percentage": 0
 }])
 
-
+var [orderOverview,setOrderOverview]=useState([{month:1,order_count:0},{month:2,order_count:0},{month:3,order_count:0},{month:4,order_count:0},{month:5,order_count:0},{month:6,order_count:0},{month:7,order_count:0},{month:8,order_count:0},{month:9,order_count:0},{month:10,order_count:0},{month:11,order_count:0},{month:12,order_count:0}])
 
   const [category, setCategory] = useState('');
   const [sub_category, setSubCategory] = useState('');
@@ -392,19 +392,19 @@ async function getTotalSalesAccordingTotime(year,fromMonth,toMonth) {
         settotalSalesAccordingToTime([
   
           {
-              "category_name": "Phone",
+              "category_name": "",
               "max": "0"
           },
           {
-              "title": "Iphone 11",
+              "title": "",
               "max": "0"
           },
           {
-              "name": "Iphone",
+              "name": "",
               "max": "0"
           },
           {
-              "variant_type": "128GB",
+              "variant_type": "",
               "max": "0"
           }
       
@@ -456,6 +456,45 @@ async function getcategorywithmostorders(year) {
     console.log("error")
   }
 }
+
+async function getOrderOverView(year,category,subcategory,product) {
+  try {
+    
+    const [code, res] = await api.report.getorderoverview(year,category,subcategory,product);
+   var row =[...orderOverview]
+    
+  
+    if (res?.statusCode === 200) {
+      if (res?.data?.orders === undefined || res?.data?.orders.length == 0) {
+        setOrderOverview([{month:1,order_count:0},{month:2,order_count:0},{month:3,order_count:0},{month:4,order_count:0},{month:5,order_count:0},{month:6,order_count:0},{month:7,order_count:0},{month:8,order_count:0},{month:9,order_count:0},{month:10,order_count:0},{month:11,order_count:0},{month:12,order_count:0}])
+      }else{
+       
+        res?.data?.orders.forEach((element) => {
+          for (var index = 0; index < orderOverview.length; index++) {
+            if (row[index].month==element.month) {
+             
+              row[index].order_count=element.order_count
+             
+              
+            }
+            
+          }
+         
+       
+        });
+        setOrderOverview(row);
+
+      }
+      
+      
+    }
+    
+    
+  } catch (error) {
+
+    console.log("error")
+  }
+}
   useEffect(()=>{
     getAllYears();
     getAllCategories();
@@ -464,7 +503,7 @@ async function getcategorywithmostorders(year) {
     getOrdersReport(totalOrdersYear);
     getTotalSalesAccordingTotime(overViewOfMostSalesYear,fromMonthValue,toMonthValue);
     getcategorywithmostorders(categoryYear);
-   
+    getOrderOverView(interesAnalysisYear,category,sub_category,product)
 
   },[])
   return (
@@ -674,7 +713,7 @@ async function getcategorywithmostorders(year) {
                     
                     setYear(value?.year);
                     if (value) {
-                      
+                      getOrderOverView(value?.year,category,sub_category,product);
                     }
                     handleChangeInteresAnalysisYear(value?.year);
                   }}
@@ -705,6 +744,7 @@ async function getcategorywithmostorders(year) {
                     if (value) {
                       getSubCategoriesForCategory(value?.category_id);
                       setSubCategory(subcategories[0].name);
+                      getOrderOverView(interesAnalysisYear,value?.category_name,sub_category,product)
                     }
                     handleChangeCategory(value?.category_name);
                   }}
@@ -736,6 +776,7 @@ async function getcategorywithmostorders(year) {
                       
                       getProductsForSubCategory(value?.sub_category_id)
                       setProduct(products[0].title)
+                      getOrderOverView(interesAnalysisYear,category,value?.name,product)
                    
                     }
                     handleChangeSubCategory(value?.name);
@@ -762,7 +803,7 @@ async function getcategorywithmostorders(year) {
                   onChange={(event, value) => {
                     setProduct(value?.title);
                     if (value) {
-                      
+                      getOrderOverView(interesAnalysisYear,category,sub_category,value?.title)
                     }
                     handleChangeProduct(value?.title);
                   }}
@@ -780,7 +821,7 @@ async function getcategorywithmostorders(year) {
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <ProductInterest  />
+                        <ProductInterest overViewData={orderOverview} />
                     </Box>
                 </MainCard>
                 

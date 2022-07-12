@@ -30,8 +30,9 @@ const areaChartOptions = {
 
 // ==============================|| INCOME AREA CHART ||============================== //
 
-const ProductInterest = ({  }) => {
+const ProductInterest = (params) => {
     const theme = useTheme();
+ const {overViewData}=params;
 
     const { primary, secondary } = theme.palette.text;
     const line = theme.palette.divider;
@@ -87,19 +88,17 @@ const ProductInterest = ({  }) => {
         }));
     }, [primary, secondary, line, theme ]);
 
-    const [series, setSeries] = useState([
+    const series=[
+        {
+            name: 'Oders',
+            data:  [overViewData[0].order_count, overViewData[1].order_count, overViewData[2].order_count, overViewData[3].order_count, overViewData[4].order_count, overViewData[5].order_count, overViewData[6].order_count, overViewData[7].order_count, overViewData[8].order_count, overViewData[9].order_count, overViewData[10].order_count, overViewData[11].order_count] 
+        },
         
-    ]);
+    ]
+        
+   
 
-    useEffect(() => {
-        setSeries([
-            {
-                name: 'Oders',
-                data:  [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] 
-            },
-            
-        ]);
-    }, []);
+    
 
     return <ReactApexChart options={options} series={series} type="area" height={450} />;
 };

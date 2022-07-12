@@ -29,6 +29,8 @@ getmostSalesAccordingToTime(year,fromMonth,toMonth){
 },
 getcategorywithmostorders(year){
     return resolver(axiosClient.get(`/report/getcategorywithmostorders/${year}`))
+},getorderoverview(year,category,subcategory,product){
+    return resolver(axiosClient.get(`/report/getordersoverview/${year}/${category}/${subcategory}/${product}`));
 },
 
 
