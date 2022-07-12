@@ -11,12 +11,14 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import HomeNavBar from '../../components/HomeNavBar';
+import { useSelector } from 'react-redux';
 import List from '@mui/material/List';
 import Collapse from '@mui/material/Collapse';
 import { TransitionGroup } from 'react-transition-group';
 import Button from '@mui/material/Button';
 import HeightBox from '../../components/HeightBox';
 import CartItem from '../../components/CartItem';
+import NavBar from '../../components/NavBar';
 
 const dummyData = [
   {
@@ -39,7 +41,7 @@ const dummyData = [
 
 export default function ShoppingCart() {
   const [selectedProducts, setSelectedProducts] = useState(dummyData);
-  const [totalAmount, setTotalAmount] = useState(25);
+  const cart = useSelector((state) => state?.cart);
 
   const removeProduct = (item) => {
     setSelectedProducts((prev) => [...prev.filter((i) => i.id !== item)]);
@@ -48,7 +50,7 @@ export default function ShoppingCart() {
   return (
     <div>
       <CssBaseline />
-      <HomeNavBar />
+      <NavBar />
       <HeightBox height={50} />
       <div style={{ paddingLeft: '108px' }}>
         <Typography variant="h5">Shopping Cart</Typography>
@@ -61,7 +63,7 @@ export default function ShoppingCart() {
         <Stack direction="row" spacing={15}>
           <List>
             <TransitionGroup>
-              {selectedProducts.map((item) => (
+              {cart?.items.map((item) => (
                 <Collapse key={item.id}>
                   <CartItem
                     item={item}
@@ -75,17 +77,14 @@ export default function ShoppingCart() {
             </TransitionGroup>
           </List>
 
-          {selectedProducts.length > 0 && (
+          {cart?.items.length > 0 && (
             <Box textAlign={'center'}>
               <Typography variant="h5">Total Amount</Typography>
               <HeightBox height={5} />
               <Typography variant="h3" color="primary" fontWeight="bold">
-                {`$ ${totalAmount}`}
+                {`$ ${cart?.total}`}
               </Typography>
               <HeightBox height={20} />
-              <Button variant="contained" color="secondary">
-                Go to Checkout
-              </Button>
             </Box>
           )}
         </Stack>
