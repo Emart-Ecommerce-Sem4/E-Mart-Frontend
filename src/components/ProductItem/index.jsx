@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import { Button, Typography } from '@mui/material';
@@ -11,8 +10,8 @@ import HeightBox from '../HeightBox';
 
 export default function ProductItem(props) {
   const { product } = props;
+  const navigate = useNavigate();
   const [productImages, setProductImages] = useState();
-  console.log(product);
 
   async function getProductImages(productId) {
     try {
@@ -27,14 +26,14 @@ export default function ProductItem(props) {
     if (product?.product_id) {
       getProductImages(product?.product_id);
     }
-  }, product);
+  }, [product]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         sx={{ width: 345, height: 300, overflow: 'hidden' }}
-        image={productImages[0]?.image}
+        image={productImages ? productImages[0]?.image : ''}
         alt="Paella dish"
       />
       <CardContent>
@@ -47,7 +46,9 @@ export default function ProductItem(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button>See more</Button>
+        <Button fullWidth onClick={() => navigate(`/${product?.product_id}`)}>
+          See more
+        </Button>
       </CardActions>
     </Card>
   );
