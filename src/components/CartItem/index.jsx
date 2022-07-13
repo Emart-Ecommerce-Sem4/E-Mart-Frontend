@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Typography, Stack, Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HeightBox from '../HeightBox';
-import { removeFromCart } from '../../reducers/modules/cart';
+import { goToCheckout, removeFromCart } from '../../reducers/modules/cart';
 
 export default function CartItem(props) {
   const { item, remove } = props;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const [itemCount, setItemCount] = useState(item.items);
 
   function deleteItem() {
@@ -18,9 +21,14 @@ export default function CartItem(props) {
     remove();
   }
 
-  function changeAmount(amount) {}
-
-  function checkOut() {}
+  function checkOut() {
+    dispatch(goToCheckout(item));
+    if (!user?.auth) {
+      navigate('/signin');
+    } else {
+      navigate('/payment');
+    }
+  }
 
   return (
     <Stack direction="row" spacing={5} alignItems="center" sx={{ mb: 5 }}>
@@ -62,7 +70,9 @@ export default function CartItem(props) {
       >
         <DeleteIcon />
       </IconButton>
-      <Button variant="outline">Check out</Button>
+      <Button variant="outlined" onClick={checkOut}>
+        Check out
+      </Button>
     </Stack>
   );
 }
