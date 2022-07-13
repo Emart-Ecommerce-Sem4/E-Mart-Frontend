@@ -208,6 +208,7 @@ function calculatePercentageQuaterLysale(quater){
     
       setSubCategories(rows);
       
+      
     } catch (error) {}
   }
 
@@ -509,6 +510,8 @@ async function getOrderOverView(year,category,subcategory,product) {
     getOrderOverView(interesAnalysisYear,category,sub_category,product)
 
   },[])
+
+
   return (
     <div style={{ padding: 20 }}>
       <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -743,7 +746,7 @@ async function getOrderOverView(year,category,subcategory,product) {
                  
                  sx={{ width: 140 }}
                   onChange={(event, value) => {
-                    setCategory(value?.category_name);
+                    
                     if (value) {
                       getSubCategoriesForCategory(value?.category_id);
                       setSubCategory(subcategories[0].name);
