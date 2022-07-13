@@ -131,6 +131,12 @@ export default function ProductPage(props) {
               </Typography>
             )}
             <HeightBox height={20} />
+            {selectedVariant && (
+              <Typography variant="p" color="red">
+                {'$' + selectedVariant?.unit_price}
+              </Typography>
+            )}
+            <HeightBox height={20} />
             <Typography variant="h6" color="text.secondary" fontWeight="bold">
               Description
             </Typography>

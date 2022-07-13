@@ -8,6 +8,7 @@ const cartData = cartString ? JSON.parse(cartString) : null;
 const initialState = {
   items: cartData ? cartData.items : [],
   total: cartData ? cartData.total : 0,
+  checkoutProduct: null,
 };
 
 function calculateTotal(items) {
@@ -59,9 +60,28 @@ export const cartSlice = createSlice({
         total: state.total,
       });
     },
+    goToCheckout: (state, action) => {
+      state.checkoutProduct = action.payload;
+    },
+    clearCart: (state, action) => {
+      let items = [...current(state.items)];
+      const itemExistingIndex = items.findIndex(
+        (item) => item.variantId === action.payload
+      );
+
+      items.splice(itemExistingIndex, 1);
+      state.items = items;
+      state.total = calculateTotal(state.items);
+      state.checkoutProduct = null;
+      setCartData({
+        items: state.items,
+        total: state.total,
+      });
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, goToCheckout, clearCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
