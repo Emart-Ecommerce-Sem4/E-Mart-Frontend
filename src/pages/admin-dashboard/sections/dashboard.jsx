@@ -188,6 +188,7 @@ function calculatePercentageQuaterLysale(quater){
 
   async function getSubCategoriesForCategory(categoryId){
     try {
+      
       const [code, res] = await api.subCategory.getSubCategoriesForCategory(
         categoryId
       );
@@ -195,6 +196,7 @@ function calculatePercentageQuaterLysale(quater){
       const rows = [];
 
       if (res?.statusCode === 200) {
+       
         res?.data?.subCategories.forEach((element) => {
           const temp = {
             label: element.name,
@@ -205,6 +207,7 @@ function calculatePercentageQuaterLysale(quater){
       }
     
       setSubCategories(rows);
+      
     } catch (error) {}
   }
 
