@@ -21,6 +21,10 @@ import { Formik } from 'formik';
 import HeightBox from '../../components/HeightBox';
 import SnackBarComponent from '../../components/SnackBarComponent';
 import { loggingRequest } from '../../reducers/modules/user';
+import {
+  setAuthorizationKey,
+  setUserObjectInLocal,
+} from '../../utils/localStorageHelper';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -63,8 +67,10 @@ export default function SignIn() {
     try {
       const [code, res] = await api.user.signInUser(values);
       if (res?.statusCode === 200) {
+        setAuthorizationKey(res.data.token);
+        setUserObjectInLocal(res.data.user);
         dispatch(loggingRequest(res.data.user));
-        navigate('/dashboard');
+        navigate('/');
       } else {
         setSnackBarDetails({ type: 'error', message: res?.message });
         setOpenSnackBar(true);
