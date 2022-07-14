@@ -205,7 +205,7 @@ function calculatePercentageQuaterLysale(quater){
           rows.push(temp);
         });
       }
-    
+      setSubCategory(rows[0].name)
       setSubCategories(rows);
       
       
@@ -256,7 +256,7 @@ function calculatePercentageQuaterLysale(quater){
           rows.push(temp);
         });
       }
-      
+      setProduct(rows[0].title)
       setProducts(rows);
     } catch (error) {
  
@@ -749,7 +749,8 @@ async function getOrderOverView(year,category,subcategory,product) {
                     
                     if (value) {
                       getSubCategoriesForCategory(value?.category_id);
-                      setSubCategory(subcategories[0].name);
+                    
+                      
                       getOrderOverView(interesAnalysisYear,value?.category_name,sub_category,product)
                     }
                     handleChangeCategory(value?.category_name);
@@ -777,11 +778,11 @@ async function getOrderOverView(year,category,subcategory,product) {
                  
                   fullWidth={true}
                   onChange={(event, value) => {
-                    setSubCategory(value?.name);
+                    
                     if (value) {
                       
                       getProductsForSubCategory(value?.sub_category_id)
-                      setProduct(products[0].title)
+                      
                       getOrderOverView(interesAnalysisYear,category,value?.name,product)
                    
                     }
