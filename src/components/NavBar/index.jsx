@@ -7,6 +7,7 @@ import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -15,6 +16,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import SearchIcon from '@mui/icons-material/Search';
+import Menu from '@mui/material/Menu';
 import { Typography } from '@mui/material';
 import api from '../../api';
 
@@ -27,7 +29,7 @@ const Search = styled('div')(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '100%',
+  width: 200,
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: 'auto',
@@ -57,25 +59,67 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar() {
+export default function NavBar(props) {
+  const { searchedText, setSearchedText } = props;
+
   const cart = useSelector((state) => state?.cart);
   const user = useSelector((state) => state?.user);
   const navigate = useNavigate();
-  const [allCategories, setAllCategories] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  async function getAllCategories() {
-    try {
-      const [code, res] = await api.category.getAllCategories();
+  const isMenuOpen = Boolean(anchorEl);
 
-      if (res?.statusCode === 200) {
-        setAllCategories(res?.data);
-      }
-    } catch (error) {}
-  }
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  React.useEffect(() => {
-    getAllCategories();
-  }, []);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate('/user/my-orders');
+        }}
+      >
+        My Orders
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate('user/profile');
+        }}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate('/user/settings');
+        }}
+      >
+        Settings
+      </MenuItem>
+    </Menu>
+  );
 
   return (
     <Box
@@ -95,31 +139,13 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
-          <Typography variant="h5">Logo</Typography>
-          <div style={{ width: 20 }} />
-          <FormControl
-            variant="outlined"
-            sx={{ m: 1, minWidth: 175 }}
-            size="small"
+          <Typography
+            variant="h5"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/')}
           >
-            <InputLabel id="demo-simple-select-label">
-              Shop by Category
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              label="Shop by Catagory"
-              onChange={(event, value) => {
-                console.log('Value is: ', value?.props);
-              }}
-            >
-              {allCategories.map((item) => (
-                <MenuItem value={item?.category_id}>
-                  {item?.category_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            Logo
+          </Typography>
 
           <Search>
             <SearchIconWrapper>
@@ -128,6 +154,10 @@ export default function NavBar() {
             <StyledInputBase
               placeholder="Search what you want"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchedText}
+              onChange={(event) => {
+                setSearchedText(event.target.value);
+              }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
@@ -138,10 +168,21 @@ export default function NavBar() {
                 <AiOutlineShoppingCart color="#dc3545" size={25} />
               </Badge>
             </Button>
-            <Button>
-              <Avatar alt={user?.firstName} src="#" size={25} />
-            </Button>
+            {user?.auth && (
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <Avatar alt={user?.firstName} src="#" size={25} />
+              </IconButton>
+            )}
           </Box>
+          {renderMenu}
         </Toolbar>
       </AppBar>
     </Box>
