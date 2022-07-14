@@ -188,6 +188,7 @@ function calculatePercentageQuaterLysale(quater){
 
   async function getSubCategoriesForCategory(categoryId){
     try {
+      
       const [code, res] = await api.subCategory.getSubCategoriesForCategory(
         categoryId
       );
@@ -195,6 +196,7 @@ function calculatePercentageQuaterLysale(quater){
       const rows = [];
 
       if (res?.statusCode === 200) {
+       
         res?.data?.subCategories.forEach((element) => {
           const temp = {
             label: element.name,
@@ -203,8 +205,10 @@ function calculatePercentageQuaterLysale(quater){
           rows.push(temp);
         });
       }
-    
+      setSubCategory(rows[0].name)
       setSubCategories(rows);
+      
+      
     } catch (error) {}
   }
 
@@ -252,7 +256,7 @@ function calculatePercentageQuaterLysale(quater){
           rows.push(temp);
         });
       }
-      
+      setProduct(rows[0].title)
       setProducts(rows);
     } catch (error) {
  
@@ -506,6 +510,8 @@ async function getOrderOverView(year,category,subcategory,product) {
     getOrderOverView(interesAnalysisYear,category,sub_category,product)
 
   },[])
+
+
   return (
     <div style={{ padding: 20 }}>
       <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -740,10 +746,11 @@ async function getOrderOverView(year,category,subcategory,product) {
                  
                  sx={{ width: 140 }}
                   onChange={(event, value) => {
-                    setCategory(value?.category_name);
+                    
                     if (value) {
                       getSubCategoriesForCategory(value?.category_id);
-                      setSubCategory(subcategories[0].name);
+                    
+                      
                       getOrderOverView(interesAnalysisYear,value?.category_name,sub_category,product)
                     }
                     handleChangeCategory(value?.category_name);
@@ -771,11 +778,11 @@ async function getOrderOverView(year,category,subcategory,product) {
                  
                   fullWidth={true}
                   onChange={(event, value) => {
-                    setSubCategory(value?.name);
+                    
                     if (value) {
                       
                       getProductsForSubCategory(value?.sub_category_id)
-                      setProduct(products[0].title)
+                      
                       getOrderOverView(interesAnalysisYear,category,value?.name,product)
                    
                     }
