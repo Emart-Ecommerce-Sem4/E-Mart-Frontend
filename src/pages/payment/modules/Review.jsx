@@ -22,6 +22,30 @@ export default function Review(props) {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
 
+  const [deliveryTime, setDeliveryTime] = useState(5);
+
+  React.useEffect(() => {
+    if (user && cart) {
+      if (user?.district === 'Colombo') {
+        if (
+          cart?.checkoutProduct?.quantityInStock < cart?.checkoutProduct?.items
+        ) {
+          setDeliveryTime(8);
+        } else {
+          setDeliveryTime(5);
+        }
+      } else {
+        if (
+          cart?.checkoutProduct?.quantityInStock < cart?.checkoutProduct?.items
+        ) {
+          setDeliveryTime(10);
+        } else {
+          setDeliveryTime(7);
+        }
+      }
+    }
+  }, [user, cart]);
+
   const addresses = [
     user?.addressLine1,
     user?.addressLine2,
@@ -44,6 +68,7 @@ export default function Review(props) {
       <Typography variant="h6" gutterBottom>
         Select your delivery method
       </Typography>
+      <Typography color="red">{`Estimated Delivery time : ${deliveryTime} days`}</Typography>
       <FormGroup>
         <FormControlLabel
           control={
@@ -105,17 +130,18 @@ export default function Review(props) {
         onChange={(event) => setComments(event.target.value)}
       />
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>
-            {user?.firstName + ' ' + user?.lastName}
-          </Typography>
-          {deliveryMethod === 'DELIVERY' && (
+        {deliveryMethod === 'DELIVERY' && (
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+              Shipping
+            </Typography>
+            <Typography gutterBottom>
+              {user?.firstName + ' ' + user?.lastName}
+            </Typography>
+
             <Typography gutterBottom>{addresses.join(', ')}</Typography>
-          )}
-        </Grid>
+          </Grid>
+        )}
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details

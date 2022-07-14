@@ -52,6 +52,7 @@ export default function ProductPage(props) {
       mainImage: selectedImage,
       items: 1,
       title: product?.title,
+      quantityInStock: selectedVariant?.quantity_in_stock,
     };
     dispatch(addToCart(item));
   }
