@@ -7,15 +7,15 @@ const userObj = userString ? JSON.parse(userString) : null;
 const initialState = {
   auth: userObj ? true : false,
   id: userObj?.id,
-  email: userObj?.email,
   firstName: userObj?.firstName,
-  address: userObj?.address,
   lastName: userObj?.lastName,
-  phoneNumber: userObj?.phoneNumber,
-  state: userObj?.state,
-  userRole: userObj?.user_role,
-  city: userObj?.city,
+  email: userObj?.email,
   birthday: userObj?.birthday,
+  addressLine1: userObj?.addressLine1,
+  addressLine2: userObj?.addressLine2,
+  postalCode: userObj?.postalCode,
+  city: userObj?.city,
+  district: userObj?.district,
   isAdmin: userObj?.user_role === 'ADMIN',
 };
 
@@ -25,27 +25,26 @@ export const userSlice = createSlice({
   reducers: {
     loggingRequest: (state, action) => {
       state.auth = true;
-      state.id = action.payload.user_id;
+      state.id = action.payload.id;
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
       state.email = action.payload.email;
-      state.firstName = action.payload.first_name;
-      state.lastName = action.payload.last_name;
-      state.phoneNumber = action.payload.phone_number;
-      state.state = action.payload.state;
-      state.userRole = action.payload.user_role;
-      state.city = action.payload.city;
       state.birthday = action.payload.birthday;
+      state.addressLine1 = action.payload.addressLine1;
+      state.addressLine2 = action.payload.addressLine2;
+      state.postalCode = action.payload.postalCode;
+      state.city = action.payload.city;
+      state.district = action.payload.district;
       state.isAdmin = action.payload.user_role === 'ADMIN';
     },
-    signUpRequest: (state, action) => {
-      state.auth = true;
-    },
+
     logOutRequest: (state) => {
       state.auth = false;
+      state.userDetails = null;
     },
   },
 });
 
-export const { loggingRequest, signUpRequest, logOutRequest } =
-  userSlice.actions;
+export const { loggingRequest, logOutRequest } = userSlice.actions;
 
 export default userSlice.reducer;

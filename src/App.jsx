@@ -18,6 +18,7 @@ import AdminDashboard from './pages/admin-dashboard';
 import ProductAddPage from './pages/product-add-page';
 import VariantEditPage from './pages/variant-edit-page';
 import Users from './pages/users';
+import ProductPage from './pages/product-page';
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -25,6 +26,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<HomePage />} exact />
+        <Route path="/:id" element={<ProductPage />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
