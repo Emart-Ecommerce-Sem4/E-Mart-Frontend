@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { styled, alpha } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -12,13 +12,10 @@ import InputBase from '@mui/material/InputBase';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
 import SearchIcon from '@mui/icons-material/Search';
 import Menu from '@mui/material/Menu';
 import { Typography } from '@mui/material';
-import api from '../../api';
+import { logOutRequest } from '../../reducers/modules/user';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function NavBar(props) {
   const { searchedText, setSearchedText } = props;
 
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state?.cart);
   const user = useSelector((state) => state?.user);
   const navigate = useNavigate();
@@ -117,6 +115,15 @@ export default function NavBar(props) {
         }}
       >
         Settings
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          dispatch(logOutRequest());
+          localStorage.clear();
+          navigate('/');
+        }}
+      >
+        Log out
       </MenuItem>
     </Menu>
   );
