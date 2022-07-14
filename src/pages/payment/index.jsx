@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -49,6 +50,7 @@ export default function Checkout() {
   });
   const [deliveryMethod, setDeliveryMethod] = useState('DELIVERY');
   const [orderId, setOrderId] = useState('');
+  const [loading, setLoading] = useState(false);
 
   function getStepContent(step) {
     switch (step) {
@@ -80,6 +82,7 @@ export default function Checkout() {
   }
 
   async function createOrder() {
+    setLoading(true);
     let orderData = {
       userId: user.id,
       orderDate: moment(Date.now()).format('YYYY-MM-DD'),
@@ -106,6 +109,7 @@ export default function Checkout() {
         dispatch(clearCart());
       }
     } catch (error) {}
+    setLoading(false);
   }
 
   const handleNext = () => {
@@ -170,8 +174,17 @@ export default function Checkout() {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
+                    disabled={loading}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? (
+                      loading ? (
+                        <CircularProgress />
+                      ) : (
+                        'Place order'
+                      )
+                    ) : (
+                      'Next'
+                    )}
                   </Button>
                 </Box>
               </React.Fragment>
