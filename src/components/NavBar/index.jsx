@@ -59,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
   const cart = useSelector((state) => state?.cart);
+  const user = useSelector((state) => state?.user);
   const navigate = useNavigate();
   const [allCategories, setAllCategories] = useState([]);
 
@@ -138,7 +139,7 @@ export default function NavBar() {
               </Badge>
             </Button>
             <Button>
-              <Avatar alt="Travis Howard" src="#" size={25} />
+              <Avatar alt={user?.firstName} src="#" size={25} />
             </Button>
           </Box>
         </Toolbar>
