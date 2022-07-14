@@ -37,7 +37,6 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
-
   const [activeStep, setActiveStep] = useState(0);
   const [paymentValidated, setPaymentValidated] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('CARD');
@@ -81,12 +80,12 @@ export default function Checkout() {
   }
 
   async function createOrder() {
-    const orderData = {
+    let orderData = {
       userId: user.id,
       orderDate: moment(Date.now()).format('YYYY-MM-DD'),
       itemCount: cart?.checkoutProduct.items,
       variantId: cart?.checkoutProduct?.variantId,
-      orderStatus: 'PLACED',
+      orderStatus: 'PENDING',
       comments: comments,
       paymentMethod: paymentMethod,
       deliveryMethod: deliveryMethod,
@@ -94,6 +93,11 @@ export default function Checkout() {
         parseFloat(cart?.checkoutProduct.unitPrice) *
         parseInt(cart?.checkoutProduct.items),
     };
+    if (cart?.checkoutProduct.items > cart?.checkoutProduct?.quantityInStock) {
+      orderData.orderStatus = 'PENDING';
+    } else {
+      orderData.orderStatus = 'PLACED';
+    }
     try {
       const [code, res] = await api.order.placeOrder(orderData);
       if (res?.statusCode === 201) {

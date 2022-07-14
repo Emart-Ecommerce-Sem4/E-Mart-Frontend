@@ -7,7 +7,11 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HeightBox from '../HeightBox';
-import { goToCheckout, removeFromCart } from '../../reducers/modules/cart';
+import {
+  changeItemCount,
+  goToCheckout,
+  removeFromCart,
+} from '../../reducers/modules/cart';
 
 export default function CartItem(props) {
   const { item, remove } = props;
@@ -15,6 +19,25 @@ export default function CartItem(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [itemCount, setItemCount] = useState(item.items);
+
+  React.useEffect(() => {
+    if (itemCount <= 0) {
+      setItemCount(1);
+      dispatch(
+        changeItemCount({
+          variantId: item.variantId,
+          newCount: 1,
+        })
+      );
+    } else {
+      dispatch(
+        changeItemCount({
+          variantId: item.variantId,
+          newCount: itemCount,
+        })
+      );
+    }
+  }, [itemCount]);
 
   function deleteItem() {
     dispatch(removeFromCart(item));
