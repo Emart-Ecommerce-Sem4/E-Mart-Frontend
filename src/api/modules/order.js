@@ -21,6 +21,7 @@ export default {
     return resolver(axiosClient.post('/order/refund', data));
   },
   placeOrder(data) {
+    
     return resolver(axiosClient.post('/order/add', data));
   },
 };

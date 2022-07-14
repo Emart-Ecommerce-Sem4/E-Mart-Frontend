@@ -83,6 +83,7 @@ export default function Checkout() {
 
   async function createOrder() {
     setLoading(true);
+  
     let orderData = {
       userId: user.id,
       orderDate: moment(Date.now()).format('YYYY-MM-DD'),
@@ -102,13 +103,18 @@ export default function Checkout() {
       orderData.orderStatus = 'PLACED';
     }
     try {
+    
       const [code, res] = await api.order.placeOrder(orderData);
+      
       if (res?.statusCode === 201) {
+       
         setOrderId(res?.data?.order?.id);
         setActiveStep(activeStep + 1);
         dispatch(clearCart());
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log('error')
+    }
     setLoading(false);
   }
 
