@@ -17,4 +17,10 @@ export default {
   getImages(productId) {
     return resolver(axiosClient.get(`/product/images/${productId}`));
   },
+  getProductsForCategory(categoryId) {
+    return resolver(axiosClient.get(`/product/category/${categoryId}`));
+  },
+  getProductsForSubCategory(categoryId) {
+    return resolver(axiosClient.get(`/product/subcategory/${categoryId}`));
+  },
 };
