@@ -13,11 +13,12 @@ import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProductDetail from './pages/ProductDetail';
 import Order from './pages/Order';
 import theme from './utils/theme';
-import Payment from './pages/payment';
+import Checkout from './pages/payment';
 import AdminDashboard from './pages/admin-dashboard';
 import ProductAddPage from './pages/product-add-page';
 import VariantEditPage from './pages/variant-edit-page';
 import ProductPage from './pages/product-page';
+
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -35,7 +36,7 @@ function App() {
         <Route path="/place-order" element={<PlaceOrderPage />} exact />
         <Route path="/product-detail" element={<ProductDetail />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
-        <Route path="/payment" element={<Payment />} exact />
+        <Route path="/payment" element={<Checkout />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
