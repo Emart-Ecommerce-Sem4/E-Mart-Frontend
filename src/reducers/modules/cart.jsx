@@ -78,10 +78,32 @@ export const cartSlice = createSlice({
         total: state.total,
       });
     },
+    changeItemCount: (state, action) => {
+      const itemExisting = current(state.items).find(
+        (item) => item.variantId === action.payload.variantId
+      );
+      if (itemExisting) {
+        const itemIndex = current(state.items).findIndex(
+          (item) => item.variantId === action.payload.variantId
+        );
+        const newItem = {
+          ...itemExisting,
+          items: action.payload.newCount,
+        };
+
+        state.items[itemIndex] = newItem;
+        state.total = calculateTotal(state.items);
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, goToCheckout, clearCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  goToCheckout,
+  clearCart,
+  changeItemCount,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
