@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import Menu from '@mui/material/Menu';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { logOutRequest } from '../../reducers/modules/user';
 
 const Search = styled('div')(({ theme }) => ({
@@ -92,14 +92,22 @@ export default function NavBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem
+      {!user?.isAdmin && (<MenuItem
         onClick={() => {
           handleMenuClose();
           navigate('/user/my-orders');
         }}
       >
         My Orders
-      </MenuItem>
+      </MenuItem>)}
+      {user?.isAdmin && (<MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate('/admin/dashboard');
+        }}
+      >
+        Admin
+      </MenuItem>)}
 
       <MenuItem
         onClick={() => {
@@ -167,7 +175,25 @@ export default function NavBar(props) {
               <Badge badgeContent={cart?.items?.length} color="primary">
                 <AiOutlineShoppingCart color="#dc3545" size={25} />
               </Badge>
+
             </Button>
+            
+            {!user?.auth && (
+               
+              
+                
+                <><Button color="primary" onClick={() => navigate('/signin')}>
+                Sign in
+              </Button><Button
+                color="primary"
+
+                onClick={() => navigate('/signup')}
+              >
+                  Sign up
+                </Button></>
+                 
+              
+            )}
             {user?.auth && (
               <IconButton
                 size="large"
@@ -181,6 +207,7 @@ export default function NavBar(props) {
                 <Avatar alt={user?.firstName} src="#" size={25} />
               </IconButton>
             )}
+            
           </Box>
           {renderMenu}
         </Toolbar>
