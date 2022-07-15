@@ -11,6 +11,7 @@ import api from '../../api';
 import HeightBox from '../../components/HeightBox';
 import NavBar from '../../components/NavBar';
 import { addToCart } from '../../reducers/modules/cart';
+import './styles.css';
 
 export default function ProductPage(props) {
   const [product, setProduct] = useState();
@@ -27,6 +28,10 @@ export default function ProductPage(props) {
     try {
       const [code, res] = await api.variant.getVariantsForProduct(productId);
       if (res?.statusCode === 200) {
+        if (res?.data?.variants.length) {
+          setSelectedVariantId(res?.data?.variants[0]?.variant_id);
+          setSelectedVarinat(res?.data?.variants[0]);
+        }
         setVariants(res?.data?.variants);
       }
     } catch (error) {}
@@ -36,6 +41,7 @@ export default function ProductPage(props) {
     try {
       const [code, res] = await api.product.getProduct(productId);
       if (res?.statusCode === 200) {
+        console.log(res?.data?.product);
         setProduct(res?.data?.product);
         if (res?.data?.product?.images.length) {
           setSelectedImage(res?.data?.product?.images[0].image);
@@ -84,47 +90,58 @@ export default function ProductPage(props) {
             <img src={selectedImage} alt="" style={{ width: 500 }} />
 
             <HeightBox height={10} />
-            <div style={{ width: 500, overflowX: 'scroll' }}>
-              <Stack direction="row">
-                {product?.images.map((item) => (
-                  <div>
-                    <img
-                      src={selectedImage}
-                      alt=""
-                      style={{ height: 100 }}
-                      onClick={() => setSelectedImage(item?.image)}
-                    />
-                  </div>
-                ))}
-              </Stack>
+            <div
+              style={{
+                width: 500,
+                overflowX: 'scroll',
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+              className="image-container"
+            >
+              {product?.images.map((item) => (
+                <div>
+                  <img
+                    src={item?.image}
+                    alt=""
+                    style={{ height: 150, marginLeft: 10, cursor: 'pointer' }}
+                    onClick={() => setSelectedImage(item?.image)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div>
-            <Typography variant="h4">{product?.title}</Typography>
-            <HeightBox height={10} />
+            <Typography variant="h4" fontWeight="bold">
+              {product?.title}
+            </Typography>
+            <HeightBox height={20} />
             <Typography color="text.secondary" variant="h6">
               Select Variant
             </Typography>
             <HeightBox height={20} />
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Variant</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedVariantId}
-                fullWidth
-                label="Variant"
-                onChange={(event) => {
-                  setSelectedVariantId(event.target.value);
-                }}
-              >
-                {variants.map((item) => (
-                  <MenuItem value={item?.variant_id}>
-                    {item?.variant_type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {selectedVariant && (
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Variant</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  defaultValue={selectedVariant}
+                  value={selectedVariantId}
+                  fullWidth
+                  label="Variant"
+                  onChange={(event) => {
+                    setSelectedVariantId(event.target.value);
+                  }}
+                >
+                  {variants.map((item) => (
+                    <MenuItem value={item?.variant_id}>
+                      {item?.variant_type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
             <HeightBox height={10} />
             {selectedVariant && (
               <Typography variant="p" color="red">
@@ -133,14 +150,21 @@ export default function ProductPage(props) {
             )}
             <HeightBox height={20} />
             {selectedVariant && (
-              <Typography variant="p" color="red">
+              <Typography
+                variant="p"
+                color="#3AB4F2"
+                fontSize={20}
+                fontWeight="bold"
+              >
                 {'$' + selectedVariant?.unit_price}
               </Typography>
             )}
             <HeightBox height={20} />
-            <Typography variant="h6" color="text.secondary" fontWeight="bold">
-              Description
-            </Typography>
+            {selectedVariant && (
+              <Typography variant="h6" color="text.secondary" fontWeight="bold">
+                Description
+              </Typography>
+            )}
             <HeightBox height={10} />
             <Typography variant="p">{selectedVariant?.description}</Typography>
             <HeightBox height={20} />

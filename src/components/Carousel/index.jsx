@@ -1,20 +1,23 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { Paper, Button } from '@mui/material';
-import HeightBox from '../HeightBox';
+import CR_1 from '../../assets/cr1.jpg';
+import CR_2 from '../../assets/cr2.jpg';
+import CR_3 from '../../assets/cr3.jpg';
+import CR_4 from '../../assets/cr4.webp';
+import { Paper } from '@mui/material';
 
 var items = [
   {
-    src: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+    src: CR_1,
   },
   {
-    src: 'https://images.unsplash.com/photo-1592503254549-d83d24a4dfab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80',
+    src: CR_2,
   },
   {
-    src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1630&q=80',
+    src: CR_3,
   },
   {
-    src: 'https://images.unsplash.com/photo-1635405074683-96d6921a2a68?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80',
+    src: CR_4,
   },
 ];
 
@@ -23,7 +26,7 @@ function Item(props) {
     <Paper
       style={{
         backgroundColor: 'transparent',
-        height: 400,
+        height: 300,
         overflow: 'hidden',
       }}
     >

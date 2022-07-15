@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import Menu from '@mui/material/Menu';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { logOutRequest } from '../../reducers/modules/user';
 
 const Search = styled('div')(({ theme }) => ({
@@ -92,14 +92,26 @@ export default function NavBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          handleMenuClose();
-          navigate('/user/my-orders');
-        }}
-      >
-        My Orders
-      </MenuItem>
+      {!user?.isAdmin && (
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            navigate('/user/my-orders');
+          }}
+        >
+          My Orders
+        </MenuItem>
+      )}
+      {user?.isAdmin && (
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            navigate('/admin/dashboard');
+          }}
+        >
+          Admin
+        </MenuItem>
+      )}
 
       <MenuItem
         onClick={() => {
@@ -144,7 +156,7 @@ export default function NavBar(props) {
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            Logo
+            <img src="./images/logo.png" alt="productImage" width={55}  />
           </Typography>
 
           <Search>
@@ -161,13 +173,39 @@ export default function NavBar(props) {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          {user?.isAdmin && (
+            <Button
+              variant="outlined"
+              sx={{ mr: 2 }}
+              color="secondary"
+              onClick={() => navigate('/admin/dashboard')}
+            >
+              Admin Dashboard
+            </Button>
+          )}
           <Typography variant="p">{`$${cart?.total}`}</Typography>
+
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Button onClick={() => navigate('/cart')}>
               <Badge badgeContent={cart?.items?.length} color="primary">
                 <AiOutlineShoppingCart color="#dc3545" size={25} />
               </Badge>
             </Button>
+
+            {!user?.auth && (
+              <>
+                <Button color="primary" onClick={() => navigate('/signin')}>
+                  Sign in
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => navigate('/signup')}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
             {user?.auth && (
               <IconButton
                 size="large"

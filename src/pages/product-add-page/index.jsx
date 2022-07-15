@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import Table from '@mui/material/Table';
@@ -44,6 +44,7 @@ const Input = styled('input')({
 });
 
 export default function ProductAddPage(props) {
+  const navigate = useNavigate();
   const [imageFiles, setImageFiles] = useState([]);
   const [loadingProductAdd, setLoadingProductAdd] = useState(false);
   const [loadingVariantAdd, setLoadingVariantAdd] = useState(false);
@@ -134,7 +135,15 @@ export default function ProductAddPage(props) {
     });
     return new Promise((resolve, reject) => {
       Promise.all(allPromises).then((values) => {
-        resolve(values[values.length - 1]);
+        let imageLinks = [];
+        var maxLength = 0;
+        values.forEach((item) => {
+          if (item.length > maxLength) {
+            imageLinks = item;
+            maxLength = item.length;
+          }
+        });
+        resolve(imageLinks);
       });
     });
   }
@@ -305,6 +314,12 @@ export default function ProductAddPage(props) {
           return (
             <React.Fragment>
               <Stack direction="column" spacing={5} alignItems="center">
+                <Button
+                  onClick={() => navigate('/admin/dashboard')}
+                  color="secondary"
+                >
+                  Got to Admin Dashboard
+                </Button>
                 <Typography variant="h5">Add Product</Typography>
 
                 <TextField
