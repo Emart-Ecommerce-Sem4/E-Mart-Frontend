@@ -156,7 +156,7 @@ export default function NavBar(props) {
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            Logo
+            <img src="./images/logo.png" alt="productImage" width={55}  />
           </Typography>
 
           <Search>
