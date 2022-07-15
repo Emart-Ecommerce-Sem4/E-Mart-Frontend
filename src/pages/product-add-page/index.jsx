@@ -134,7 +134,15 @@ export default function ProductAddPage(props) {
     });
     return new Promise((resolve, reject) => {
       Promise.all(allPromises).then((values) => {
-        resolve(values[values.length - 1]);
+        let imageLinks = [];
+        var maxLength = 0;
+        values.forEach((item) => {
+          if (item.length > maxLength) {
+            imageLinks = item;
+            maxLength = item.length;
+          }
+        });
+        resolve(imageLinks);
       });
     });
   }
@@ -178,6 +186,7 @@ export default function ProductAddPage(props) {
     setLoadingProductAdd(true);
 
     const images = await uploadImages();
+    console.log('Images are: ', images);
     if (!images) {
       setSnackBarMessage({
         type: 'error',
@@ -270,6 +279,7 @@ export default function ProductAddPage(props) {
 
   const handleChangeImage = (event) => {
     const files = Array.from(event.target.files);
+    console.log('Files are: ', files);
     setImageFiles(files);
   };
 

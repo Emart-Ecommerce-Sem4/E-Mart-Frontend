@@ -11,6 +11,7 @@ import api from '../../api';
 import HeightBox from '../../components/HeightBox';
 import NavBar from '../../components/NavBar';
 import { addToCart } from '../../reducers/modules/cart';
+import './styles.css';
 
 export default function ProductPage(props) {
   const [product, setProduct] = useState();
@@ -36,6 +37,7 @@ export default function ProductPage(props) {
     try {
       const [code, res] = await api.product.getProduct(productId);
       if (res?.statusCode === 200) {
+        console.log(res?.data?.product);
         setProduct(res?.data?.product);
         if (res?.data?.product?.images.length) {
           setSelectedImage(res?.data?.product?.images[0].image);
@@ -84,19 +86,25 @@ export default function ProductPage(props) {
             <img src={selectedImage} alt="" style={{ width: 500 }} />
 
             <HeightBox height={10} />
-            <div style={{ width: 500, overflowX: 'scroll' }}>
-              <Stack direction="row">
-                {product?.images.map((item) => (
-                  <div>
-                    <img
-                      src={selectedImage}
-                      alt=""
-                      style={{ height: 100 }}
-                      onClick={() => setSelectedImage(item?.image)}
-                    />
-                  </div>
-                ))}
-              </Stack>
+            <div
+              style={{
+                width: 500,
+                overflowX: 'scroll',
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+              className="image-container"
+            >
+              {product?.images.map((item) => (
+                <div>
+                  <img
+                    src={item?.image}
+                    alt=""
+                    style={{ height: 150, marginLeft: 10, cursor: 'pointer' }}
+                    onClick={() => setSelectedImage(item?.image)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div>
