@@ -140,31 +140,35 @@ export default function HomePage() {
             </Select>
           </FormControl>
           <div style={{ width: 20 }} />
-          <FormControl
-            variant="outlined"
-            sx={{ m: 1, minWidth: 175 }}
-            size="small"
-          >
-            <InputLabel id="demo-simple-select-label">
-              Shop by Sub Category
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled-2"
-              label="Shop by Sub Catagory"
-              onChange={(event, value) => {
-                if (value?.props?.value) {
-                  setSelectedSubCategory(value?.props?.value);
-                } else {
-                  setSelectedSubCategory('');
-                }
-              }}
+          {allSubCategories?.length > 0 && (
+            <FormControl
+              variant="outlined"
+              sx={{ m: 1, minWidth: 175 }}
+              size="small"
             >
-              {allSubCategories.map((item) => (
-                <MenuItem value={item?.sub_category_id}>{item?.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <InputLabel id="demo-simple-select-label">
+                Shop by Sub Category
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled-2"
+                label="Shop by Sub Catagory"
+                onChange={(event, value) => {
+                  if (value?.props?.value) {
+                    setSelectedSubCategory(value?.props?.value);
+                  } else {
+                    setSelectedSubCategory('');
+                  }
+                }}
+              >
+                {allSubCategories.map((item) => (
+                  <MenuItem value={item?.sub_category_id}>
+                    {item?.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Stack>
         <HeightBox height={30} />
         <CaraouselSlider />

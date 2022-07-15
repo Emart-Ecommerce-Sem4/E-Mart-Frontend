@@ -6,7 +6,7 @@ const userObj = userString ? JSON.parse(userString) : null;
 
 const initialState = {
   auth: userObj ? true : false,
-  id: userObj?.id,
+  id: userObj?.user_id,
   firstName: userObj?.first_name,
   lastName: userObj?.last_name,
   email: userObj?.email,

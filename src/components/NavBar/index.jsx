@@ -100,14 +100,7 @@ export default function NavBar(props) {
       >
         My Orders
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleMenuClose();
-          navigate('user/profile');
-        }}
-      >
-        Profile
-      </MenuItem>
+
       <MenuItem
         onClick={() => {
           handleMenuClose();
