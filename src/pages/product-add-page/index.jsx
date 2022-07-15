@@ -186,7 +186,6 @@ export default function ProductAddPage(props) {
     setLoadingProductAdd(true);
 
     const images = await uploadImages();
-    console.log('Images are: ', images);
     if (!images) {
       setSnackBarMessage({
         type: 'error',
@@ -279,7 +278,6 @@ export default function ProductAddPage(props) {
 
   const handleChangeImage = (event) => {
     const files = Array.from(event.target.files);
-    console.log('Files are: ', files);
     setImageFiles(files);
   };
 

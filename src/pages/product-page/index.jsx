@@ -108,8 +108,10 @@ export default function ProductPage(props) {
             </div>
           </div>
           <div>
-            <Typography variant="h4">{product?.title}</Typography>
-            <HeightBox height={10} />
+            <Typography variant="h4" fontWeight="bold">
+              {product?.title}
+            </Typography>
+            <HeightBox height={20} />
             <Typography color="text.secondary" variant="h6">
               Select Variant
             </Typography>
@@ -141,14 +143,21 @@ export default function ProductPage(props) {
             )}
             <HeightBox height={20} />
             {selectedVariant && (
-              <Typography variant="p" color="red">
+              <Typography
+                variant="p"
+                color="#3AB4F2"
+                fontSize={20}
+                fontWeight="bold"
+              >
                 {'$' + selectedVariant?.unit_price}
               </Typography>
             )}
             <HeightBox height={20} />
-            <Typography variant="h6" color="text.secondary" fontWeight="bold">
-              Description
-            </Typography>
+            {selectedVariant && (
+              <Typography variant="h6" color="text.secondary" fontWeight="bold">
+                Description
+              </Typography>
+            )}
             <HeightBox height={10} />
             <Typography variant="p">{selectedVariant?.description}</Typography>
             <HeightBox height={20} />
