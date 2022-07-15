@@ -1,42 +1,45 @@
-import React from 'react';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
+import { Button, Stack } from '@mui/material';
 
 export default function SignNavBar() {
+  const navigate = useNavigate();
+
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid" style={{ paddingRight: 50 }}>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/aboutus">
-                About Us
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contactus">
-                Contact Us
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cart">
-                <AiOutlineShoppingCart color="#dc3545" size={25} />
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/signup">
-                <button type="button" class="btn btn-danger btn-sm">
-                  SIGNUP
-                </button>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar sx={{ width: '100%', maxWidth: 1200, mx: 'auto' }}>
+          <Typography
+            variant="h4"
+            sx={{ cursor: 'pointer' }}
+            onClick={() => navigate('/')}
+          >
+            Ecommerce
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Stack spacing={2} direction="row">
+            <Button color="inherit" onClick={() => navigate('/contact-us')}>
+              Contact Us
+            </Button>
+            <Button color="inherit" onClick={() => navigate('/signin')}>
+              Sign in
+            </Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={() => navigate('/signup')}
+            >
+              Sign up
+            </Button>
+          </Stack>
+          {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}></Box> */}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }

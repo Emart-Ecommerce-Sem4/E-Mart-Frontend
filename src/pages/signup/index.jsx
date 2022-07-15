@@ -57,8 +57,11 @@ const validationSchemaOne = Yup.object().shape({
 const validationSchemaTwo = Yup.object().shape({
   birthday: Yup.string().required().label('Birthday'),
   phoneNumber: Yup.string().required(),
-  address: Yup.string().required().label('Address'),
+  addressLine1: Yup.string().required().label('Address Line 1'),
+  addressLine2: Yup.string().required().label('Address Line 2'),
   city: Yup.string().required().label('City'),
+  postalCode: Yup.string().required().label('Postal Code'),
+  district: Yup.string().required().label('District'),
 });
 
 export default function SignUp() {
@@ -77,7 +80,10 @@ export default function SignUp() {
     password: '',
     confirmPassword: '',
     phoneNumber: '',
-    address: '',
+    addressLine1: '',
+    addressLine2: '',
+    postalCode: '',
+    district: '',
     birthday: '',
     city: '',
   });
@@ -90,21 +96,24 @@ export default function SignUp() {
   };
   const initialValuesFormTwo = {
     phoneNumber: formValues.phoneNumber,
-    address: formValues.address,
+    addressLine1: formValues.addressLine1,
+    addressLine2: formValues.addressLine2,
+    postalCode: formValues.postalCode,
+    district: formValues.district,
     birthday: formValues.birthday,
     city: formValues.city,
   };
 
   async function registerUser(values) {
     setLoading(true);
+
     try {
       const [code, res] = await api.user.signUpUser(values);
       if (res?.statusCode === 201) {
-        // User created succesfully
         setAuthorizationKey(res.data.token);
         setUserObjectInLocal(res.data.user);
         dispatch(loggingRequest(res.data.user));
-        navigate('/dashboard');
+        navigate('/');
       } else {
         setErrorMessage({ type: 'error', message: res?.message });
         setErrorOccured(true);
@@ -297,6 +306,17 @@ export default function SignUp() {
                   <HeightBox height={10} />
                   <TextField
                     fullWidth
+                    label="Birthday"
+                    type="date"
+                    value={values.birthday}
+                    error={errors.birthday}
+                    InputLabelProps={{ shrink: true }}
+                    helperText={touched.birthday ? errors.birthday : ''}
+                    onChange={handleChange('birthday')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
                     label="Phone Number"
                     type="text"
                     value={values.phoneNumber}
@@ -307,15 +327,34 @@ export default function SignUp() {
                   />
                   <TextField
                     fullWidth
-                    label="Address"
+                    label="Address Line 1"
                     type="text"
-                    value={values.address}
-                    error={errors.address}
-                    helperText={touched.address ? errors.address : ''}
-                    onChange={handleChange('address')}
+                    value={values.addressLine1}
+                    error={errors.addressLine1}
+                    helperText={touched.addressLine1 ? errors.addressLine1 : ''}
+                    onChange={handleChange('addressLine1')}
                     variant="outlined"
                   />
-
+                  <TextField
+                    fullWidth
+                    label="Address Line 2"
+                    type="text"
+                    value={values.addressLine2}
+                    error={errors.addressLine2}
+                    helperText={touched.addressLine2 ? errors.addressLine2 : ''}
+                    onChange={handleChange('addressLine2')}
+                    variant="outlined"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Postal Code"
+                    type="text"
+                    value={values.postalCode}
+                    error={errors.postalCode}
+                    helperText={touched.postalCode ? errors.postalCode : ''}
+                    onChange={handleChange('postalCode')}
+                    variant="outlined"
+                  />
                   <TextField
                     fullWidth
                     label="City"
@@ -328,13 +367,12 @@ export default function SignUp() {
                   />
                   <TextField
                     fullWidth
-                    label="Birthday"
-                    type="date"
-                    value={values.birthday}
-                    error={errors.birthday}
-                    InputLabelProps={{ shrink: true }}
-                    helperText={touched.birthday ? errors.birthday : ''}
-                    onChange={handleChange('birthday')}
+                    label="District"
+                    type="text"
+                    value={values.district}
+                    error={errors.district}
+                    helperText={touched.district ? errors.district : ''}
+                    onChange={handleChange('district')}
                     variant="outlined"
                   />
 
