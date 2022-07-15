@@ -113,7 +113,7 @@ export default function SignUp() {
         setAuthorizationKey(res.data.token);
         setUserObjectInLocal(res.data.user);
         dispatch(loggingRequest(res.data.user));
-        navigate('/dashboard');
+        navigate('/');
       } else {
         setErrorMessage({ type: 'error', message: res?.message });
         setErrorOccured(true);
