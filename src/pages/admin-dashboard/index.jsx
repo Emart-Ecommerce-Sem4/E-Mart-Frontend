@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,7 +22,7 @@ import Dashboard from './sections/dashboard';
 import AdminOrders from './sections/orders';
 import AdminCategories from './sections/categories';
 import Inventory from './sections/inventory';
-
+import { Button } from '@mui/material';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -68,6 +70,8 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function AdminDashboard() {
+  const user = useSelector((state) => state?.user);
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [openPane, setOpenPane] = React.useState(<Dashboard />);
   const location = useLocation();
@@ -131,6 +135,16 @@ export default function AdminDashboard() {
           >
             Admin Workspace
           </Typography>
+          {user?.isAdmin && (
+               
+              
+                
+               <><Button color="inherit" onClick={() => navigate('/')}>
+              Go to User Side
+             </Button></>
+                
+             
+           )}
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
