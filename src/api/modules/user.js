@@ -14,4 +14,8 @@ export default {
   getUser(userId) {
     return resolver(axiosClient.get(`/user/${userId}`));
   },
+  getUserOrders(userId) {
+   
+    return resolver(axiosClient.get(`/user/getuserorders/${userId}`));
+  },
 };
