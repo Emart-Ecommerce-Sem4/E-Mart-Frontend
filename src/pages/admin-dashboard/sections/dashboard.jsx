@@ -12,6 +12,7 @@ import {
  Autocomplete,
  TextField
 } from '@mui/material';
+import { round } from 'mathjs'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AnalyticEcommerce from './../../../components/cards/statistics/AnalyticEcommerce';
 import HeightBox from '../../../components/HeightBox';
@@ -162,10 +163,18 @@ const handleChangetotalOrdersYear =(event)=>{
     
   };
 function calculatePercentageQuaterLysale(quater){
- if (quaterlySales[quater].sales==0) {
-   return '0';
+  const tot=(parseFloat(quaterlySales[0].sales)+parseFloat(quaterlySales[1].sales)+parseFloat(quaterlySales[2].sales)+parseFloat(quaterlySales[3].sales));
+
+ if (tot!=0) {
+  if (quaterlySales[quater].sales==0) {
+    return '0';
+  }
+  return round(parseFloat(quaterlySales[quater].sales)*100/tot);
+  
  }
-  return (quaterlySales[quater].sales)/(quaterlySales[0].sales+quaterlySales[1].sales+quaterlySales[2].sales+quaterlySales[3].sales)*100;
+ 
+ return '0';
+  
 }
   async function getAllYears() {
     try {
@@ -233,9 +242,12 @@ function calculatePercentageQuaterLysale(quater){
           temcategory.push(arr);
         });
       }
-      
-      setCategories(rows);
+   
       setcategoryWithMostOrders(temcategory);
+      setCategories(rows);
+      
+     
+      
       
     } catch (error) {}
   }
@@ -275,10 +287,10 @@ function calculatePercentageQuaterLysale(quater){
             row[element.quater-1].sales=element.sales
         });  
       }else{
-        console.log(year)
+        
       }
       
-      
+    
       setQuaterlySales(row);
       
     } catch (error) {
@@ -379,7 +391,7 @@ function calculatePercentageQuaterLysale(quater){
             }
         });  
       }
-      console.log(row);
+    
       setTotalOrders(row);
     } catch (error) {
       console.log("erore")
@@ -416,7 +428,7 @@ async function getTotalSalesAccordingTotime(year,fromMonth,toMonth) {
       }else{
       settotalSalesAccordingToTime(res?.data?.sales)}
     }
-    console.log(totalSalesAccordingToTime)
+    
   } catch (error) {
     console.log('error');
   }
@@ -427,33 +439,28 @@ async function getcategorywithmostorders(year) {
   try {
     
     const [code, res] = await api.report.getcategorywithmostorders(year);
-   var row =[...categoryWithMostOrders]
+   var row =[]
     
   
     if (res?.statusCode === 200) {
       if (res?.data?.category === undefined || res?.data?.category.length == 0) {
         setcategoryWithMostOrders([{
-          "category_name": "Phone",
+          "category_name": "",
           "orders": "0",
           "percentage": 0
-        }]);
+        }])
       }else{
         res?.data?.category.forEach((element) => {
-          for (var index = 0; index < categoryWithMostOrders.length; index++) {
-            if (row[index].category_name==element.category_name) {
-              row[index].orders=element.orders
-              row[index].percentage=element.percentage
-            }
-            
-          }
+         row.push(element);
          
        
         });
+        console.log("sumeela",row)
         setcategoryWithMostOrders(row);
       }
       
     }
-    console.log(row)
+   
     
   } catch (error) {
 
