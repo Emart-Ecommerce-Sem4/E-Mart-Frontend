@@ -14,4 +14,7 @@ export default {
   updateVariant(data) {
     return resolver(axiosClient.put('/variant/update', data));
   },
+  getProductByVariantId(id) {
+    return resolver(axiosClient.get(`/variant/order/product/${id}`));
+  },
 };

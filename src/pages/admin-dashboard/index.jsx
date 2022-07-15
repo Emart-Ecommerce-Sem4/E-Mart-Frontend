@@ -18,9 +18,6 @@ import MainListItems from './mainListItems';
 import { ADMIN_SECTIONS } from '../../constants';
 import Dashboard from './sections/dashboard';
 import AdminOrders from './sections/orders';
-import AdminCustomers from './sections/customers';
-import AdminReports from './sections/reports';
-import AdminProducts from './sections/products';
 import AdminCategories from './sections/categories';
 import Inventory from './sections/inventory';
 
@@ -87,15 +84,7 @@ export default function AdminDashboard() {
         case ADMIN_SECTIONS.ORDERS:
           setOpenPane(<AdminOrders />);
           break;
-        case ADMIN_SECTIONS.CUSTOMERS:
-          setOpenPane(<AdminCustomers />);
-          break;
-        case ADMIN_SECTIONS.REPORTS:
-          setOpenPane(<AdminReports />);
-          break;
-        case ADMIN_SECTIONS.PRODUCTS:
-          setOpenPane(<AdminProducts />);
-          break;
+
         case ADMIN_SECTIONS.CATEGORIES:
           setOpenPane(<AdminCategories />);
           break;

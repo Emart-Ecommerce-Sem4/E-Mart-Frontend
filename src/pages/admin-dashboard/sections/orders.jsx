@@ -20,6 +20,7 @@ import OrderRefundDialog from '../../../components/OrderRefundDialog';
 
 export default function AdminOrders(props) {
   const [pendingOrders, setPendingOrders] = useState([]);
+  const [placedOrders, setPlacedOrders] = useState([]);
   const [shippedOrders, setShippedOrders] = useState([]);
   const [rejectedOrders, setRejectedOrders] = useState([]);
   const [deliveredOrders, setDeliveredOrders] = useState([]);
@@ -35,6 +36,17 @@ export default function AdminOrders(props) {
     type: '',
     message: '',
   });
+
+  async function getPlacedOrders() {
+    try {
+      const [code, res] = await api.order.getOrdersToStatus(
+        ORDER_STATUS.PLACED
+      );
+      if (res?.statusCode === 200) {
+        setPlacedOrders(res?.data?.orders);
+      }
+    } catch (error) {}
+  }
 
   async function getRefundedOrders() {
     try {
@@ -81,7 +93,7 @@ export default function AdminOrders(props) {
   async function getPendingOrders() {
     try {
       const [code, res] = await api.order.getOrdersToStatus(
-        ORDER_STATUS.PLACED
+        ORDER_STATUS.PENDING
       );
 
       if (res.statusCode === 200) {
@@ -114,6 +126,7 @@ export default function AdminOrders(props) {
     getRejectedOrders();
     getDeliveredOrders();
     getRefundedOrders();
+    getPlacedOrders();
   }
 
   React.useEffect(() => {
@@ -164,12 +177,44 @@ export default function AdminOrders(props) {
               <TableCell align="center">Comments</TableCell>
               <TableCell align="center">Payment Method</TableCell>
               <TableCell align="center">Total</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {pendingOrders.map((row) => (
+              <TableRow
+                key={row.order_id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {moment(row.order_date).format('YYYY-MM-DD')}
+                </TableCell>
+                <TableCell align="center">{row.item_count}</TableCell>
+                <TableCell align="center">{row.comments}</TableCell>
+                <TableCell align="center">{row.payment_method}</TableCell>
+                <TableCell align="center">{'$ ' + row.total_price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <HeightBox height={30} />
+      <Typography variant="h5">Placed Orders</Typography>
+      <HeightBox height={20} />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Order Date</TableCell>
+              <TableCell align="center">Item Count</TableCell>
+              <TableCell align="center">Comments</TableCell>
+              <TableCell align="center">Payment Method</TableCell>
+              <TableCell align="center">Total</TableCell>
               <TableCell align="center">Reject</TableCell>
               <TableCell align="center">Ship</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {pendingOrders.map((row) => (
+            {placedOrders.map((row) => (
               <TableRow
                 key={row.order_id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -209,7 +254,7 @@ export default function AdminOrders(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <HeightBox height={30} />
+      <HeightBox height={20} />
       <Typography variant="h5">Shipped Orders</Typography>
       <HeightBox height={20} />
       <TableContainer component={Paper}>
@@ -319,8 +364,6 @@ export default function AdminOrders(props) {
               <TableCell>Order Date</TableCell>
               <TableCell align="center">Items</TableCell>
               <TableCell align="center">Total</TableCell>
-              <TableCell align="center">Rating</TableCell>
-              <TableCell align="center">Rating Comment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -334,8 +377,6 @@ export default function AdminOrders(props) {
                 </TableCell>
                 <TableCell align="center">{row.item_count}</TableCell>
                 <TableCell align="center">{'$ ' + row.total_price}</TableCell>
-                <TableCell align="center">{row.rating}</TableCell>
-                <TableCell align="center">{row.rating_comment}</TableCell>
               </TableRow>
             ))}
           </TableBody>
