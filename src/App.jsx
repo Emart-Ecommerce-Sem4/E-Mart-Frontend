@@ -18,7 +18,7 @@ import AdminDashboard from './pages/admin-dashboard';
 import ProductAddPage from './pages/product-add-page';
 import VariantEditPage from './pages/variant-edit-page';
 import ProductPage from './pages/product-page';
-
+import CollapsibleTable from './pages/user-orders'
 
 function App() {
   const userAuth = useSelector((state) => state.user.auth);
@@ -37,6 +37,7 @@ function App() {
         <Route path="/product-detail" element={<ProductDetail />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
         <Route path="/payment" element={<Checkout />} exact />
+        <Route path="/user/my-orders" element={<CollapsibleTable />} exact />
         <Route
           path="/dashboard"
           element={userAuth ? <Dashboard /> : <Navigate to="/" />}
