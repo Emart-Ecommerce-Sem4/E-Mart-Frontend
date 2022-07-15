@@ -28,6 +28,10 @@ export default function ProductPage(props) {
     try {
       const [code, res] = await api.variant.getVariantsForProduct(productId);
       if (res?.statusCode === 200) {
+        if (res?.data?.variants.length) {
+          setSelectedVariantId(res?.data?.variants[0]?.variant_id);
+          setSelectedVarinat(res?.data?.variants[0]);
+        }
         setVariants(res?.data?.variants);
       }
     } catch (error) {}
@@ -116,25 +120,28 @@ export default function ProductPage(props) {
               Select Variant
             </Typography>
             <HeightBox height={20} />
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Variant</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedVariantId}
-                fullWidth
-                label="Variant"
-                onChange={(event) => {
-                  setSelectedVariantId(event.target.value);
-                }}
-              >
-                {variants.map((item) => (
-                  <MenuItem value={item?.variant_id}>
-                    {item?.variant_type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {selectedVariant && (
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Variant</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  defaultValue={selectedVariant}
+                  value={selectedVariantId}
+                  fullWidth
+                  label="Variant"
+                  onChange={(event) => {
+                    setSelectedVariantId(event.target.value);
+                  }}
+                >
+                  {variants.map((item) => (
+                    <MenuItem value={item?.variant_id}>
+                      {item?.variant_type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
             <HeightBox height={10} />
             {selectedVariant && (
               <Typography variant="p" color="red">

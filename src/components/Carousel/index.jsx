@@ -3,6 +3,7 @@ import Carousel from 'react-material-ui-carousel';
 import CR_1 from '../../assets/cr1.jpg';
 import CR_2 from '../../assets/cr2.jpg';
 import CR_3 from '../../assets/cr3.jpg';
+import CR_4 from '../../assets/cr4.webp';
 import { Paper } from '@mui/material';
 
 var items = [
@@ -14,6 +15,9 @@ var items = [
   },
   {
     src: CR_3,
+  },
+  {
+    src: CR_4,
   },
 ];
 
