@@ -16,7 +16,7 @@ import ProductPage from './pages/product-page';
 import CollapsibleTable from './pages/user-orders';
 
 function App() {
-  const userAuth = useSelector((state) => state.user.auth);
+  const userAuth = useSelector((state) => state.user);
   return (
     <ThemeProvider theme={theme}>
       <Routes>
