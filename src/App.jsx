@@ -22,13 +22,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} exact />
         <Route path="/:id" element={<ProductPage />} exact />
-        <Route path="/signin" element={<SignIn />} exact />
-        <Route path="/signup" element={<SignUp />} exact />
+        <Route path="/signin" element={!userAuth?.auth ? <SignIn /> : <Navigate to="/" />} exact />
+        <Route path="/signup" element={!userAuth?.auth ? <SignUp /> : <Navigate to="/" />}exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/cart" element={<ShoppingCart />} exact />
         <Route path="/payment" element={<Checkout />} exact />
-        <Route path="/user/my-orders" element={<CollapsibleTable />} exact />
+        <Route path="/user/my-orders" element={userAuth?.auth ? <CollapsibleTable /> : <Navigate to="/" />} exact />
         <Route
           path="/admin/:page"
           element={userAuth?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />}
