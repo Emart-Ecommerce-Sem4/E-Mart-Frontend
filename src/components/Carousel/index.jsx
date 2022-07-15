@@ -23,7 +23,7 @@ function Item(props) {
     <Paper
       style={{
         backgroundColor: 'transparent',
-        height: 500,
+        height: 400,
         overflow: 'hidden',
       }}
     >

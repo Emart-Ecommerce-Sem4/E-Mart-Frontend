@@ -65,21 +65,20 @@ export default function OrderShipViewDialog(props) {
   const { open, setOpen, item, refreshTables } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState({});
-  const [orderProducts, setOrderProducts] = useState([]);
   const [deliveryId, setDeliveryId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [product, setProduct] = useState();
 
-  async function getOrderItems() {
+  async function getProductDetails() {
     try {
-      const [code, res] = await api.order.getOrderProducts(item?.order_id);
+      const [code, res] = await api.variant.getProductByVariantId(
+        item?.variant_id
+      );
       if (res?.statusCode === 200) {
-        setOrderProducts(res?.data?.products);
-      } else {
-        // Error occured while
+        setProduct(res?.data?.product);
+        console.log('Product is: ', res?.data?.product);
       }
-    } catch (error) {
-      //
-    }
+    } catch (error) {}
   }
 
   async function getUserDetails() {
@@ -96,7 +95,7 @@ export default function OrderShipViewDialog(props) {
   React.useEffect(() => {
     if (item) {
       getUserDetails();
-      getOrderItems();
+      getProductDetails();
     }
   }, [item]);
 
@@ -114,7 +113,6 @@ export default function OrderShipViewDialog(props) {
     };
     try {
       const [code, res] = await api.order.shipOrder(data);
-
       if (res?.statusCode === 201) {
         refreshTables();
         handleClose();
@@ -185,9 +183,15 @@ export default function OrderShipViewDialog(props) {
           <HeightBox height={20} />
           <Stack direction="row" spacing={5} justifyContent="center">
             <Typography gutterBottom>
-              {'Address: ' + userDetails?.address}
+              {'Address: ' +
+                userDetails?.address_line_1 +
+                ', ' +
+                userDetails?.address_line_2}
             </Typography>
             <Typography gutterBottom>{'City: ' + userDetails?.city}</Typography>
+            <Typography gutterBottom>
+              {'Postal Code: ' + userDetails?.postal_code}
+            </Typography>
           </Stack>
           <HeightBox height={20} />
           <Typography variant="h6" color="text.secondary">
@@ -197,29 +201,26 @@ export default function OrderShipViewDialog(props) {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Product Id</TableCell>
+                  <TableCell>Variant Id</TableCell>
                   <TableCell align="center">Product Name</TableCell>
                   <TableCell align="center">Item Count</TableCell>
                   <TableCell align="center">Total Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orderProducts.map((row) => (
-                  <TableRow
-                    key={row.order_id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.product_id}
-                    </TableCell>
-                    <TableCell align="center">{row.name}</TableCell>
-                    <TableCell align="center">{row.item_count}</TableCell>
+                <TableRow
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {item?.variant_id}
+                  </TableCell>
+                  <TableCell align="center">{product?.title}</TableCell>
+                  <TableCell align="center">{item?.item_count}</TableCell>
 
-                    <TableCell align="center">
-                      {'$ ' + row.total_price}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                  <TableCell align="center">
+                    {'$ ' + item?.total_price}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>

@@ -145,7 +145,7 @@ export default function NavBar(props) {
           borderColor: '#413F42',
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ width: '100%', maxWidth: 1300, mx: 'auto' }}>
           <Typography
             variant="h5"
             style={{ cursor: 'pointer' }}

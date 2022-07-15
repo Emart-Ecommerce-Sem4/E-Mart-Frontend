@@ -32,18 +32,7 @@ export default function MainListItems() {
         </ListItemIcon>
         <ListItemText primary="Orders" />
       </ListItemButton>
-      <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.CUSTOMERS)}>
-        <ListItemIcon>
-          <PeopleIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Customers" />
-      </ListItemButton>
-      <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.REPORTS)}>
-        <ListItemIcon>
-          <BarChartIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItemButton>
+
       <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.INVENTORY)}>
         <ListItemIcon>
           <BarChartIcon color="secondary" />
@@ -54,12 +43,7 @@ export default function MainListItems() {
       <ListSubheader component="div" inset>
         Operations
       </ListSubheader>
-      <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.PRODUCTS)}>
-        <ListItemIcon>
-          <AssignmentIcon color="secondary" />
-        </ListItemIcon>
-        <ListItemText primary="Products" />
-      </ListItemButton>
+
       <ListItemButton onClick={() => routeToPage(ADMIN_SECTIONS.CATEGORIES)}>
         <ListItemIcon>
           <AssignmentIcon color="secondary" />

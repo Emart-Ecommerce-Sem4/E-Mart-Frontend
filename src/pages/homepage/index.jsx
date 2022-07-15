@@ -169,7 +169,7 @@ export default function HomePage() {
         <HeightBox height={30} />
         <CaraouselSlider />
         <HeightBox height={30} />
-        <Grid container spacing={5} justifyContent="center">
+        <Grid container spacing={10} justifyContent="center">
           {allProducts.map((item, i) => (
             <Grid item>
               <ProductItem key={i} product={item} />

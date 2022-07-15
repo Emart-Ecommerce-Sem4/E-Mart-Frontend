@@ -30,8 +30,6 @@ const validationSchema = yup.object().shape({
   title: yup.string().required().label('Product Title'),
   weight: yup.number().required().min(1).label('Product Weight'),
   sku: yup.string().required().label('SKU'),
-  categoryId: yup.string().required(),
-  subCategoryId: yup.string().required(),
 });
 
 const variantValidationSchema = yup.object().shape({
@@ -55,14 +53,12 @@ export default function ProductAddPage(props) {
     title: '',
     weight: '',
     sku: '',
-    categoryId: '',
-    subCategoryId: '',
   });
   const [productAdded, setProductAdded] = useState(null);
   const [productAddSuccesfully, setProductAddedSuccesfully] = useState(false);
   const [addedVariants, setAddedVariants] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedSubCategory, setSelectedSubCategory] = useState('');
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState({
     type: '',
@@ -76,7 +72,7 @@ export default function ProductAddPage(props) {
       const category = allSubCategories.find(
         (item) => item?.sub_category_id === productAdded?.sub_category_id
       );
-      setSelectedSubCategory(category);
+      // setSelectedSubCategory(category);
     }
   }, [allSubCategories, productAdded]);
 
@@ -114,7 +110,7 @@ export default function ProductAddPage(props) {
     setProductAdded(null);
     setAddedVariants([]);
     setSelectedCategory('');
-    setSelectedSubCategory('');
+    setSelectedSubCategories([]);
     setProductAddedSuccesfully(false);
   }
 
@@ -190,9 +186,15 @@ export default function ProductAddPage(props) {
       setOpenSnackBar(true);
       return;
     }
+    const subCategoryIds = [];
+    selectedSubCategories.forEach((item) => {
+      subCategoryIds.push(item.sub_category_id);
+    });
+
     const data = {
       ...values,
       images: images,
+      subCategories: subCategoryIds,
     };
     try {
       const [code, res] = await api.product.addProduct(data);
@@ -214,7 +216,7 @@ export default function ProductAddPage(props) {
     setLoadingProductAdd(false);
   }
 
-  async function getSubCategoriesForCategory(categoryId){
+  async function getSubCategoriesForCategory(categoryId) {
     try {
       const [code, res] = await api.subCategory.getSubCategoriesForCategory(
         categoryId
@@ -231,7 +233,7 @@ export default function ProductAddPage(props) {
           rows.push(temp);
         });
       }
-      console.log(rows)
+
       setAllSubCategories(rows);
     } catch (error) {}
   }
@@ -259,7 +261,7 @@ export default function ProductAddPage(props) {
   }, []);
 
   const variantInitialValues = {
-    productId: productAdded?.product_id,
+    productId: productAdded?.id,
     description: '',
     variantType: '',
     qunatityInStock: 0,
@@ -351,39 +353,33 @@ export default function ProductAddPage(props) {
                     if (value) {
                       getSubCategoriesForCategory(value?.category_id);
                     }
-                    handleChange('categoryId')(value?.category_id);
                   }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       label="Main Category"
-                      helperText={errors.categoryId}
                       disabled={productAddSuccesfully}
-                      error={touched.categoryId && Boolean(errors.categoryId)}
                     />
                   )}
                 />
 
                 <Autocomplete
-                  disablePortal
+                  multiple
                   id="combo-box-demo"
-                  value={selectedSubCategory}
+                  value={selectedSubCategories}
                   disabled={productAddSuccesfully}
+                  getOptionLabel={(option) => option.name}
                   options={allSubCategories}
+                  filterSelectedOptions
                   sx={{ width: 500 }}
                   onChange={(event, value) => {
-                    setSelectedSubCategory(value);
-                    handleChange('subCategoryId')(value?.sub_category_id);
+                    setSelectedSubCategories(value);
                   }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Sub Category"
-                      helperText={errors.subCategoryId}
-                      disabled={productAddSuccesfully}
-                      error={
-                        touched.subCategoryId && Boolean(errors.subCategoryId)
-                      }
+                      label="Sub Categories"
+                      placeholder="Sub Categories"
                     />
                   )}
                 />
