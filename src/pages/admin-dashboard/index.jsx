@@ -136,15 +136,16 @@ export default function AdminDashboard() {
             Admin Workspace
           </Typography>
           {user?.isAdmin && (
-               
-              
-                
-               <><Button color="inherit" onClick={() => navigate('/')}>
-              Go to User Side
-             </Button></>
-                
-             
-           )}
+            <>
+              <Button
+                color="inherit"
+                variant="outlined"
+                onClick={() => navigate('/')}
+              >
+                Go to User Side
+              </Button>
+            </>
+          )}
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />

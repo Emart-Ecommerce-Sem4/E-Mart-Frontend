@@ -92,22 +92,26 @@ export default function NavBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {!user?.isAdmin && (<MenuItem
-        onClick={() => {
-          handleMenuClose();
-          navigate('/user/my-orders');
-        }}
-      >
-        My Orders
-      </MenuItem>)}
-      {user?.isAdmin && (<MenuItem
-        onClick={() => {
-          handleMenuClose();
-          navigate('/admin/dashboard');
-        }}
-      >
-        Admin
-      </MenuItem>)}
+      {!user?.isAdmin && (
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            navigate('/user/my-orders');
+          }}
+        >
+          My Orders
+        </MenuItem>
+      )}
+      {user?.isAdmin && (
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            navigate('/admin/dashboard');
+          }}
+        >
+          Admin
+        </MenuItem>
+      )}
 
       <MenuItem
         onClick={() => {
@@ -169,30 +173,38 @@ export default function NavBar(props) {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          {user?.isAdmin && (
+            <Button
+              variant="outlined"
+              sx={{ mr: 2 }}
+              color="secondary"
+              onClick={() => navigate('/admin/dashboard')}
+            >
+              Admin Dashboard
+            </Button>
+          )}
           <Typography variant="p">{`$${cart?.total}`}</Typography>
+
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Button onClick={() => navigate('/cart')}>
               <Badge badgeContent={cart?.items?.length} color="primary">
                 <AiOutlineShoppingCart color="#dc3545" size={25} />
               </Badge>
-
             </Button>
-            
-            {!user?.auth && (
-               
-              
-                
-                <><Button color="primary" onClick={() => navigate('/signin')}>
-                Sign in
-              </Button><Button
-                color="primary"
 
-                onClick={() => navigate('/signup')}
-              >
+            {!user?.auth && (
+              <>
+                <Button color="primary" onClick={() => navigate('/signin')}>
+                  Sign in
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => navigate('/signup')}
+                >
                   Sign up
-                </Button></>
-                 
-              
+                </Button>
+              </>
             )}
             {user?.auth && (
               <IconButton
@@ -207,7 +219,6 @@ export default function NavBar(props) {
                 <Avatar alt={user?.firstName} src="#" size={25} />
               </IconButton>
             )}
-            
           </Box>
           {renderMenu}
         </Toolbar>
