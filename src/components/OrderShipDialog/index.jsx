@@ -76,7 +76,6 @@ export default function OrderShipViewDialog(props) {
       );
       if (res?.statusCode === 200) {
         setProduct(res?.data?.product);
-        console.log('Product is: ', res?.data?.product);
       }
     } catch (error) {}
   }

@@ -65,21 +65,19 @@ export default function OrderRejectDialog(props) {
   const { open, setOpen, item, refreshTables } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState({});
-  const [orderProducts, setOrderProducts] = useState([]);
   const [deliveryId, setDeliveryId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [product, setProduct] = useState();
 
-  async function getOrderItems() {
+  async function getProductDetails() {
     try {
-      const [code, res] = await api.order.getOrderProducts(item?.order_id);
+      const [code, res] = await api.variant.getProductByVariantId(
+        item?.variant_id
+      );
       if (res?.statusCode === 200) {
-        setOrderProducts(res?.data?.products);
-      } else {
-        // Error occured while
+        setProduct(res?.data?.product);
       }
-    } catch (error) {
-      //
-    }
+    } catch (error) {}
   }
 
   async function getUserDetails() {
@@ -96,7 +94,7 @@ export default function OrderRejectDialog(props) {
   React.useEffect(() => {
     if (item) {
       getUserDetails();
-      getOrderItems();
+      getProductDetails();
     }
   }, [item]);
 
@@ -202,22 +200,20 @@ export default function OrderRejectDialog(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orderProducts.map((row) => (
-                  <TableRow
-                    key={row.order_id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.product_id}
-                    </TableCell>
-                    <TableCell align="center">{row.name}</TableCell>
-                    <TableCell align="center">{row.item_count}</TableCell>
+                <TableRow
+                  key={item?.order_id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {item?.variant_id}
+                  </TableCell>
+                  <TableCell align="center">{product?.name}</TableCell>
+                  <TableCell align="center">{item?.item_count}</TableCell>
 
-                    <TableCell align="center">
-                      {'$ ' + row.total_price}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                  <TableCell align="center">
+                    {'$ ' + item?.total_price}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>

@@ -14,7 +14,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function OrderMarkDeliveredDialog(props) {
   const { open, setOpen, item, refreshTables } = props;
-  console.log(item);
 
   async function makeTheOrderAsDelivered() {
     try {
@@ -22,7 +21,6 @@ export default function OrderMarkDeliveredDialog(props) {
         orderId: item.order_id,
       };
       const [code, res] = await api.order.completeOrder(data);
-      console.log('Res is: ', res);
       if (res?.statusCode === 201) {
         handleClose();
         refreshTables();
