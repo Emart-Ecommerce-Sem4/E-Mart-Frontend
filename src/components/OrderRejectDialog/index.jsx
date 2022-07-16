@@ -21,7 +21,6 @@ import Typography from '@mui/material/Typography';
 import api from '../../api';
 import { Stack } from '@mui/material';
 import HeightBox from '../HeightBox';
-import moment from 'moment';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
