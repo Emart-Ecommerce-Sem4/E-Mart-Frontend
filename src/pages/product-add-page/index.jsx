@@ -35,7 +35,7 @@ const validationSchema = yup.object().shape({
 const variantValidationSchema = yup.object().shape({
   description: yup.string().required().label('Description'),
   variantType: yup.string().required().label('Variant Type'),
-  qunatityInStock: yup.number().required().label('Quantity in Stock').min(1),
+  qunatityInStock: yup.number().required().label('Quantity in Stock').min(0),
   unitPrice: yup.number().required().label('Unit Price').min(1),
 });
 
