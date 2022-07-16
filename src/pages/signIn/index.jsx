@@ -25,6 +25,7 @@ import {
   setAuthorizationKey,
   setUserObjectInLocal,
 } from '../../utils/localStorageHelper';
+import NavBar from '../../components/NavBar';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -106,7 +107,7 @@ export default function SignIn() {
             <div style={{ minHeight: '100vh' }}>
               <CssBaseline />
               <div>
-                <SignNavBar />
+                <NavBar />
               </div>
               <div>
                 <div>

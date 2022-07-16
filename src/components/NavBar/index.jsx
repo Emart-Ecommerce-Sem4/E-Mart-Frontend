@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { styled, alpha } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
@@ -58,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar(props) {
   const { searchedText, setSearchedText } = props;
-
+  const location = useLocation();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state?.cart);
   const user = useSelector((state) => state?.user);
@@ -156,7 +156,7 @@ export default function NavBar(props) {
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            <img src="./images/logo.png" alt="productImage" width={55}  />
+            <img src="./images/logo.png" alt="productImage" width={55} />
           </Typography>
 
           <Search>
@@ -168,6 +168,11 @@ export default function NavBar(props) {
               inputProps={{ 'aria-label': 'search' }}
               value={searchedText}
               onChange={(event) => {
+                if (event.target.value) {
+                  if (location.pathname !== '/') {
+                    navigate('/');
+                  }
+                }
                 setSearchedText(event.target.value);
               }}
             />
