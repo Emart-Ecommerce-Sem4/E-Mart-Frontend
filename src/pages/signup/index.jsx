@@ -25,6 +25,7 @@ import {
   setUserObjectInLocal,
 } from '../../utils/localStorageHelper';
 import { loggingRequest } from '../../reducers/modules/user';
+import NavBar from '../../components/NavBar';
 
 const validationSchemaOne = Yup.object().shape({
   firstName: Yup.string().required().label('First Name'),
@@ -419,7 +420,7 @@ export default function SignUp() {
         type={errorMessage.type}
         message={errorMessage.message}
       />
-      <SignNavBar />
+      <NavBar />
       <HeightBox height={20} />
       <div>
         <Stack
