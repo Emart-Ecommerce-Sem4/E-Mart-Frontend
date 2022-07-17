@@ -7,6 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import ReactImageMagnify from 'react-image-magnify';
 import api from '../../api';
 import HeightBox from '../../components/HeightBox';
 import NavBar from '../../components/NavBar';
@@ -87,7 +88,34 @@ export default function ProductPage(props) {
       <div style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto' }}>
         <Stack direction="row" spacing={10}>
           <div>
-            <img src={selectedImage} alt="" style={{ width: 500 }} />
+            <ReactImageMagnify
+              {...{
+                smallImage: {
+                  alt: 'Wristwatch by Ted Baker London',
+                  isFluidWidth: true,
+                  src: selectedImage,
+                  sizes:
+                    '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px',
+                },
+                largeImage: {
+                  src: selectedImage,
+                  width: 1000,
+                  height: 1000,
+                },
+              }}
+            />
+            {/* <div
+              style={{
+                width: 500,
+                height: 500,
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <img src={selectedImage} alt="" style={{ width: 500 }} />
+            </div> */}
 
             <HeightBox height={10} />
             <div
@@ -144,7 +172,10 @@ export default function ProductPage(props) {
             )}
             <HeightBox height={10} />
             {selectedVariant && (
-              <Typography variant="p" color="red">
+              <Typography
+                variant="p"
+                color={selectedVariant?.quantity_in_stock ? 'green' : 'red'}
+              >
                 {selectedVariant?.quantity_in_stock + ' in stock'}
               </Typography>
             )}
