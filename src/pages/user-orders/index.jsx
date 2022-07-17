@@ -137,28 +137,33 @@ export default function CollapsibleTable() {
       
     },[])
   return (
-    <><CssBaseline /><NavBar /><HeightBox height={50} /><div style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto' }}>
- <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Ordered Item</TableCell>
-            <TableCell align="right">Ordered Date</TableCell>
-            <TableCell align="right">Item Count</TableCell>
-            <TableCell align="right">Total Price</TableCell>
-            <TableCell align="right">Order Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-        
-            <Row key={row.order_id} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-      </div></>
+    <Box>
+      <CssBaseline />
+      <NavBar />
+      <HeightBox height={50} />
+      <div style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto' }}>
+        <TableContainer component={Paper}>
+              <Table aria-label="collapsible table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell>Ordered Item</TableCell>
+                    <TableCell align="right">Ordered Date</TableCell>
+                    <TableCell align="right">Item Count</TableCell>
+                    <TableCell align="right">Total Price</TableCell>
+                    <TableCell align="right">Order Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map((row) => (
+                
+                    <Row key={row.order_id} row={row} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+        </div>
+    </Box>
    
   );
 }

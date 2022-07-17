@@ -52,15 +52,15 @@ export default function ShoppingCart() {
       <CssBaseline />
       <NavBar />
       <HeightBox height={50} />
-      <div style={{ paddingLeft: '108px' }}>
-        <Typography variant="h5">Shopping Cart</Typography>
+      <div style={{ paddingLeft: 130, paddingRight: 130 }}>
+        <Typography variant="h4">Shopping Cart</Typography>
         <HeightBox height={30} />
         {selectedProducts.length === 0 && (
           <Typography variant="h5" color="secondary">
-            Your cart is empty add items to cart to proceed
+            Your cart is empty! Add items to cart to proceed
           </Typography>
         )}
-        <Stack direction="row" spacing={15}>
+        <Stack direction="row" spacing={"auto"}>
           <List>
             <TransitionGroup>
               {cart?.items.map((item) => (
@@ -78,10 +78,31 @@ export default function ShoppingCart() {
           </List>
 
           {cart?.items.length > 0 && (
-            <Box textAlign={'center'}>
-              <Typography variant="h5">Total Amount</Typography>
-              <HeightBox height={5} />
-              <Typography variant="h3" color="primary" fontWeight="bold">
+            <Box 
+              textAlign={'center'}
+              sx={{
+                width: 200,
+                height: 150,
+                border: 1,
+                borderRadius: 5,
+                
+                backgroundColor: "#4c4c4c"
+              }}
+            >
+              <Typography 
+                variant="h5"
+                sx={{
+                  fontWeight: 600, 
+                  backgroundColor: "#666666", 
+                  paddingTop: 2,
+                  borderRadius: 5, 
+                  paddingBottom: 2
+                }}
+              >
+                Total Amount :
+              </Typography>
+              <HeightBox height={20} />
+              <Typography variant="h4" color="primary" fontWeight="bold">
                 {`$ ${cart?.total}`}
               </Typography>
               <HeightBox height={20} />
