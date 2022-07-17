@@ -3,6 +3,8 @@ import { Typography, Stack, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -54,16 +56,22 @@ export default function CartItem(props) {
   }
 
   return (
-    <Stack direction="row" spacing={5} alignItems="center" sx={{ mb: 5 }}>
-      <div style={{ width: 150, height: 150, overflow: 'hidden' }}>
-        <img src={item.mainImage} alt="" style={{ height: 150 }} />
+    <Box 
+      >
+    <Stack direction="row" spacing={5} alignItems="center" sx={{ mb: 3 }}>
+      
+      <div style={{ width: 150, height: 150, overflow: 'hidden', borderRadius: 10  }}>
+        <img src={item.mainImage} alt="" style={{ height: 150, width: 150 }} />
       </div>
-      <div>
+      
+      <Box sx={{width: 150}}>
         <Typography variant="h5">{item.title}</Typography>
-      </div>
-      <div>
+      </Box>
+    
+      <Box sx={{width: 100}}>
         <Typography variant="h5">{'$ ' + item.unitPrice}</Typography>
-      </div>
+      </Box>
+      <Box sx={{width: 150}}>
       <Stack direction="row" spacing={2}>
         <IconButton
           style={{ height: 50, width: 50 }}
@@ -86,6 +94,8 @@ export default function CartItem(props) {
           <AddIcon />
         </IconButton>
       </Stack>
+      </Box>
+      <Box sx={{width: 50}}>
       <IconButton
         style={{ height: 50, width: 50 }}
         color="error"
@@ -93,9 +103,16 @@ export default function CartItem(props) {
       >
         <DeleteIcon />
       </IconButton>
+      </Box>
+      <Box sx={{width: 150}}>
       <Button variant="outlined" onClick={checkOut}>
         Check out
       </Button>
+      </Box>
+      
+      
     </Stack>
+    <Divider sx={{marginBottom: 3}}/>
+    </Box>
   );
 }

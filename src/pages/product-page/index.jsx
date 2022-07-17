@@ -171,14 +171,12 @@ export default function ProductPage(props) {
               </FormControl>
             )}
             <HeightBox height={10} />
-            {selectedVariant && (
-              <Typography
-                variant="p"
-                color={selectedVariant?.quantity_in_stock ? 'green' : 'red'}
-              >
+            {selectedVariant && selectedVariant?.quantity_in_stock !== 0 && (
+              <Typography variant="p" color="green">
                 {selectedVariant?.quantity_in_stock + ' in stock'}
               </Typography>
             )}
+
             <HeightBox height={20} />
             {selectedVariant && (
               <Typography
