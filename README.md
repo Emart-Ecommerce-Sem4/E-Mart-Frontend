@@ -1,9 +1,9 @@
 # EMart - Single Vendor E-Commerce Platform
 
-![GitHub language count](https://img.shields.io/github/languages/count/Team-Accident/frontend)
-![GitHub top language](https://img.shields.io/github/languages/top/Team-Accident/frontend)
-![Lines of code](https://img.shields.io/tokei/lines/github/Team-Accident/frontend)
-![GitHub repo size](https://img.shields.io/github/repo-size/Team-Accident/frontend)
+![GitHub language count](https://img.shields.io/github/languages/count/Team-Accident/E-Mart-Frontend)
+![GitHub top language](https://img.shields.io/github/languages/top/Team-Accident/E-Mart-Frontend)
+![Lines of code](https://img.shields.io/tokei/lines/github/Team-Accident/E-Mart-Frontend)
+![GitHub repo size](https://img.shields.io/github/repo-size/Team-Accident/E-Mart-Frontend)
 
 EMart is a online ecommerce tool that helps customers to buy items. Here the customers are not able to
 sell products. Only one shop can add products to this site. And the users can purchase the products according to their needs. Here the admin user can add the products to the platform using admin dashboard.
