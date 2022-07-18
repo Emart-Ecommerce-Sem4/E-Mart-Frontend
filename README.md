@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# EMart - Single Vendor E-Commerce Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![GitHub language count](https://img.shields.io/github/languages/count/Team-Accident/frontend)
+![GitHub top language](https://img.shields.io/github/languages/top/Team-Accident/frontend)
+![Lines of code](https://img.shields.io/tokei/lines/github/Team-Accident/frontend)
+![GitHub repo size](https://img.shields.io/github/repo-size/Team-Accident/frontend)
 
-## Available Scripts
+EMart is a online ecommerce tool that helps customers to buy items. Here the customers are not able to
+sell products. Only one shop can add products to this site. And the users can purchase the products according to their needs. Here the admin user can add the products to the platform using admin dashboard.
 
-In the project directory, you can run:
+This web application was developed using ReactJs and Material UI has used as the component library for the UI elements. 
 
-### `npm start`
+## Home page
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<img width="1436" alt="Screenshot 2022-07-18 at 21 36 38" src="https://user-images.githubusercontent.com/59884818/179554598-62c96ffc-4472-4214-b3f6-1aa262774541.png">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Admin page
 
-### `npm test`
+<img width="1436" alt="Screenshot 2022-07-18 at 21 41 00" src="https://user-images.githubusercontent.com/59884818/179555351-860f880e-325a-4113-9cf4-5c4d9f5d2a67.png">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Sign in page
 
-### `npm run build`
+<img width="1436" alt="Screenshot 2022-07-18 at 21 40 09" src="https://user-images.githubusercontent.com/59884818/179555427-4df71062-9eac-4013-a8c0-1680eb492641.png">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Orders page
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<img width="1436" alt="Screenshot 2022-07-18 at 21 41 45" src="https://user-images.githubusercontent.com/59884818/179555829-a532f4e7-3e2d-4b09-ab92-7a5fa0147975.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Product add edit page for admin
 
-### `npm run eject`
+<img width="1436" alt="Screenshot 2022-07-18 at 21 42 00" src="https://user-images.githubusercontent.com/59884818/179555894-3422adea-1db4-4e32-8543-2a79e8ab7844.png">
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Set up instructions
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Requirements needed
+- NodeJS
+- Azure storage account (You can run the web application without this but you cannot upload images to the product)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+As all the other node projects you need to run `npm i` to install the required packages.
+Then you need to add an .env file in the root of the project which contains the credentials for Azure Storage account. Add the following environmental variables to .env file and change their values accordingly.
+```js
+REACT_APP_STORAGESASTOKEN="YOUR_STORAGE_ACCESS_TOKEN"
+REACT_APP_STORAGERESOURCENAME="YOUR_STORAGE_RESOURCE_NAME"
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+As well as this web application needs a backend to operate. Without a proper backend you cannot do anything. You can find the repository of the backend of this application by this [url](https://github.com/Team-Accident/ecommerce-backend). To configure the backend to the web application you need to change a variable value in the src/constants/index.js file at line number 1. 
+~~~js
+export const HOST_URL = 'YOUR_BACKEND_URL';
+~~~

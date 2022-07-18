@@ -29,10 +29,10 @@ export default function ProductItem(props) {
   }, [product]);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 300 }}>
       <CardMedia
         component="img"
-        sx={{ width: 345, height: 300, overflow: 'hidden' }}
+        sx={{ width: 270, height: 250, overflow: 'hidden' }}
         image={productImages ? productImages[0]?.image : ''}
         alt="Paella dish"
       />

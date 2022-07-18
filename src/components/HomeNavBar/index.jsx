@@ -87,7 +87,7 @@ export default function PrimarySearchAppBar() {
             sx={{ cursor: 'pointer' }}
             onClick={() => navigate('/dashboard')}
           >
-            Ecommerce
+            E-Mart
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
 
