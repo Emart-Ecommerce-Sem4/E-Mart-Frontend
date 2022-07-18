@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import NavBar from '../../components/NavBar';
-import { CssBaseline, Grid, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  CssBaseline,
+  Grid,
+  Stack,
+  Typography,
+  Card,
+} from '@mui/material';
 import HeightBox from '../../components/HeightBox';
 import CaraouselSlider from '../../components/Carousel';
 import api from '../../api';
@@ -109,77 +116,39 @@ export default function HomePage() {
       <NavBar searchedText={searchedText} setSearchedText={setSearchedText} />
       <div style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto' }}>
         <HeightBox height={10} />
-        <Stack direction="row" alignItems="center">
-          <Typography variant="h5">Sort By</Typography>
-          <div style={{ width: 20 }} />
-          <FormControl
-            variant="outlined"
-            sx={{ m: 1, minWidth: 175 }}
-            size="small"
-          >
-            <InputLabel id="demo-simple-select-label">
-              Shop by Category
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              label="Shop by Catagory"
-              onChange={(event, value) => {
-                if (value?.props?.value) {
-                  setSelectedCategory(value?.props?.value);
-                } else {
-                  setSelectedCategory('');
-                }
-              }}
-            >
-              {allCategories.map((item) => (
-                <MenuItem value={item?.category_id}>
-                  {item?.category_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <div style={{ width: 20 }} />
-          {allSubCategories?.length > 0 && (
-            <FormControl
-              variant="outlined"
-              sx={{ m: 1, minWidth: 175 }}
-              size="small"
-            >
-              <InputLabel id="demo-simple-select-label">
-                Shop by Sub Category
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled-2"
-                label="Shop by Sub Catagory"
-                onChange={(event, value) => {
-                  if (value?.props?.value) {
-                    setSelectedSubCategory(value?.props?.value);
-                  } else {
-                    setSelectedSubCategory('');
-                  }
-                }}
-              >
-                {allSubCategories.map((item) => (
-                  <MenuItem value={item?.sub_category_id}>
-                    {item?.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-        </Stack>
-        <HeightBox height={30} />
         <CaraouselSlider />
         <HeightBox height={30} />
-        <Grid container spacing={10} justifyContent="center">
-          {allProducts.map((item, i) => (
-            <Grid item>
-              <ProductItem key={i} product={item} />
-            </Grid>
-          ))}
-        </Grid>
+        <Stack direction="row">
+          <Card style={{ height: 500 }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: 400,
+                alignItems: 'start',
+                padding: 20,
+              }}
+            >
+              <Typography variant="h5">Select Category</Typography>
+              <HeightBox height={20} />
+              {allCategories.map((item) => (
+                <Button
+                  onClick={() => setSelectedCategory(item?.category_id)}
+                  color="secondary"
+                >
+                  {item?.category_name}
+                </Button>
+              ))}
+            </div>
+          </Card>
+          <Grid container spacing={2} justifyContent="center">
+            {allProducts.map((item, i) => (
+              <Grid item>
+                <ProductItem key={i} product={item} />
+              </Grid>
+            ))}
+          </Grid>
+        </Stack>
       </div>
       <HeightBox height={30} />
     </div>
