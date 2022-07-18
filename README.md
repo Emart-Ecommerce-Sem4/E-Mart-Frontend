@@ -2,7 +2,6 @@
 
 ![GitHub language count](https://img.shields.io/github/languages/count/Team-Accident/E-Mart-Frontend)
 ![GitHub top language](https://img.shields.io/github/languages/top/Team-Accident/E-Mart-Frontend)
-![Lines of code](https://img.shields.io/tokei/lines/github/Team-Accident/E-Mart-Frontend)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Team-Accident/E-Mart-Frontend)
 
 EMart is a online ecommerce tool that helps customers to buy items. Here the customers are not able to
