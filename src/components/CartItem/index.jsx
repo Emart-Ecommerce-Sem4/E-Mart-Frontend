@@ -57,10 +57,25 @@ export default function CartItem(props) {
 
   return (
     <Box 
+      sx={{
+        backgroundColor: '#fff',
+        borderRadius: 1,
+        boxShadow: 2
+      }}
       >
-    <Stack direction="row" spacing={5} alignItems="center" sx={{ mb: 3 }}>
+      <Stack 
+        direction="row" 
+        spacing={5} 
+        alignItems="center" 
+        sx={{ 
+          mb: 3, 
+          paddingBottom: 2,
+          paddingTop: 2,
+          paddingLeft: 2, 
+        }}
+      >
       
-      <div style={{ width: 150, height: 150, overflow: 'hidden', borderRadius: 10  }}>
+      <div style={{ width: 150, height: 150, overflow: 'hidden'  }}>
         <img src={item.mainImage} alt="" style={{ height: 150, width: 150 }} />
       </div>
       
@@ -69,7 +84,7 @@ export default function CartItem(props) {
       </Box>
     
       <Box sx={{width: 100}}>
-        <Typography variant="h5">{'$ ' + item.unitPrice}</Typography>
+        <Typography variant="h5" sx={{fontWeight: 600}}>{'$ ' + item.unitPrice}</Typography>
       </Box>
       <Box sx={{width: 150}}>
       <Stack direction="row" spacing={2}>
@@ -112,7 +127,6 @@ export default function CartItem(props) {
       
       
     </Stack>
-    <Divider sx={{marginBottom: 3}}/>
     </Box>
   );
 }

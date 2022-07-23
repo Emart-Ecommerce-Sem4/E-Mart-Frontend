@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import { Button, Typography } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import api from '../../api';
+import Divider from '@mui/material/Divider';
 import HeightBox from '../HeightBox';
 
 export default function ProductItem(props) {
@@ -45,6 +46,7 @@ export default function ProductItem(props) {
           {`Weight: ${product?.weight}g`}
         </Typography>
       </CardContent>
+      <Divider variant="middle" />
       <CardActions disableSpacing>
         <Button fullWidth onClick={() => navigate(`/${product?.product_id}`)}>
           See more

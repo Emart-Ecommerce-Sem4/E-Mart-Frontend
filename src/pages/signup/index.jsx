@@ -166,9 +166,22 @@ export default function SignUp() {
               formikProps;
 
             return (
-              <div style={{ width: 500 }}>
+              <Box sx={{
+                boxShadow: 12,
+                width: 500,
+                padding: 3,
+                borderRadius: 2,
+
+              }}>
+
                 <Stack direction="column" spacing={2}>
-                  <Typography component="h1" variant="h5">
+                  <Typography 
+                    component="h1" 
+                    variant="h4"
+                    sx={{
+                      fontWeight: 500
+                    }}
+                  >
                     Register With Us ,
                   </Typography>
                   <HeightBox height={10} />
@@ -279,11 +292,13 @@ export default function SignUp() {
                     </Grid>
                   </Grid>
                 </Stack>
-              </div>
+       
+              </Box>
             );
           }}
         </Formik>
       </div>
+      
     );
   });
 
@@ -299,9 +314,22 @@ export default function SignUp() {
             const { values, handleChange, handleSubmit, errors, touched } =
               formikProps;
             return (
-              <div style={{ width: 500 }}>
+              <Box sx={{
+                boxShadow: 12,
+                width: 500,
+                padding: 3,
+                borderRadius: 2,
+
+              }}>
+              
                 <Stack direction="column" spacing={2}>
-                  <Typography component="h1" variant="h5">
+                  <Typography 
+                    component="h1" 
+                    variant="h4"
+                    sx={{
+                      fontWeight: 500
+                    }}
+                  >
                     Add more details,
                   </Typography>
                   <HeightBox height={10} />
@@ -395,16 +423,16 @@ export default function SignUp() {
                   >
                     Back
                   </Button>
-                  <Grid container justifyContent="flex-end">
+                  <Grid container justifyContent="center">
                     <Grid item>
                       Already have an account? &nbsp;
                       <Link href="/signin" variant="body2">
-                        LOGIN
+                        Sign in
                       </Link>
                     </Grid>
                   </Grid>
                 </Stack>
-              </div>
+              </Box>
             );
           }}
         </Formik>
@@ -420,7 +448,7 @@ export default function SignUp() {
         type={errorMessage.type}
         message={errorMessage.message}
       />
-      <NavBar />
+      <SignNavBar />
       <HeightBox height={20} />
       <div>
         <Stack
