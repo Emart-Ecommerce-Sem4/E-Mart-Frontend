@@ -12,6 +12,8 @@ import HeightBox from '../../components/HeightBox';
 import CaraouselSlider from '../../components/Carousel';
 import api from '../../api';
 import ProductItem from '../../components/ProductItem';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -127,18 +129,46 @@ export default function HomePage() {
                 width: 400,
                 alignItems: 'start',
                 padding: 20,
+                paddingTop: 0,
+                paddingLeft: 0
               }}
             >
-              <Typography variant="h5">Select Category</Typography>
+              <Box 
+                sx={{
+                  backgroundColor: '#f5f5f5', 
+                  paddingTop: 2, 
+                  paddingRight: 18, 
+                  paddingLeft: 2,
+                  paddingBottom: 1,
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={2}>
+                  <FormatListBulletedIcon  />
+                  </Grid>
+                  <Grid item xs={10}>
+                  <Typography variant="h5" sx={{fontWeight: 500,}} >
+                    Categories
+                  </Typography>
+                  </Grid>
+                  
+                </Grid>
+                
+              
+              </Box>
               <HeightBox height={20} />
+              
               {allCategories.map((item) => (
+                <Box sx={{paddingLeft: 2}}>
                 <Button
                   onClick={() => setSelectedCategory(item?.category_id)}
                   color="secondary"
                 >
                   {item?.category_name}
                 </Button>
+                </Box>
               ))}
+              
             </div>
           </Card>
           <Grid container spacing={2} justifyContent="center">

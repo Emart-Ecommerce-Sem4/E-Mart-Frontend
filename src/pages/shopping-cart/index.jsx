@@ -53,14 +53,25 @@ export default function ShoppingCart() {
       <NavBar />
       <HeightBox height={50} />
       <div style={{ paddingLeft: 130, paddingRight: 130 }}>
-        <Typography variant="h4">Shopping Cart</Typography>
+        <Box 
+          sx={{
+            backgroundColor: '#fff', 
+            width: 965,
+            paddingTop: 1,
+            paddingBottom: 1,
+            paddingLeft: 2,
+            boxShadow: 2
+          }}
+        >
+        <Typography variant="h4" sx={{fontWeight: 500}}>Shopping Cart</Typography>
+        </Box>
         <HeightBox height={30} />
         {selectedProducts.length === 0 && (
           <Typography variant="h5" color="secondary">
             Your cart is empty! Add items to cart to proceed
           </Typography>
         )}
-        <Stack direction="row" spacing={"auto"}>
+        <Stack direction="row" spacing={"auto"} >
           <List>
             <TransitionGroup>
               {cart?.items.map((item) => (
@@ -83,19 +94,19 @@ export default function ShoppingCart() {
               sx={{
                 width: 200,
                 height: 150,
-                border: 1,
-                borderRadius: 5,
-                
-                backgroundColor: "#4c4c4c"
+                // border: 1,
+                boxShadow: 12,
+                borderRadius: 2,
+                backgroundColor: "#e0e0e0"
               }}
             >
               <Typography 
                 variant="h5"
                 sx={{
                   fontWeight: 600, 
-                  backgroundColor: "#666666", 
+                  backgroundColor: "#f5f5f5", 
                   paddingTop: 2,
-                  borderRadius: 5, 
+                  borderRadius: 2, 
                   paddingBottom: 2
                 }}
               >
