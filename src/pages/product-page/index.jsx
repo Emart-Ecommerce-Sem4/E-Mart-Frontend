@@ -4,10 +4,12 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import InputLabel from '@mui/material/InputLabel';
+import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import api from '../../api';
+import Divider from '@mui/material/Divider';
 import HeightBox from '../../components/HeightBox';
 import NavBar from '../../components/NavBar';
 import { addToCart } from '../../reducers/modules/cart';
@@ -144,7 +146,7 @@ export default function ProductPage(props) {
             )}
             <HeightBox height={10} />
             {selectedVariant && selectedVariant?.quantity_in_stock !== 0 &&(
-              <Typography variant="p" color="green">
+              <Typography variant="p" color="#00c853">
                 {selectedVariant?.quantity_in_stock + ' in stock'}
               </Typography>
             )}
@@ -153,18 +155,27 @@ export default function ProductPage(props) {
                 {selectedVariant?.quantity_in_stock + ' in stock'}
               </Typography>
             )}
-            <HeightBox height={20} />
+            <HeightBox height={10} />
             {selectedVariant && (
+              <Box 
+                sx={{
+                  backgroundColor: '#ffb74d',
+                  padding: 1,
+                  borderRadius: 1,
+                  marginBottom: 1
+                }} 
+              >
               <Typography
                 variant="p"
-                color="#3AB4F2"
+                color="#fff"
                 fontSize={20}
                 fontWeight="bold"
               >
-                {'$' + selectedVariant?.unit_price}
+                {'$ ' + selectedVariant?.unit_price}
               </Typography>
+              </Box>
             )}
-            <HeightBox height={20} />
+            {/* <HeightBox height={10} /> */}
             {selectedVariant && (
               <Typography variant="h6" color="text.secondary" fontWeight="bold">
                 Description

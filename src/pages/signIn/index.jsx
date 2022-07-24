@@ -107,14 +107,21 @@ export default function SignIn() {
             <div style={{ minHeight: '100vh' }}>
               <CssBaseline />
               <div>
-                <NavBar />
+                <SignNavBar />
               </div>
               <div>
                 <div>
-                  <Stack direction="row" spacing={10} justifyContent="center">
+                  <Stack direction="row" spacing={15} justifyContent="center">
                     <div>
                       <Container color="white" component="main" maxWidth="xs">
-                        <HeightBox height={100} />
+                        <HeightBox height={80} />
+                        <Box sx={{
+                          boxShadow: 12,
+                          width: 450,
+                          padding: 3,
+                          borderRadius: 2,
+
+                        }}>
                         <Typography component="h1" variant="h4">
                           Welcome Again ,
                         </Typography>
@@ -187,13 +194,14 @@ export default function SignIn() {
                             </Grid>
                           </Grid>
                         </Box>
+                        </Box>
                       </Container>
                     </div>
                     <div>
                       <img
                         src={SIGNIN_IMAGE}
                         alt=""
-                        style={{ marginTop: 100 }}
+                        style={{ marginTop: 80 }}
                         width={500}
                         height={500}
                       />

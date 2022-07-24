@@ -20,9 +20,9 @@ import { logOutRequest } from '../../reducers/modules/user';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 50,
-  backgroundColor: alpha(theme.palette.common.white, 0.5),
+  backgroundColor: alpha(theme.palette.common.white, 0.99),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.75),
+    backgroundColor: alpha(theme.palette.common.white, 0.9),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -34,6 +34,10 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
+  color: '#000',
+  backgroundColor: '#ffb74d',
+  borderTopLeftRadius: 25,
+  borderBottomLeftRadius: 25,
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -44,10 +48,10 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: 'secondary',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(6)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -158,7 +162,7 @@ export default function NavBar(props) {
           >
             <img src="./images/logo.png" alt="logo" width={55} />
           </Typography>
-
+        
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

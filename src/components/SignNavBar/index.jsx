@@ -11,15 +11,22 @@ export default function SignNavBar() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box 
+      sx={{ 
+        flexGrow: 1,
+        backgroundColor: '#212529',
+        color: '#fff',
+        
+      }}
+    >
+      <AppBar position="static" color="transparent">
         <Toolbar sx={{ width: '100%', maxWidth: 1200, mx: 'auto' }}>
           <Typography
             variant="h4"
             sx={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            Ecommerce
+            <img src="./images/logo.png" alt="logo" width={55} />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Stack spacing={2} direction="row">
